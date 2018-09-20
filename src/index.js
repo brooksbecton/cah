@@ -4,7 +4,6 @@ import ReactDOM from "react-dom";
 import { applyMiddleware } from "redux";
 import logger from "redux-logger";
 import game from "./game/index";
-import uuid from "uuid/v1";
 import Table from "./ui/index";
 
 const App = Client({
@@ -18,7 +17,7 @@ const App = Client({
 
 document.onload = (function() {
   ReactDOM.render(
-    <App gameID="1234123" playerID={uuid()} />,
+    <App gameID="1234123" playerID={"0"} />,
     document.getElementById("root")
   );
 })();

@@ -20,7 +20,7 @@ class Table extends Component {
           />
           <h3>Played Cards</h3>
           <ul>
-            {this.props.G.playedCards.map(cardText => (
+            {this.props.G.playedCards.map(({text: cardText}) => (
               <li key={cardText}>{cardText}</li>
             ))}
           </ul>

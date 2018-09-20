@@ -13,36 +13,37 @@ export const game = Game({
     votes: []
   }),
 
-  playerView: (G, ctx, playerID) => {
-    playerID = playerID;
+  playerView: (G, ctx) => {
     return {
       ...G,
       // Only show players their cards
       hand: G.hand.filter(
-        ({ playerID: cardOwnerId }) => cardOwnerId === playerID
+        ({ playerID: cardOwnerId }) => cardOwnerId === ctx.currentPlayer
       )
     };
   },
 
   moves: {
-    drawCard: (G, ctx, playerID) => {
+    drawCard: (G, ctx) => {
       const { card, deck } = drawCard(G.whiteCards);
       return {
         ...G,
         whiteCards: deck,
-        hand: [...G.hand, { text: card, playerID }]
+        hand: [...G.hand, { text: card, playerID: ctx.currentPlayer }]
       };
     },
     playCard: (G, ctx, card) => {
-      const cardIndex = G.hand
-        .map(({ card }) => card) // Stripping out playerID
-        .indexOf(card.text);
-
+      const cardIndex = G.hand.map(({ text }) => text).indexOf(card.text);
       const newHand = [
         ...G.hand.slice(0, cardIndex),
         ...G.hand.slice(cardIndex + 1)
       ];
-      return { ...G, hand: newHand, playedCards: [...G.playedCards, cardText] };
+
+      return {
+        ...G,
+        hand: newHand,
+        playedCards: [...G.playedCards, card]
+      };
     }
   },
   flow: {
@@ -50,7 +51,7 @@ export const game = Game({
       {
         name: "draw phase",
         allowedMoves: ["drawCard"],
-        endTurnIf: (G, ctx) => {
+        endTurnIf: G => {
           return G.hand.length === 10;
         },
         endPhaseIf: (G, ctx) => {
@@ -60,6 +61,13 @@ export const game = Game({
       {
         name: "play phase",
         allowedMoves: ["playCard"],
+        endTurnIf: (G, ctx) => {
+          return (
+            G.playedCards
+              .map(({ playerID }) => playerID)
+              .indexOf(ctx.currentPlayer) !== -1
+          );
+        },
         endPhaseIf: (G, ctx) => G.playedCards.length === ctx.numPlayers
       },
       {
