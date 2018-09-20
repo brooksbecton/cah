@@ -25,6 +25,8 @@ class Table extends Component {
             ))}
           </ul>
         </Meta.Provider>
+        <button onClick={() => this.props.events.endTurn()}>End Turn</button>
+        <button onClick={() => this.props.events.endPhase()}>End Phase</button>
       </React.Fragment>
     );
   }

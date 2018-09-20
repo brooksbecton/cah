@@ -43,36 +43,31 @@ export const game = Game({
         ...G.hand.slice(cardIndex + 1)
       ];
       return { ...G, hand: newHand, playedCards: [...G.playedCards, cardText] };
-    },
-    flow: {
-      phases: [
-        {
-          name: "draw phase",
-          allowedMoves: ["drawCard"],
-          endTurnIf: G => {
-            console.log('endTurnIf');
-            
-            console.log(G);
-            return G.hand.length === 10;
-          },
-          endPhaseIf: G => {
-            console.log(G);
-            return G.hand.length === 10;
-          },
-          turnOrder: TurnOrder.ONCE
-        },
-        {
-          name: "play phase",
-          allowedMoves: ["playCard"],
-          endPhaseIf: (G, ctx) => G.playedCards.length === ctx.numPlayers
-        },
-        {
-          name: "vote phase",
-          allowedMoves: ["vote"],
-          endPhaseIf: (G, ctx) => G.votes.length === ctx.numPlayers
-        }
-      ]
     }
+  },
+  flow: {
+    phases: [
+      {
+        name: "draw phase",
+        allowedMoves: ["drawCard"],
+        endTurnIf: (G, ctx) => {
+          return G.hand.length === 10;
+        },
+        endPhaseIf: (G, ctx) => {
+          return G.hand.length === ctx.numPlayers * 10;
+        }
+      },
+      {
+        name: "play phase",
+        allowedMoves: ["playCard"],
+        endPhaseIf: (G, ctx) => G.playedCards.length === ctx.numPlayers
+      },
+      {
+        name: "vote phase",
+        allowedMoves: ["vote"],
+        endPhaseIf: (G, ctx) => G.votes.length === ctx.numPlayers
+      }
+    ]
   }
 });
 
