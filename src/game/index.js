@@ -5,12 +5,13 @@ import drawCard from "./../utils/drawCard";
 
 export const game = Game({
   setup: () => ({
-    hand: [],
-    playedCards: [],
     blackCards: cards.blackCards,
-    whiteCards: cards.whiteCards,
+    hand: [],
     deck: [],
-    votes: []
+    playedCards: [],
+    votes: [],
+    whiteCards: cards.whiteCards,
+    winnerCards: []
   }),
 
   playerView: (G, ctx) => {
@@ -34,6 +35,8 @@ export const game = Game({
     },
     playCard: (G, ctx, card) => {
       const cardIndex = G.hand.map(({ text }) => text).indexOf(card.text);
+
+      // Removing played card from hand
       const newHand = [
         ...G.hand.slice(0, cardIndex),
         ...G.hand.slice(cardIndex + 1)
@@ -43,6 +46,13 @@ export const game = Game({
         ...G,
         hand: newHand,
         playedCards: [...G.playedCards, card]
+      };
+    },
+    voteCard: (G, ctx, card) => {
+      return {
+        ...G,
+        winnerCards: [...G.winnerCards, card],
+        playedCards: []
       };
     }
   },
@@ -72,8 +82,8 @@ export const game = Game({
       },
       {
         name: "vote phase",
-        allowedMoves: ["vote"],
-        endPhaseIf: (G, ctx) => G.votes.length === ctx.numPlayers
+        allowedMoves: ["voteCard"],
+        turnOrder: TurnOrder.ONCE
       }
     ]
   }
