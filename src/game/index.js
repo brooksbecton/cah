@@ -2,6 +2,7 @@ import { Game, TurnOrder } from "boardgame.io/core";
 
 import cards from "./../constants/cards.js";
 import drawCard from "./../utils/drawCard";
+import filterPlayerCards from "./../utils/filterPlayersCards";
 
 export const game = Game({
   setup: () => ({
@@ -18,9 +19,7 @@ export const game = Game({
     return {
       ...G,
       // Only show players their cards
-      hand: G.hand.filter(
-        ({ playerID: cardOwnerId }) => cardOwnerId === ctx.currentPlayer
-      )
+      hand: filterPlayerCards(G.hand, ctx.currentPlayer)
     };
   },
 
@@ -61,8 +60,9 @@ export const game = Game({
       {
         name: "draw phase",
         allowedMoves: ["drawCard"],
-        endTurnIf: G => {
-          return G.hand.length === 10;
+        endTurnIf: (G, ctx) => {
+          const playersHand = filterPlayerCards(G.hand, ctx.currentPlayer);
+          return playersHand.length === 10;
         },
         endPhaseIf: (G, ctx) => {
           return G.hand.length === ctx.numPlayers * 10;
@@ -83,7 +83,7 @@ export const game = Game({
       {
         name: "vote phase",
         allowedMoves: ["voteCard"],
-        turnOrder: TurnOrder.ONCE
+        endPhaseIf: (G, ctx) => G.playedCards.length === 0
       }
     ]
   }
