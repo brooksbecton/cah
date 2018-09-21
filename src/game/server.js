@@ -1,9 +1,9 @@
 import path from "path";
 import KoaStatic from "koa-static";
 import { Server } from "boardgame.io/server";
-import { game } from "./index";
+import { cah } from "./index";
 
-const server = Server({ games: [game] });
+const server = Server({ games: [cah] });
 const buildPath = path.join(__dirname, "../dist");
 
 server.app.use(KoaStatic(buildPath));

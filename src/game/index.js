@@ -4,13 +4,16 @@ import cards from "./../constants/cards.js";
 import drawCard from "./../utils/drawCard";
 import filterPlayerCards from "./../utils/filterPlayersCards";
 
-export const game = Game({
+export const cah = Game({
   setup: () => ({
+    name: 'cah',
+    playerCount: 0,
+    playersID: [],
     winnerCards: [],
     playedCards: [],
     hand: [],
     blackCards: cards.blackCards,
-    whiteCards: cards.whiteCards,
+    whiteCards: cards.whiteCards
   }),
 
   playerView: (G, ctx) => {
@@ -22,6 +25,13 @@ export const game = Game({
   },
 
   moves: {
+    joinGame: G => {
+      return {
+        ...G,
+        playerCount: G.playerCount + 1,
+        playersID: [...G.playersID, G.playerCount]
+      };
+    },
     drawCard: (G, ctx) => {
       const { card, deck } = drawCard(G.whiteCards);
       return {
@@ -56,6 +66,10 @@ export const game = Game({
   flow: {
     phases: [
       {
+        name: "join phase",
+        allowedMoves: ["joinGame"],
+      },
+      {
         name: "draw phase",
         allowedMoves: ["drawCard"],
         endTurnIf: (G, ctx) => {
@@ -87,4 +101,4 @@ export const game = Game({
   }
 });
 
-export default game;
+export default cah;

@@ -1,12 +1,32 @@
 import React, { Component } from "react";
-import DrawCardButton from "./components/DrawCardButton";
-import HandList from "./components/HandList";
-import PlayedCardsList from "./components/PlayedCardsList";
-import Meta from "./Context/Meta";
+import DrawCardButton from "./../../components/DrawCardButton";
+import HandList from "./../../components/HandList";
+import PlayedCardsList from "./../../components/PlayedCardsList";
+import Meta from "./../../Context/Meta";
 class Table extends Component {
+
+  constructor(){
+    super(); 
+  }
+
   render() {
     return (
       <React.Fragment>
+        {this.props.ctx.phase === "join phase" && (
+          <React.Fragment>
+            <button onClick={() => this.props.events.endPhase()}>
+              Start Game
+            </button>
+
+            <button
+              disabled={this.props.G.playersID.includes(+this.props.playerID)}
+              onClick={() => this.props.moves.joinGame()}
+            >
+              Join game
+            </button>
+          </React.Fragment>
+        )}
+
         <Meta.Provider
           value={{ playerID: this.props.playerID, gameID: this.props.gameID }}
         >

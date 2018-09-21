@@ -27,6 +27,7 @@
   },
   "dependencies": {
     "boardgame.io": "^0.25.5",
-    "koa-static": "^5.0.0"
+    "koa-static": "^5.0.0",
+    "react-router-dom": "^4.3.1"
   }
 }
