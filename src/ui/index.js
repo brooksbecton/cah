@@ -31,11 +31,11 @@ class Table extends Component {
 
           <h3>Winner Cards</h3>
           <ul>
-            {this.props.G.winnerCards.map(card => {
+            {this.props.G.winnerCards.map(card => (
               <li>
                 {card.playerID}: "{card.text}"
-              </li>;
-            })}
+              </li>
+            ))}
           </ul>
         </Meta.Provider>
       </React.Fragment>

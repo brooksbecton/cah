@@ -6,13 +6,11 @@ import filterPlayerCards from "./../utils/filterPlayersCards";
 
 export const game = Game({
   setup: () => ({
-    blackCards: cards.blackCards,
-    hand: [],
-    deck: [],
+    winnerCards: [],
     playedCards: [],
-    votes: [],
+    hand: [],
+    blackCards: cards.blackCards,
     whiteCards: cards.whiteCards,
-    winnerCards: []
   }),
 
   playerView: (G, ctx) => {
