@@ -15,24 +15,6 @@ class Table extends Component {
   render() {
     return (
       <React.Fragment>
-        {this.props.ctx.phase === "join phase" && (
-          <React.Fragment>
-            <button onClick={() => this.props.events.endPhase()}>
-              Start Game
-            </button>
-
-            <button
-              disabled={this.props.G.playersID.includes(+this.props.playerID)}
-              onClick={() => {
-                this.props.setPlayerID(this.props.G.playersID.length);
-                this.props.moves.joinGame();
-              }}
-            >
-              Join game
-            </button>
-          </React.Fragment>
-        )}
-
         <Meta.Provider
           value={{ playerID: this.props.playerID, gameID: this.props.gameID }}
         >
@@ -43,7 +25,6 @@ class Table extends Component {
             onClick={() => this.props.moves.drawCard(this.props.playerID)}
           />
 
-          <h3>Hand {this.props.G.hand.length} cards</h3>
           <HandList
             playCard={cardText => this.props.moves.playCard(cardText)}
             cardList={this.props.G.hand}
@@ -83,6 +64,25 @@ class TableSeat extends Component {
     this.setState({ playerID: String(id) });
   };
 
+  componentDidMount() {
+    fetch(
+      `http://localhost:5556/games/default/${
+        this.props.match.params.gameID
+      }/join`,
+      {
+        method: "POST",
+        body: JSON.stringify({
+          playerID: this.props.match.params.playerID,
+          playerName: "DSF"
+        })
+      }
+    )
+      .then(resp => resp.json())
+      .then(({ credentials }) => {
+        this.setState({ credentials });
+      });
+  }
+
   render() {
     return (
       <React.Fragment>
@@ -91,7 +91,7 @@ class TableSeat extends Component {
         <Cah
           gameID={this.props.match.params.gameID}
           playerID={this.props.match.params.playerID}
-          isActive={true}
+          credentials={this.state.credentials}
           setPlayerID={this.setPlayerID}
         />
       </React.Fragment>

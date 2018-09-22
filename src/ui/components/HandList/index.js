@@ -5,8 +5,8 @@ import Meta from "./../../Context/Meta";
 const HandList = ({ cardList, playCard }) => (
   <Meta.Consumer>
     {({ playerID }) => (
-      <ul>
-        {cardList.map(card => {
+      <ol>
+        {cardList.filter(({playerID: ownerID}) => ownerID === playerID).map(card => {
           return (
             <li key={card.text}>
               {card.text}
@@ -14,7 +14,7 @@ const HandList = ({ cardList, playCard }) => (
             </li>
           );
         })}
-      </ul>
+      </ol>
     )}
   </Meta.Consumer>
 );

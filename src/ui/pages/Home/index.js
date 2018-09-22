@@ -9,7 +9,6 @@ class Home extends Component {
   }
 
   createGame = () => {
-    console.log("createCage");
     fetch("http://localhost:5556/games/default/create", {
       method: "POST",
       body: JSON.stringify({
@@ -39,10 +38,11 @@ class Home extends Component {
         <br />
         {this.state.gameID !== null && (
           <React.Fragment>
+            <h3>Game ID: {this.state.gameID}</h3>
             <Link to={"/game/" + this.state.gameID + "/0"}>
               {"localhost:5555/game/" + this.state.gameID + "/0"}
             </Link>
-            <br/>
+            <br />
             <Link to={"/game/" + this.state.gameID + "/1"}>
               {"localhost:5555/game/" + this.state.gameID + "/1"}
             </Link>

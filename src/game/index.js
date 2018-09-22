@@ -7,7 +7,6 @@ import filterPlayerCards from "./../utils/filterPlayersCards";
 export const cah = Game({
   setup: () => ({
     name: "cah",
-    playerCount: 0,
     playersID: [],
     winnerCards: [],
     playedCards: [],
@@ -17,13 +16,6 @@ export const cah = Game({
     whiteCards: cards.whiteCards
   }),
 
-  playerView: (G, ctx) => {
-    return {
-      ...G,
-      // Only show players their cards
-      hand: filterPlayerCards(G.hand, ctx.currentPlayer)
-    };
-  },
 
   moves: {
     joinGame: G => {
@@ -69,18 +61,6 @@ export const cah = Game({
   },
   flow: {
     phases: [
-      {
-        name: "join phase",
-        allowedMoves: ["joinGame"],
-        endTurnIf: (G, ctx) => {
-          console.log(G.playersID)
-          console.log(ctx.currentPlayer)
-          console.log(G.playersID.includes(+ctx.currentPlayer))
-          return G.playersID.includes(+ctx.currentPlayer);
-        },
-        endPhaseIf: G => G.gameStarted === true,
-        turnOrder: TurnOrder.ANY
-      },
       {
         name: "draw phase",
         allowedMoves: ["drawCard"],
