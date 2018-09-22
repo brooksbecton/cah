@@ -16,7 +16,6 @@ export const cah = Game({
     whiteCards: cards.whiteCards
   }),
 
-
   moves: {
     joinGame: G => {
       return {
@@ -89,7 +88,7 @@ export const cah = Game({
         allowedMoves: ["voteCard"],
         endPhaseIf: (G, ctx) => G.playedCards.length === 0
       }
-    ]
+    ],
   }
 });
 

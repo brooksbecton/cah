@@ -8,18 +8,6 @@ class Home extends Component {
     super(props);
   }
 
-  createGame = () => {
-    fetch("http://localhost:5556/games/default/create", {
-      method: "POST",
-      body: JSON.stringify({
-        numPlayers: 3
-      })
-    })
-      .then(resp => resp.json())
-      .then(({ gameID }) => {
-        this.setState({ gameID });
-      });
-  };
 
   render() {
     return (
@@ -34,7 +22,6 @@ class Home extends Component {
             onChange={e => this.setState({ gameID: e.target.value })}
           />
         </label>
-        <button onClick={this.createGame}>Create Game</button>
         <br />
         {this.state.gameID !== null && (
           <React.Fragment>
