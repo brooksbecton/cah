@@ -6,11 +6,12 @@ import filterPlayerCards from "./../utils/filterPlayersCards";
 
 export const cah = Game({
   setup: () => ({
-    name: 'cah',
+    name: "cah",
     playerCount: 0,
     playersID: [],
     winnerCards: [],
     playedCards: [],
+    gameStarted: false,
     hand: [],
     blackCards: cards.blackCards,
     whiteCards: cards.whiteCards
@@ -31,6 +32,9 @@ export const cah = Game({
         playerCount: G.playerCount + 1,
         playersID: [...G.playersID, G.playerCount]
       };
+    },
+    startGame: (G, ctx) => {
+      return { ...G, gameStarted: true };
     },
     drawCard: (G, ctx) => {
       const { card, deck } = drawCard(G.whiteCards);
@@ -68,6 +72,14 @@ export const cah = Game({
       {
         name: "join phase",
         allowedMoves: ["joinGame"],
+        endTurnIf: (G, ctx) => {
+          console.log(G.playersID)
+          console.log(ctx.currentPlayer)
+          console.log(G.playersID.includes(+ctx.currentPlayer))
+          return G.playersID.includes(+ctx.currentPlayer);
+        },
+        endPhaseIf: G => G.gameStarted === true,
+        turnOrder: TurnOrder.ANY
       },
       {
         name: "draw phase",

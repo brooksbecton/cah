@@ -1,17 +1,10 @@
-import { Client } from "boardgame.io/react";
 import React from "react";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 import Home from "./Home";
 import Table from "./Table";
-import game from "./../../game";
 
-const Cah = Client({
-  board: Table,
-  // enhancer: applyMiddleware(logger),
-  game: game,
-  multiplayer: true
-});
+
 
 const BaseRouter = () => {
   return (
@@ -26,7 +19,7 @@ const BaseRouter = () => {
         <hr />
 
         <Route exact path="/" component={Home} />
-        <Route exact path="/game/:gameID" component={Cah} />
+        <Route exact path="/game/:gameID/:playerID" component={Table} />
       </div>
     </Router>
   );

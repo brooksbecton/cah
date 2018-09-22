@@ -8,27 +8,46 @@ class Home extends Component {
     super(props);
   }
 
+  createGame = () => {
+    console.log("createCage");
+    fetch("http://localhost:5556/games/default/create", {
+      method: "POST",
+      body: JSON.stringify({
+        numPlayers: 3
+      })
+    })
+      .then(resp => resp.json())
+      .then(({ gameID }) => {
+        this.setState({ gameID });
+      });
+  };
+
   render() {
     return (
       <div>
         <h1>Home</h1>
 
         <h2>Join Game</h2>
-        <form>
-          <label>
-            Game ID
-            <input
-              type="text"
-              onChange={e => this.setState({ gameID: e.target.value })}
-            />
-          </label>
-          <br />
-          {this.state.gameID !== null && (
-            <Link to={"localhost:5555/game/" + this.state.gameID}>
-              {"localhost:5555/game/" + this.state.gameID}
+        <label>
+          Game ID
+          <input
+            type="text"
+            onChange={e => this.setState({ gameID: e.target.value })}
+          />
+        </label>
+        <button onClick={this.createGame}>Create Game</button>
+        <br />
+        {this.state.gameID !== null && (
+          <React.Fragment>
+            <Link to={"/game/" + this.state.gameID + "/0"}>
+              {"localhost:5555/game/" + this.state.gameID + "/0"}
             </Link>
-          )}
-        </form>
+            <br/>
+            <Link to={"/game/" + this.state.gameID + "/1"}>
+              {"localhost:5555/game/" + this.state.gameID + "/1"}
+            </Link>
+          </React.Fragment>
+        )}
       </div>
     );
   }

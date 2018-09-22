@@ -1,12 +1,15 @@
+import { Client } from "boardgame.io/react";
+import { withRouter } from "react-router-dom";
 import React, { Component } from "react";
 import DrawCardButton from "./../../components/DrawCardButton";
 import HandList from "./../../components/HandList";
 import PlayedCardsList from "./../../components/PlayedCardsList";
 import Meta from "./../../Context/Meta";
-class Table extends Component {
+import game from "./../../../game";
 
-  constructor(){
-    super(); 
+class Table extends Component {
+  constructor() {
+    super();
   }
 
   render() {
@@ -20,7 +23,10 @@ class Table extends Component {
 
             <button
               disabled={this.props.G.playersID.includes(+this.props.playerID)}
-              onClick={() => this.props.moves.joinGame()}
+              onClick={() => {
+                this.props.setPlayerID(this.props.G.playersID.length);
+                this.props.moves.joinGame();
+              }}
             >
               Join game
             </button>
@@ -63,4 +69,33 @@ class Table extends Component {
   }
 }
 
-export default Table;
+const Cah = Client({
+  board: Table,
+  // enhancer: applyMiddleware(logger),
+  game: game,
+  multiplayer: true
+});
+
+class TableSeat extends Component {
+  state = { playerID: null };
+
+  setPlayerID = id => {
+    this.setState({ playerID: String(id) });
+  };
+
+  render() {
+    return (
+      <React.Fragment>
+        <h1>Table</h1>
+        PlayerID: {this.state.playerID}
+        <Cah
+          gameID={this.props.match.params.gameID}
+          playerID={this.props.match.params.playerID}
+          isActive={true}
+          setPlayerID={this.setPlayerID}
+        />
+      </React.Fragment>
+    );
+  }
+}
+export default withRouter(TableSeat);
