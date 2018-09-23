@@ -16,7 +16,12 @@ class Table extends Component {
     return (
       <React.Fragment>
         <Meta.Provider
-          value={{ playerID: this.props.playerID, gameID: this.props.gameID }}
+          value={{
+            G: this.props.G,
+            ctx: this.props.ctx,
+            playerID: this.props.playerID,
+            gameID: this.props.gameID
+          }}
         >
           <h2>Table!</h2>
 
@@ -57,45 +62,13 @@ const Cah = Client({
   multiplayer: true
 });
 
-class TableSeat extends Component {
-  state = { playerID: null };
+const TableSeat = props => {
+  return (
+    <Cah
+      gameID={props.match.params.gameID}
+      playerID={props.match.params.playerID}
+    />
+  );
+};
 
-  setPlayerID = id => {
-    this.setState({ playerID: String(id) });
-  };
-
-  componentDidMount() {
-    fetch(
-      `http://localhost:5556/games/default/${
-        this.props.match.params.gameID
-      }/join`,
-      {
-        method: "POST",
-        body: JSON.stringify({
-          playerID: this.props.match.params.playerID,
-          playerName: "DSF"
-        })
-      }
-    )
-      .then(resp => resp.json())
-      .then(({ credentials }) => {
-        this.setState({ credentials });
-      });
-  }
-
-  render() {
-    return (
-      <React.Fragment>
-        <h1>Table</h1>
-        PlayerID: {this.state.playerID}
-        <Cah
-          gameID={this.props.match.params.gameID}
-          playerID={this.props.match.params.playerID}
-          credentials={this.state.credentials}
-          setPlayerID={this.setPlayerID}
-        />
-      </React.Fragment>
-    );
-  }
-}
 export default withRouter(TableSeat);
