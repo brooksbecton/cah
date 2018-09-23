@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-
+import Meta from "./../../Context/Meta";
 class PlayedCardsList extends Component {
   constructor(props) {
     super(props);
@@ -8,14 +8,23 @@ class PlayedCardsList extends Component {
   }
   render() {
     return (
-      <ul>
-        {this.props.playedCards.map((card) => (
-          <li key={card.text}>
-            {card.text}
-            <button onClick={() => this.props.voteCard(card)}>Vote</button>
-          </li>
-        ))}
-      </ul>
+      <Meta.Consumer>
+        {({ ctx }) => (
+          <ul>
+            {this.props.playedCards.map(card => (
+              <li key={card.text}>
+                {card.text}
+                <button
+                  disabled={ctx.phase !== "vote phase"}
+                  onClick={() => this.props.voteCard(card)}
+                >
+                  Vote
+                </button>
+              </li>
+            ))}
+          </ul>
+        )}
+      </Meta.Consumer>
     );
   }
 }

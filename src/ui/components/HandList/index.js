@@ -4,16 +4,23 @@ import Meta from "./../../Context/Meta";
 
 const HandList = ({ cardList, playCard }) => (
   <Meta.Consumer>
-    {({ playerID }) => (
+    {({ ctx, playerID }) => (
       <ol>
-        {cardList.filter(({playerID: ownerID}) => ownerID === playerID).map(card => {
-          return (
-            <li key={card.text}>
-              {card.text}
-              <button onClick={() => playCard(card)}>Play Card</button>
-            </li>
-          );
-        })}
+        {cardList
+          .filter(({ playerID: ownerID }) => ownerID === playerID)
+          .map(card => {
+            return (
+              <li key={card.text}>
+                {card.text}
+                <button
+                  disabled={ctx.phase !== "play phase"}
+                  onClick={() => playCard(card)}
+                >
+                  Play Card
+                </button>
+              </li>
+            );
+          })}
       </ol>
     )}
   </Meta.Consumer>
