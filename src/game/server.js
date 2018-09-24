@@ -7,10 +7,11 @@ import send from "koa-send";
 
 const server = Server({ games: [cah] });
 const router = new Router();
-
+const buildPath = path.join(__dirname, "../dist");
 // Forwarding all requests to base index for client routing
-router.get("/(.*)", async (ctx) => {
-    await send(ctx,"dist/index.html")
+server.app.use(KoaStatic(buildPath));
+router.get("/(.*)", async ctx => {
+  await send(ctx, "dist/index.html");
 });
 
 server.app.use(router.routes());
