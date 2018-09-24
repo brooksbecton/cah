@@ -55,20 +55,31 @@ class Table extends Component {
   }
 }
 
-const Cah = Client({
-  board: Table,
-  // enhancer: applyMiddleware(logger),
-  game: game,
-  multiplayer: true
-});
+class TableSeat extends Component {
+  // shouldComponentUpdate(nextProps) {
+  //   return (
+  //     nextProps.gameID !== this.props.gameID ||
+  //     nextProps.numPlayers !== this.props.numPlayers
+  //   );
+  // }
 
-const TableSeat = props => {
-  return (
-    <Cah
-      gameID={props.match.params.gameID}
-      playerID={props.match.params.playerID}
-    />
-  );
-};
+  render() {
+    const Cah = Client({
+      board: Table,
+      // enhancer: applyMiddleware(logger),
+      game: game,
+      numPlayers: this.props.match.params.numPlayers,
+      multiplayer: { server: "http://localhost:5555" }
+    });
+
+    return (
+      <Cah
+        gameID={this.props.match.params.gameID}
+        playerID={this.props.match.params.playerID}
+      />
+    );
+  }
+}
+``;
 
 export default withRouter(TableSeat);
