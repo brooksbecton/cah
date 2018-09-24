@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "npm run build && npm run server",
-    "build": "parcel build --log-level 3 src/index.html && npm run build:server",
-    "build:server": "parcel build --target=node --log-level 3 src/game/server.js",
+    "build": "parcel build --log-level 3 --no-minify src/index.html && npm run build:server",
+    "build:server": "parcel build --target=node --log-level 3 --no-minify src/game/server.js",
     "dev": "parcel src/index.html --open",
     "server": "node dist/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
