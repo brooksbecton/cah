@@ -29,12 +29,24 @@ class Home extends Component {
       </React.Fragment>
     );
   };
+  createGame = (numPlayers = this.state.numPlayers) => {
+    fetch("http://localhost:5556/games/default/create", {
+      method: "POST",
+      body: JSON.stringify({
+        numPlayers: this.state.numPlayers
+      })
+    })
+      .then(resp => resp.json())
+      .then(({ gameID }) => {
+        this.setState({ gameID });
+      });
+  };
 
   render() {
     return (
       <div>
         <h1>Home</h1>
-
+        // Need to add join endpoint and pass credentials to client
         <h2>Join Game</h2>
         <label>
           Game ID
@@ -47,9 +59,16 @@ class Home extends Component {
           Number of Players
           <input
             type="text"
-            onChange={e => this.setState({ numPlayers: e.target.value })}
+            onChange={e => {
+              const numPlayers = Number(e.target.value);
+              if (numPlayers > 0 && numPlayers < 20) {
+                this.setState({ numPlayers: e.target.value });
+              }
+            }}
           />
         </label>
+
+        <button onClick={() => this.createGame()}>Create Game</button>
         <br />
         {this.state.gameID !== null && this.renderInvites()}
       </div>
