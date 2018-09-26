@@ -13,15 +13,19 @@ class Home extends Component {
   }
 
   createGame = (numPlayers = this.state.numPlayers) => {
-    fetch("http://localhost:5556/games/default/create", {
-      method: "POST",
-      body: JSON.stringify({
+    request
+      .post("http://localhost:5556/games/default/create")
+      .send({
         numPlayers: this.state.numPlayers
       })
-    })
-      .then(resp => resp.json())
-      .then(({ gameID }) => {
-        this.setState({ gameID });
+      .end((err, { body }) => {
+        if (!err) {
+          this.setState({ gameID: body.gameID });
+        } else {
+          console.error(
+            `Error creating game numPlayers: ${this.state.numPlayers} `
+          );
+        }
       });
   };
 
@@ -35,8 +39,13 @@ class Home extends Component {
       .end((err, { body }) => {
         if (!err) {
           const { playerCredentials } = body;
-          console.log(playerCredentials);
-          this.setState({ playerCredentials });
+          this.setState({ playerCredentials }, () => {
+            this.props.history.push(
+              `/game/${this.state.gameID}/${this.state.playerCredentials}/${
+                this.state.playerID
+              }`
+            );
+          });
         } else {
           console.error(
             `Error joining gameID: ${this.state.gameID}, playerID: ${
@@ -98,19 +107,7 @@ class Home extends Component {
             }}
           />
         </label>
-        <button onClick={() => this.joinGame({})}>Join Game</button>
-        <br />
-        {this.state.gameID &&
-          this.state.playerName &&
-          this.state.playerCredentials && (
-            <Link
-              to={`/game/${this.state.gameID}/${this.state.playerCredentials}/${
-                this.state.playerID
-              }`}
-            >
-              {`Player: ${this.state.playerID} - ${this.state.playerName}`}
-            </Link>
-          )}
+        <button onClick={() => this.joinGame()}>Join Game</button>
       </div>
     );
   }

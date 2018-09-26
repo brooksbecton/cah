@@ -56,19 +56,12 @@ class Table extends Component {
 }
 
 class TableSeat extends Component {
-  // shouldComponentUpdate(nextProps) {
-  //   return (
-  //     nextProps.gameID !== this.props.gameID ||
-  //     nextProps.numPlayers !== this.props.numPlayers
-  //   );
-  // }
 
   render() {
     const Cah = Client({
       board: Table,
       // enhancer: applyMiddleware(logger),
       game: game,
-      numPlayers: this.props.match.params.numPlayers,
       multiplayer: { server: "http://localhost:5555" }
     });
 
