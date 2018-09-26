@@ -6,6 +6,7 @@ import filterPlayerCards from "./../utils/filterPlayersCards";
 
 export const cah = Game({
   setup: () => ({
+    currentCzarID: 0,
     name: "cah",
     playersID: [],
     winnerCards: [],
@@ -53,6 +54,7 @@ export const cah = Game({
     voteCard: (G, ctx, card) => {
       return {
         ...G,
+        currentCzarID: (G.currentCzarID + 1) % ctx.numPlayers,
         winnerCards: [...G.winnerCards, card],
         playedCards: []
       };
@@ -89,6 +91,7 @@ export const cah = Game({
         endPhaseIf: (G, ctx) => G.playedCards.length === 0
       }
     ],
+    setActionPlayers: true
   }
 });
 
