@@ -23,37 +23,44 @@ class Home extends Component {
           this.setState({ gameID: body.gameID });
         } else {
           console.error(
-            `Error creating game numPlayers: ${this.state.numPlayers} `
+            `Error Creating Game: numPlayers ${this.state.numPlayers} `
           );
         }
       });
   };
 
   joinGame = () => {
-    request
-      .post(`http://localhost:5556/games/default/${this.state.gameID}/join`)
-      .send({
-        playerID: this.state.playerID,
-        playerName: this.state.playerName
-      })
-      .end((err, { body }) => {
-        if (!err) {
-          const { playerCredentials } = body;
-          this.setState({ playerCredentials }, () => {
-            this.props.history.push(
-              `/game/${this.state.gameID}/${this.state.playerCredentials}/${
-                this.state.playerID
-              }`
-            );
-          });
-        } else {
-          console.error(
-            `Error joining gameID: ${this.state.gameID}, playerID: ${
-              this.state.playerID
-            }, playerName: ${this.state.playerName}`
-          );
-        }
-      });
+    const errorJoiningGame = () =>
+      console.error(
+        `Error Joining Game:  gameID: ${this.state.gameID}, playerID: ${
+          this.state.playerID
+        }, playerName: ${this.state.playerName}`
+      );
+
+    if (this.state.gameID && this.state.playerName) {
+      request
+        .post(`http://localhost:5556/games/default/${this.state.gameID}/join`)
+        .send({
+          playerID: this.state.playerID,
+          playerName: this.state.playerName
+        })
+        .end((err, { body }) => {
+          if (!err) {
+            const { playerCredentials } = body;
+            this.setState({ playerCredentials }, () => {
+              this.props.history.push(
+                `/game/${this.state.gameID}/${this.state.playerCredentials}/${
+                  this.state.playerID
+                }`
+              );
+            });
+          } else {
+            errorJoiningGame()
+          }
+        });
+    } else {
+      errorJoiningGame()
+    }
   };
 
   render() {
@@ -107,7 +114,12 @@ class Home extends Component {
             }}
           />
         </label>
-        <button onClick={() => this.joinGame()}>Join Game</button>
+        <button
+          disabled={!(this.state.gameID && this.state.playerName)}
+          onClick={() => this.joinGame()}
+        >
+          Join Game
+        </button>
       </div>
     );
   }
