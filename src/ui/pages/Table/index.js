@@ -75,6 +75,7 @@ class TableSeat extends Component {
     return (
       <Cah
         gameID={this.props.match.params.gameID}
+        credentials={this.props.match.params.playerCredentials}
         playerID={this.props.match.params.playerID}
       />
     );

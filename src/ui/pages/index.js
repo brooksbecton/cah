@@ -19,7 +19,7 @@ const BaseRouter = () => {
         <hr />
 
         <Route exact path="/" component={Home} />
-        <Route exact path="/game/:gameID/:numPlayers/:playerID" component={Table} />
+        <Route exact path="/game/:gameID/:playerCredentials/:playerID" component={Table} />
       </div>
     </Router>
   );

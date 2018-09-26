@@ -12,26 +12,6 @@ class Home extends Component {
     super(props);
   }
 
-  renderInvites = () => {
-    let invites = [];
-    for (let i = 0; i < this.state.numPlayers; i++) {
-      invites.push(
-        <React.Fragment>
-          <Link to={`/game/${this.state.gameID}/${this.state.numPlayers}/${i}`}>
-            {`Player ${i}`}
-          </Link>
-          <br />
-        </React.Fragment>
-      );
-    }
-
-    return (
-      <React.Fragment>
-        <h3>Game ID: {this.state.gameID}</h3>
-        {invites.map(invite => invite)}
-      </React.Fragment>
-    );
-  };
   createGame = (numPlayers = this.state.numPlayers) => {
     fetch("http://localhost:5556/games/default/create", {
       method: "POST",
@@ -52,14 +32,25 @@ class Home extends Component {
         playerID: this.state.playerID,
         playerName: this.state.playerName
       })
-      .end();
+      .end((err, { body }) => {
+        if (!err) {
+          const { playerCredentials } = body;
+          console.log(playerCredentials);
+          this.setState({ playerCredentials });
+        } else {
+          console.error(
+            `Error joining gameID: ${this.state.gameID}, playerID: ${
+              this.state.playerID
+            }, playerName: ${this.state.playerName}`
+          );
+        }
+      });
   };
 
   render() {
     return (
       <div>
         <h1>Home</h1>
-        // Need to add join endpoint and pass credentials to client
         <h2>Create Game</h2>
         <label>
           Number of Players
@@ -78,7 +69,13 @@ class Home extends Component {
         <h2>Join Game</h2>
         <label>
           Game ID
-          <input disabled type="text" value={this.state.gameID} />
+          <input
+            type="text"
+            onChange={e => {
+              this.setState({ gameID: e.target.value });
+            }}
+            value={this.state.gameID}
+          />
         </label>
         <label>
           Player ID
@@ -103,7 +100,17 @@ class Home extends Component {
         </label>
         <button onClick={() => this.joinGame({})}>Join Game</button>
         <br />
-        {this.state.gameID !== null && this.renderInvites()}
+        {this.state.gameID &&
+          this.state.playerName &&
+          this.state.playerCredentials && (
+            <Link
+              to={`/game/${this.state.gameID}/${this.state.playerCredentials}/${
+                this.state.playerID
+              }`}
+            >
+              {`Player: ${this.state.playerID} - ${this.state.playerName}`}
+            </Link>
+          )}
       </div>
     );
   }
