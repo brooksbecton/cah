@@ -6,16 +6,22 @@ class PlayedCardsList extends Component {
     super(props);
     this.state = {};
   }
+
+
+  
   render() {
     return (
       <Meta.Consumer>
-        {({ ctx }) => (
+        {({ G, ctx, playerID }) => (
           <ul>
             {this.props.playedCards.map(card => (
               <li key={card.text}>
                 {card.text}
+                playerID {playerID}
                 <button
-                  disabled={ctx.phase !== "vote phase"}
+                  disabled={
+                    ctx.phase !== "vote phase" || Number(playerID) !== Number(G.currentCzarID)
+                  }
                   onClick={() => this.props.voteCard(card)}
                 >
                   Vote

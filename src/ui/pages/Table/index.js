@@ -24,31 +24,47 @@ class Table extends Component {
           }}
         >
           <h2>Table!</h2>
+          {this.props.G.gameStarted === false ? (
+            <React.Fragment>
+              <button
+                onClick={() => this.props.moves.joinGame(this.props.playerID)}
+              >
+                Join Game
+              </button>
+              <button onClick={() => this.props.moves.startGame()}>
+                Start Game
+              </button>
+            </React.Fragment>
+          ) : (
+            <React.Fragment>
+              <h3>{this.props.ctx.phase}</h3>
+              <DrawCardButton
+                onClick={() => this.props.moves.drawCard(this.props.playerID)}
+              />
 
-          <h3>{this.props.ctx.phase}</h3>
-          <DrawCardButton
-            onClick={() => this.props.moves.drawCard(this.props.playerID)}
-          />
+              <HandList
+                playCard={cardText =>
+                  this.props.moves.playCard(cardText, this.props.playerID)
+                }
+                cardList={this.props.G.hand}
+              />
 
-          <HandList
-            playCard={cardText => this.props.moves.playCard(cardText)}
-            cardList={this.props.G.hand}
-          />
+              <h3>Played Cards</h3>
+              <PlayedCardsList
+                playedCards={this.props.G.playedCards}
+                voteCard={card => this.props.moves.voteCard(card)}
+              />
 
-          <h3>Played Cards</h3>
-          <PlayedCardsList
-            playedCards={this.props.G.playedCards}
-            voteCard={card => this.props.moves.voteCard(card)}
-          />
-
-          <h3>Winner Cards</h3>
-          <ul>
-            {this.props.G.winnerCards.map(card => (
-              <li>
-                {card.playerID}: "{card.text}"
-              </li>
-            ))}
-          </ul>
+              <h3>Winner Cards</h3>
+              <ul>
+                {this.props.G.winnerCards.map(card => (
+                  <li>
+                    {card.playerID}: "{card.text}"
+                  </li>
+                ))}
+              </ul>
+            </React.Fragment>
+          )}
         </Meta.Provider>
       </React.Fragment>
     );
@@ -56,7 +72,6 @@ class Table extends Component {
 }
 
 class TableSeat extends Component {
-
   render() {
     const Cah = Client({
       board: Table,

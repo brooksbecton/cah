@@ -8,6 +8,7 @@ export const cah = Game({
   setup: () => ({
     currentCzarID: 0,
     name: "cah",
+    playerID: null,
     playersID: [],
     winnerCards: [],
     playedCards: [],
@@ -18,22 +19,22 @@ export const cah = Game({
   }),
 
   moves: {
-    joinGame: G => {
+    joinGame: (G, ctx, playerID) => {
       return {
         ...G,
         playerCount: G.playerCount + 1,
-        playersID: [...G.playersID, G.playerCount]
+        playersID: [...G.playersID, playerID]
       };
     },
     startGame: (G, ctx) => {
       return { ...G, gameStarted: true };
     },
-    drawCard: (G, ctx) => {
+    drawCard: (G, ctx, playerID) => {
       const { card, deck } = drawCard(G.whiteCards);
       return {
         ...G,
         whiteCards: deck,
-        hand: [...G.hand, { text: card, playerID: ctx.currentPlayer }]
+        hand: [...G.hand, { text: card, playerID: playerID }]
       };
     },
     playCard: (G, ctx, card) => {
@@ -63,15 +64,22 @@ export const cah = Game({
   flow: {
     phases: [
       {
+        name: "setup phase",
+        allowedMoves: ["joinGame", "startGame"],
+        turnOrder: TurnOrder.ANY,
+        endPhaseIf: (G, ctx) => G.gameStarted === true,
+      },
+      {
         name: "draw phase",
         allowedMoves: ["drawCard"],
         endTurnIf: (G, ctx) => {
-          const playersHand = filterPlayerCards(G.hand, ctx.currentPlayer);
+          const playersHand = filterPlayerCards(G.hand, G.playerID);
           return playersHand.length === 10;
         },
         endPhaseIf: (G, ctx) => {
           return G.hand.length === ctx.numPlayers * 10;
-        }
+        },
+        turnOrder: TurnOrder.ANY
       },
       {
         name: "play phase",
@@ -80,15 +88,17 @@ export const cah = Game({
           return (
             G.playedCards
               .map(({ playerID }) => playerID)
-              .indexOf(ctx.currentPlayer) !== -1
+              .indexOf(G.playerID) !== -1
           );
         },
-        endPhaseIf: (G, ctx) => G.playedCards.length === ctx.numPlayers
+        endPhaseIf: (G, ctx) => G.playedCards.length === ctx.numPlayers,
+        turnOrder: TurnOrder.ANY
       },
       {
         name: "vote phase",
         allowedMoves: ["voteCard"],
-        endPhaseIf: (G, ctx) => G.playedCards.length === 0
+        endPhaseIf: (G, ctx) => G.playedCards.length === 0,
+        turnOrder: TurnOrder.ANY
       }
     ],
     setActionPlayers: true
