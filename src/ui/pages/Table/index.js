@@ -1,6 +1,8 @@
 import { Client } from "boardgame.io/react";
 import { withRouter } from "react-router-dom";
 import React, { Component } from "react";
+
+import filterPlayersCards from "./../../../utils/filterPlayersCards";
 import DrawCardButton from "./../../components/DrawCardButton";
 import HandList from "./../../components/HandList";
 import PlayedCardsList from "./../../components/PlayedCardsList";
@@ -11,6 +13,19 @@ class Table extends Component {
   constructor() {
     super();
   }
+
+  /**
+   * Draws a card for a player until they reach their hand limit
+   */
+  drawHand = (
+    cardsNeeded = 10 -
+      filterPlayersCards(this.props.G.hand, this.props.playerID)
+  ) => {
+    if (cardsNeeded !== 0) {
+      this.props.moves.drawCard(this.props.playerID);
+      this.drawHand(cardsNeeded - 1);
+    }
+  };
 
   render() {
     return (
@@ -38,9 +53,7 @@ class Table extends Component {
           ) : (
             <React.Fragment>
               <h3>{this.props.ctx.phase}</h3>
-              <DrawCardButton
-                onClick={() => this.props.moves.drawCard(this.props.playerID)}
-              />
+              <DrawCardButton onClick={() => this.drawHand()} />
 
               <HandList
                 playCard={cardText =>

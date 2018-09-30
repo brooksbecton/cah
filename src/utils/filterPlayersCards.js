@@ -1,7 +1,7 @@
 
 function filterPlayersCards(cards, playerID){
     return cards.filter(
-        ({ playerID: cardOwnerId }) => cardOwnerId === playerID
+        ({ playerID: cardOwnerId }) => cardOwnerId === Number(playerID)
       )
 }
 
