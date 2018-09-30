@@ -6,6 +6,7 @@ import filterPlayerCards from "./../utils/filterPlayersCards";
 
 export const cah = Game({
   setup: () => ({
+    currentBlackCard: "",
     currentCzarID: 0,
     name: "cah",
     playerID: null,
@@ -67,11 +68,15 @@ export const cah = Game({
         name: "setup phase",
         allowedMoves: ["joinGame", "startGame"],
         turnOrder: TurnOrder.ANY,
-        endPhaseIf: (G, ctx) => G.gameStarted === true,
+        endPhaseIf: (G, ctx) => G.gameStarted === true
       },
       {
         name: "draw phase",
         allowedMoves: ["drawCard"],
+        onPhaseBegin: G => {
+          const { card, deck } = drawCard(G.blackCards);
+          return { ...G, blackCards: deck, currentBlackCard: card };
+        },
         endTurnIf: (G, ctx) => {
           const playersHand = filterPlayerCards(G.hand, G.playerID);
           return playersHand.length === 10;
@@ -91,7 +96,8 @@ export const cah = Game({
               .indexOf(G.playerID) !== -1
           );
         },
-        endPhaseIf: (G, ctx) => G.playedCards.length === ctx.numPlayers,
+        endPhaseIf: (G, ctx) =>
+          G.playedCards.length === ctx.numPlayers * G.currentBlackCard.pick,
         turnOrder: TurnOrder.ANY
       },
       {

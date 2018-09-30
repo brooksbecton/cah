@@ -68,6 +68,9 @@ class Table extends Component {
                 voteCard={card => this.props.moves.voteCard(card)}
               />
 
+              <h3>Black Card</h3>
+              <p>{this.props.G.currentBlackCard.text}</p>
+
               <h3>Winner Cards</h3>
               <ul>
                 {this.props.G.winnerCards.map(card => (
