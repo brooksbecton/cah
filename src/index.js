@@ -1,7 +1,5 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { applyMiddleware } from "redux";
-import logger from "redux-logger";
 import BaseRouter from './ui/pages/'
 
 

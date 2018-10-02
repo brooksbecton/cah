@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import Meta from "./../../Context/Meta";
-import filterPlayersCards from "./../../../utils/filterPlayersCards";
 
 class HandList extends Component {
   static defaultProps = {
@@ -24,7 +23,7 @@ class HandList extends Component {
       <Meta.Consumer>
         {({ G, ctx, playerID }) => (
           <ol>
-            {cardList
+            {this.props.cardList
               .filter(({ playerID: ownerID }) => ownerID === playerID)
               .map(card => {
                 return (
@@ -34,9 +33,9 @@ class HandList extends Component {
                       disabled={
                         ctx.phase !== "play phase" ||
                         Number(playerID) === Number(G.currentCzarID) ||
-                        hasPlayedCard({ playerID, playedCards: G.playedCards })
+                        this.hasPlayedCard({ playerID, playedCards: G.playedCards })
                       }
-                      onClick={() => playCard(card)}
+                      onClick={() => this.props.playCard(card)}
                     >
                       Play Card
                     </button>

@@ -1,41 +1,42 @@
 import React, { Component } from "react";
-import { withRouter, Link } from "react-router-dom";
+import PropTypes from "prop-types";
+import { withRouter } from "react-router-dom";
 import request from "superagent";
 class Home extends Component {
+  static propTypes = {
+    history: PropTypes.array
+  };
+
   state = {
     gameID: "",
     numPlayers: 2,
     playerID: 0,
     playerName: ""
   };
-  constructor(props) {
-    super(props);
-  }
 
   createGame = (numPlayers = this.state.numPlayers) => {
     request
       .post("http://localhost:5556/games/default/create")
       .send({
-        numPlayers: this.state.numPlayers
+        numPlayers
       })
       .end((err, { body }) => {
         if (!err) {
           this.setState({ gameID: body.gameID });
         } else {
-          console.error(
-            `Error Creating Game: numPlayers ${this.state.numPlayers} `
-          );
+          throw new Error(`Error Creating Game: numPlayers ${numPlayers} `);
         }
       });
   };
 
   joinGame = () => {
-    const errorJoiningGame = () =>
-      console.error(
+    const errorJoiningGame = () => {
+      throw new Error(
         `Error Joining Game:  gameID: ${this.state.gameID}, playerID: ${
           this.state.playerID
         }, playerName: ${this.state.playerName}`
       );
+    };
 
     if (this.state.gameID && this.state.playerName) {
       request
@@ -55,11 +56,11 @@ class Home extends Component {
               );
             });
           } else {
-            errorJoiningGame()
+            errorJoiningGame();
           }
         });
     } else {
-      errorJoiningGame()
+      errorJoiningGame();
     }
   };
 

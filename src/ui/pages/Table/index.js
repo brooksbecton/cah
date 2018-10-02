@@ -1,7 +1,7 @@
 import { Client } from "boardgame.io/react";
 import { withRouter } from "react-router-dom";
 import React, { Component } from "react";
-
+import PropTypes from "prop-types";
 import filterPlayersCards from "./../../../utils/filterPlayersCards";
 import DrawCardButton from "./../../components/DrawCardButton";
 import HandList from "./../../components/HandList";
@@ -10,6 +10,14 @@ import Meta from "./../../Context/Meta";
 import game from "./../../../game";
 
 class Table extends Component {
+  static propTypes = {
+    moves: PropTypes.object,
+    G: PropTypes.object,
+    playerID: PropTypes.string,
+    ctx: PropTypes.object,
+    gameID: PropTypes.string
+  };
+
   constructor() {
     super();
   }
@@ -76,8 +84,8 @@ class Table extends Component {
               <h3>Winner Cards</h3>
               <ul>
                 {this.props.G.winnerCards.map(card => (
-                  <li>
-                    {card.playerID}: "{card.text}"
+                  <li key={card.textr}>
+                    {card.playerID}: {card.text}
                   </li>
                 ))}
               </ul>
@@ -90,6 +98,16 @@ class Table extends Component {
 }
 
 class TableSeat extends Component {
+  static propTypes = {
+    match: PropTypes.shape({
+      params: PropTypes.shape({
+        gameID: PropTypes.string,
+        playerCredentials: PropTypes.string,
+        playerID: PropTypes.string
+      })
+    })
+  };
+
   render() {
     const Cah = Client({
       board: Table,
@@ -107,6 +125,4 @@ class TableSeat extends Component {
     );
   }
 }
-``;
-
 export default withRouter(TableSeat);

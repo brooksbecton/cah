@@ -1,4 +1,3 @@
-import { blackCard, whiteCard } from "../constants/cards";
 import getRandomInt from "./getRandomInt";
 /**
  * @typedef newDeckObj

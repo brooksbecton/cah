@@ -27,7 +27,7 @@ export const cah = Game({
         playersID: [...G.playersID, playerID]
       };
     },
-    startGame: (G, ctx) => {
+    startGame: G => {
       return { ...G, gameStarted: true };
     },
     drawCard: (G, ctx, playerID) => {
@@ -68,7 +68,7 @@ export const cah = Game({
         name: "setup phase",
         allowedMoves: ["joinGame", "startGame"],
         turnOrder: TurnOrder.ANY,
-        endPhaseIf: (G, ctx) => G.gameStarted === true
+        endPhaseIf: G => G.gameStarted === true
       },
       {
         name: "draw phase",
@@ -77,7 +77,7 @@ export const cah = Game({
           const { card, deck } = drawCard(G.blackCards);
           return { ...G, blackCards: deck, currentBlackCard: card };
         },
-        endTurnIf: (G, ctx) => {
+        endTurnIf: G => {
           const playersHand = filterPlayerCards(G.hand, G.playerID);
           return playersHand.length === 10;
         },
@@ -89,7 +89,7 @@ export const cah = Game({
       {
         name: "play phase",
         allowedMoves: ["playCard"],
-        endTurnIf: (G, ctx) => {
+        endTurnIf: G => {
           return (
             G.playedCards
               .map(({ playerID }) => playerID)
@@ -103,7 +103,7 @@ export const cah = Game({
       {
         name: "vote phase",
         allowedMoves: ["voteCard"],
-        endPhaseIf: (G, ctx) => G.playedCards.length === 0,
+        endPhaseIf: G => G.playedCards.length === 0,
         turnOrder: TurnOrder.ANY
       }
     ],
