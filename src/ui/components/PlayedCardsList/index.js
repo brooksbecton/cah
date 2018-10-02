@@ -2,13 +2,17 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import Meta from "./../../Context/Meta";
 class PlayedCardsList extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
 
+  static propTypes = {
+    playedCards: PropTypes.arrayOf(
+      PropTypes.shape({
+        text: PropTypes.string,
+        playerID: PropTypes.string
+      })
+    ),
+    voteCard: PropTypes.func.isRequired
+  };
 
-  
   render() {
     return (
       <Meta.Consumer>
@@ -17,7 +21,7 @@ class PlayedCardsList extends Component {
             {this.props.playedCards.map(card => (
               <li key={card.text}>
                 {card.text}
-                playerID {playerID}
+                playerID {card.playerID}
                 <button
                   disabled={
                     ctx.phase !== "vote phase" || Number(playerID) !== Number(G.currentCzarID)
@@ -34,15 +38,5 @@ class PlayedCardsList extends Component {
     );
   }
 }
-
-PlayedCardsList.propTypes = {
-  playedCards: PropTypes.arrayOf(
-    PropTypes.shape({
-      text: PropTypes.string,
-      playerID: PropTypes.string
-    })
-  ),
-  voteCard: PropTypes.func.isRequired
-};
 
 export default PlayedCardsList;

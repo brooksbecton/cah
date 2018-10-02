@@ -19,7 +19,7 @@ class Table extends Component {
    */
   drawHand = (
     cardsNeeded = 10 -
-      filterPlayersCards(this.props.G.hand, this.props.playerID)
+      filterPlayersCards(this.props.G.hand, this.props.playerID).length
   ) => {
     if (cardsNeeded !== 0) {
       this.props.moves.drawCard(this.props.playerID);
@@ -53,7 +53,9 @@ class Table extends Component {
           ) : (
             <React.Fragment>
               <h3>{this.props.ctx.phase}</h3>
-              <DrawCardButton onClick={() => this.drawHand()} />
+              <DrawCardButton
+                onClick={() => this.props.moves.drawCard(this.props.playerID)}
+              />
 
               <HandList
                 playCard={cardText =>
