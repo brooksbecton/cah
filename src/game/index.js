@@ -97,7 +97,7 @@ export const cah = Game({
           );
         },
         endPhaseIf: (G, ctx) =>
-          G.playedCards.length === ctx.numPlayers * G.currentBlackCard.pick,
+          G.playedCards.length === ctx.numPlayers * G.currentBlackCard.pick - 1,
         turnOrder: TurnOrder.ANY
       },
       {
