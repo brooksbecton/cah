@@ -69,24 +69,26 @@ class Home extends Component {
       <div>
         <h1>Home</h1>
         <h2>Create Game</h2>
-        <label>
+        <label htmlFor="numPlayers">
           Number of Players
           <input
-            type="text"
+            id="numPlayers"
+            type="number"
             onChange={e => {
               const numPlayers = Number(e.target.value);
-              if (numPlayers > 0 && numPlayers < 20) {
-                this.setState({ numPlayers: e.target.value });
-              }
+              this.setState({ numPlayers });
             }}
             value={this.state.numPlayers}
           />
         </label>
-        <button onClick={() => this.createGame()}>Create Game</button>
+        <button id="createGameButton" onClick={() => this.createGame()}>
+          Create Game
+        </button>
         <h2>Join Game</h2>
         <label>
           Game ID
           <input
+            id="gameID"
             type="text"
             onChange={e => {
               this.setState({ gameID: e.target.value });
