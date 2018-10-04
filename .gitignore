@@ -72,5 +72,7 @@ typings/
 # Serverless directories
 .serverless
 
+# Cypress
+cypress.env.json
 
 dist/*
