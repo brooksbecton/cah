@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 import request from "superagent";
+import { parse } from "query-string";
 class Home extends Component {
   static propTypes = {
     history: PropTypes.array
@@ -13,6 +14,10 @@ class Home extends Component {
     playerID: 0,
     playerName: ""
   };
+
+  componentDidMount() {
+    this.getPrePopulatedValues();
+  }
 
   createGame = (numPlayers = this.state.numPlayers) => {
     request
@@ -27,6 +32,25 @@ class Home extends Component {
           throw new Error(`Error Creating Game: numPlayers ${numPlayers} `);
         }
       });
+  };
+
+  getPrePopulatedValues = () => {
+    const { gameID, numPlayers, playerID, playerName } = parse(location.search);
+
+    // Use new values if availible otherwise use default state
+    const newGameID = gameID ? gameID : this.state.gameID;
+    const newNumPlayers = numPlayers ? numPlayers : this.state.numPlayers;
+    const newPlayerID = playerID ? playerID : this.state.playerID;
+    const newPlayerName = playerName ? playerName : this.state.playerName;
+
+    this.setState(() => {
+      return {
+        gameID: newGameID,
+        numPlayers: newNumPlayers,
+        playerID: newPlayerID,
+        playerName: newPlayerName
+      };
+    });
   };
 
   joinGame = () => {
@@ -115,6 +139,7 @@ class Home extends Component {
               const playerName = e.target.value;
               this.setState({ playerName });
             }}
+            value={this.state.playerName}
           />
         </label>
         <button
