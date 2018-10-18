@@ -26,11 +26,10 @@
     "eslint-plugin-cypress": "^2.0.1",
     "eslint-plugin-immutable": "^1.0.0",
     "eslint-plugin-react": "^7.11.1",
-    "parcel-bundler": "^1.9.7",
+    "parcel-bundler": "^1.10.3",
     "prop-types": "^15.6.2",
     "react": "^16.4.2",
-    "react-dom": "^16.4.2",
-    "redux": "^4.0.1"
+    "react-dom": "^16.4.2"
   },
   "dependencies": {
     "boardgame.io": "^0.25.5",
