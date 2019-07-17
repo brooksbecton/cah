@@ -1,6 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import BaseRouter from './ui/pages/'
+import "@babel/polyfill";
+
 
 
 /* eslint immutable/no-mutation: 0 */
