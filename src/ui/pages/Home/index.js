@@ -105,14 +105,15 @@ class Home extends Component {
             value={this.state.numPlayers}
           />
         </label>
-        <button id="createGameButton" onClick={() => this.createGame()}>
+        <button data-test-id="createGameButton" onClick={() => this.createGame()}>
           Create Game
         </button>
         <h2>Join Game</h2>
         <label>
           Game ID
           <input
-            id="gameID"
+            id='gameId'
+            data-test-id="gameId"
             type="text"
             onChange={e => {
               this.setState({ gameID: e.target.value });
@@ -123,6 +124,7 @@ class Home extends Component {
         <label>
           Player ID
           <input
+            data-test-id="playerId"
             type="text"
             onChange={e => {
               const playerID = e.target.value;
@@ -131,9 +133,10 @@ class Home extends Component {
             value={this.state.playerID}
           />
         </label>
-        <label>
+        <label> 
           Player Name
           <input
+            data-test-id="playerName"
             type="text"
             onChange={e => {
               const playerName = e.target.value;
@@ -143,6 +146,7 @@ class Home extends Component {
           />
         </label>
         <button
+          data-test-id='joinGame'
           disabled={!(this.state.gameID && this.state.playerName)}
           onClick={() => this.joinGame()}
         >

@@ -7,7 +7,7 @@
     "start": "npm run build && npm run server",
     "build": "parcel build --log-level 3 --no-minify src/index.html && npm run build:server",
     "build:server": "parcel build --target=node --log-level 3 --no-minify src/game/server.js",
-    "cypress": "cypress open",
+    "e2e": "cypress open",
     "dev": "parcel src/index.html --open",
     "server": "node dist/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -20,6 +20,7 @@
     "@babel/plugin-proposal-class-properties": "^7.5.0",
     "@babel/preset-env": "^7.5.4",
     "@babel/preset-react": "^7.0.0",
+    "babel-eslint": "^10.0.2",
     "cypress": "^3.4.0",
     "eslint": "^6.0.1",
     "eslint-plugin-cypress": "^2.2.1",
