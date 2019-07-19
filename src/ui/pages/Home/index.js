@@ -3,6 +3,63 @@ import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 import request from "superagent";
 import { parse } from "query-string";
+
+class RoomList extends Component {
+  static propTypes = {
+    rooms: PropTypes.shape({
+      gameID: PropTypes.string,
+      players: PropTypes.arrayOf(
+        PropTypes.shape({ name: PropTypes.string, id: PropTypes.number })
+      )
+    }),
+    joinGame: PropTypes.func
+  };
+
+  constructor(props) {
+    super(props);
+
+    this.state = { name: "" };
+  }
+
+  joinGame = (
+    gameID,
+    playerName = this.state.name,
+    rooms = this.props.rooms
+  ) => {
+    const room = rooms.filter(({ gID }) => gID !== gameID).pop();
+    const openPlayer = room.players.filter(p => p.name === undefined)[0];
+    const playerID = openPlayer.id;
+
+    this.props.joinGame(gameID, playerID, playerName);
+  };
+
+  render() {
+    return (
+      <>
+        {this.props.rooms.map(room => (
+          <li key={room.gameID}>
+            <span>{room.gameID}</span>
+            <p>Players</p>
+            <ul>
+              {room.players
+                .filter(({ name }) => name !== undefined)
+                .map(({ name }) => (
+                  <li>{name}</li>
+                ))}
+              <li>
+                <input
+                  onChange={e => this.setState({ name: e.target.value })}
+                  placeholder="Enter Name"
+                />
+                <button onClick={() => this.joinGame(room.gameID)}>Join</button>
+              </li>
+            </ul>
+          </li>
+        ))}
+      </>
+    );
+  }
+}
 class Home extends Component {
   static propTypes = {
     history: PropTypes.array
@@ -12,15 +69,17 @@ class Home extends Component {
     gameID: "",
     numPlayers: 2,
     playerID: 0,
-    playerName: ""
+    playerName: "",
+    rooms: []
   };
 
   componentDidMount() {
     this.getPrePopulatedValues();
+    this.getGames();
   }
 
-  createGame = (numPlayers = this.state.numPlayers) => {
-    request
+  createGame = async (numPlayers = this.state.numPlayers) => {
+    await request
       .post("http://localhost:5556/games/default/create")
       .send({
         numPlayers
@@ -28,6 +87,20 @@ class Home extends Component {
       .end((err, { body }) => {
         if (!err) {
           this.setState({ gameID: body.gameID });
+        } else {
+          throw new Error(`Error Creating Game: numPlayers ${numPlayers} `);
+        }
+      });
+    this.getGames();
+  };
+
+  getGames = () => {
+    request
+      .get("http://localhost:5556/games/default")
+      .send()
+      .end((err, { body: { rooms } }) => {
+        if (!err) {
+          this.setState({ rooms });
         } else {
           throw new Error(`Error Creating Game: numPlayers ${numPlayers} `);
         }
@@ -53,30 +126,26 @@ class Home extends Component {
     });
   };
 
-  joinGame = () => {
+  joinGame = (gameID, playerID, playerName) => {
     const errorJoiningGame = () => {
       throw new Error(
-        `Error Joining Game:  gameID: ${this.state.gameID}, playerID: ${
-          this.state.playerID
-        }, playerName: ${this.state.playerName}`
+        `Error Joining Game:  gameID: ${gameID}, playerID: ${playerID}, playerName: ${playerName}`
       );
     };
 
-    if (this.state.gameID && this.state.playerName) {
+    if (gameID && playerName) {
       request
-        .post(`http://localhost:5556/games/default/${this.state.gameID}/join`)
+        .post(`http://localhost:5556/games/default/${gameID}/join`)
         .send({
-          playerID: this.state.playerID,
-          playerName: this.state.playerName
+          playerID: playerID,
+          playerName: playerName
         })
         .end((err, { body }) => {
           if (!err) {
             const { playerCredentials } = body;
             this.setState({ playerCredentials }, () => {
               this.props.history.push(
-                `/game/${this.state.gameID}/${this.state.playerCredentials}/${
-                  this.state.playerID
-                }`
+                `/game/${gameID}/${playerCredentials}/${playerID}`
               );
             });
           } else {
@@ -105,14 +174,17 @@ class Home extends Component {
             value={this.state.numPlayers}
           />
         </label>
-        <button data-test-id="createGameButton" onClick={() => this.createGame()}>
+        <button
+          data-test-id="createGameButton"
+          onClick={() => this.createGame()}
+        >
           Create Game
         </button>
         <h2>Join Game</h2>
         <label>
           Game ID
           <input
-            id='gameId'
+            id="gameId"
             data-test-id="gameId"
             type="text"
             onChange={e => {
@@ -133,7 +205,7 @@ class Home extends Component {
             value={this.state.playerID}
           />
         </label>
-        <label> 
+        <label>
           Player Name
           <input
             data-test-id="playerName"
@@ -146,12 +218,22 @@ class Home extends Component {
           />
         </label>
         <button
-          data-test-id='joinGame'
+          data-test-id="joinGame"
           disabled={!(this.state.gameID && this.state.playerName)}
-          onClick={() => this.joinGame()}
+          onClick={() =>
+            this.joinGame(
+              this.state.gameID,
+              this.state.playerID,
+              this.state.playerName
+            )
+          }
         >
           Join Game
         </button>
+        <div>
+          <h3>Rooms</h3>
+          <RoomList rooms={this.state.rooms} joinGame={this.joinGame} />
+        </div>
       </div>
     );
   }

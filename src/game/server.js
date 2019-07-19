@@ -16,6 +16,8 @@ router.get("/(.*)", async ctx => {
   await send(ctx, "dist/index.html");
 });
 server.app.use(router.routes());
-server.run(Number(process.env.PORT));
+
+const port = Number(process.env.PORT)
+server.run({port, lobbyConfig: {apiPort: port + 1}});
 
 console.log("Server Started on " + process.env.PORT);

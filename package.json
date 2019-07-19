@@ -5,10 +5,10 @@
   "main": "index.js",
   "scripts": {
     "start": "npm run build && npm run server",
+    "dev": "parcel src/index.html --open",
     "build": "parcel build --log-level 3 --no-minify src/index.html && npm run build:server",
     "build:server": "parcel build --target=node --log-level 3 --no-minify src/game/server.js",
     "e2e": "cypress open",
-    "dev": "parcel src/index.html --open",
     "server": "node dist/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -22,13 +22,17 @@
     "babel-eslint": "^10.0.2",
     "cypress": "^3.4.0",
     "eslint": "^6.0.1",
+    "eslint-config-prettier": "^6.0.0",
     "eslint-plugin-cypress": "^2.6.0",
     "eslint-plugin-immutable": "^1.0.0",
     "eslint-plugin-react": "^7.14.2",
     "parcel-bundler": "^1.12.3",
+    "prettier": "1.18.2",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
-    "react-dom": "^16.8.6"
+    "react-dom": "^16.8.6",
+    "tslint": "^5.18.0",
+    "tslint-microsoft-contrib": "^6.2.0"
   },
   "dependencies": {
     "@babel/polyfill": "^7.4.4",
@@ -39,6 +43,7 @@
     "koa-static": "^5.0.0",
     "query-string": "^6.8.1",
     "react-router-dom": "^5.0.1",
-    "superagent": "^5.1.0"
+    "superagent": "^5.1.0",
+    "typescript": "^3.5.3"
   }
 }

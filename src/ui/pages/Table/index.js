@@ -37,7 +37,7 @@ class Table extends Component {
 
   render() {
     return (
-      <React.Fragment>
+      <>
         <Meta.Provider
           value={{
             G: this.props.G,
@@ -48,7 +48,7 @@ class Table extends Component {
         >
           <h2>Table!</h2>
           {this.props.G.gameStarted === false ? (
-            <React.Fragment>
+            <>
               <button
                 onClick={() => this.props.moves.joinGame(this.props.playerID)}
               >
@@ -57,9 +57,9 @@ class Table extends Component {
               <button onClick={() => this.props.moves.startGame()}>
                 Start Game
               </button>
-            </React.Fragment>
+            </>
           ) : (
-            <React.Fragment>
+            <>
               <h3>{this.props.ctx.phase}</h3>
               <DrawCardButton
                 onClick={() => this.props.moves.drawCard(this.props.playerID)}
@@ -89,10 +89,10 @@ class Table extends Component {
                   </li>
                 ))}
               </ul>
-            </React.Fragment>
+            </>
           )}
         </Meta.Provider>
-      </React.Fragment>
+      </>
     );
   }
 }

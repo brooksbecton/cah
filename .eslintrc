@@ -1,5 +1,5 @@
 {
-  "extends": ["plugin:react/recommended"],
+  "extends": ["plugin:prettier/recommended"],
   "globals": {
     "document": true,
     "location": true
