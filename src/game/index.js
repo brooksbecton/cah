@@ -1,6 +1,6 @@
 import { Game, TurnOrder } from "boardgame.io/core";
 
-import cards from "./../constants/cards.js";
+import { cards } from "./../constants/cards";
 import drawCard from "./../utils/drawCard";
 import filterPlayerCards from "./../utils/filterPlayersCards";
 
@@ -63,15 +63,15 @@ export const cah = Game({
     }
   },
   flow: {
-    phases: [
-      {
-        name: "setup phase",
+    startingPhase: "setup",
+    phases: {
+      setup: {
         allowedMoves: ["joinGame", "startGame"],
         turnOrder: TurnOrder.ANY,
-        endPhaseIf: G => G.gameStarted === true
+        endPhaseIf: G => G.gameStarted === true,
+        next: "draw"
       },
-      {
-        name: "draw phase",
+      draw: {
         allowedMoves: ["drawCard"],
         onPhaseBegin: G => {
           const { card, deck } = drawCard(G.blackCards);
@@ -84,10 +84,10 @@ export const cah = Game({
         endPhaseIf: (G, ctx) => {
           return G.hand.length === ctx.numPlayers * 10;
         },
-        turnOrder: TurnOrder.ANY
+        turnOrder: TurnOrder.ANY,
+        next: "play"
       },
-      {
-        name: "play phase",
+      play: {
         allowedMoves: ["playCard"],
         endTurnIf: G => {
           return (
@@ -98,15 +98,16 @@ export const cah = Game({
         },
         endPhaseIf: (G, ctx) =>
           G.playedCards.length === ctx.numPlayers * G.currentBlackCard.pick - 1,
-        turnOrder: TurnOrder.ANY
+        turnOrder: TurnOrder.ANY,
+        next: "vote"
       },
-      {
-        name: "vote phase",
+      vote: {
         allowedMoves: ["voteCard"],
         endPhaseIf: G => G.playedCards.length === 0,
-        turnOrder: TurnOrder.ANY
+        turnOrder: TurnOrder.ANY,
+        next: "vote"
       }
-    ],
+    },
     setActionPlayers: true
   }
 });

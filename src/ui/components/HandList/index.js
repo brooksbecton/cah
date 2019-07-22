@@ -31,9 +31,12 @@ class HandList extends Component {
                     {card.text}
                     <button
                       disabled={
-                        ctx.phase !== "play phase" ||
+                        ctx.phase !== "play" ||
                         Number(playerID) === Number(G.currentCzarID) ||
-                        this.hasPlayedCard({ playerID, playedCards: G.playedCards })
+                        this.hasPlayedCard({
+                          playerID,
+                          playedCards: G.playedCards
+                        })
                       }
                       onClick={() => this.props.playCard(card)}
                     >

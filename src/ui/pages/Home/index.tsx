@@ -1,88 +1,41 @@
+import { parse } from "query-string";
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 import request from "superagent";
-import { parse } from "query-string";
+import { IRooms } from "./../../../types/IRooms";
+import { RoomList } from "./RoomList";
 
-class RoomList extends Component {
-  static propTypes = {
-    rooms: PropTypes.shape({
-      gameID: PropTypes.string,
-      players: PropTypes.arrayOf(
-        PropTypes.shape({ name: PropTypes.string, id: PropTypes.number })
-      )
-    }),
-    joinGame: PropTypes.func
-  };
-
-  constructor(props) {
-    super(props);
-
-    this.state = { name: "" };
-  }
-
-  joinGame = (
-    gameID,
-    playerName = this.state.name,
-    rooms = this.props.rooms
-  ) => {
-    const room = rooms.filter(({ gID }) => gID !== gameID).pop();
-    const openPlayer = room.players.filter(p => p.name === undefined)[0];
-    const playerID = openPlayer.id;
-
-    this.props.joinGame(gameID, playerID, playerName);
-  };
-
-  render() {
-    return (
-      <>
-        {this.props.rooms.map(room => (
-          <li key={room.gameID}>
-            <span>{room.gameID}</span>
-            <p>Players</p>
-            <ul>
-              {room.players
-                .filter(({ name }) => name !== undefined)
-                .map(({ name }) => (
-                  <li>{name}</li>
-                ))}
-              <li>
-                <input
-                  onChange={e => this.setState({ name: e.target.value })}
-                  placeholder="Enter Name"
-                />
-                <button onClick={() => this.joinGame(room.gameID)}>Join</button>
-              </li>
-            </ul>
-          </li>
-        ))}
-      </>
-    );
-  }
+interface IProps {
+  history: string[];
 }
-class Home extends Component {
-  static propTypes = {
-    history: PropTypes.array
-  };
 
-  state = {
+interface IState {
+  gameID: string;
+  numPlayers: number;
+  playerID: number;
+  playerName: string;
+  rooms: IRooms;
+}
+
+class Home extends Component<IProps, IState> {
+  public state: IState = {
     gameID: "",
     numPlayers: 2,
     playerID: 0,
     playerName: "",
-    rooms: []
+    rooms: [],
   };
 
-  componentDidMount() {
+  public componentDidMount() {
     this.getPrePopulatedValues();
     this.getGames();
   }
 
-  createGame = async (numPlayers = this.state.numPlayers) => {
+  public createGame = async (numPlayers = this.state.numPlayers) => {
     await request
       .post("http://localhost:5556/games/default/create")
       .send({
-        numPlayers
+        numPlayers,
       })
       .end((err, { body }) => {
         if (!err) {
@@ -92,9 +45,9 @@ class Home extends Component {
         }
       });
     this.getGames();
-  };
+  }
 
-  getGames = () => {
+  public getGames = () => {
     request
       .get("http://localhost:5556/games/default")
       .send()
@@ -102,13 +55,17 @@ class Home extends Component {
         if (!err) {
           this.setState({ rooms });
         } else {
-          throw new Error(`Error Creating Game: numPlayers ${numPlayers} `);
+          throw new Error(
+            `Error Creating Game: numPlayers ${this.state.numPlayers} `,
+          );
         }
       });
-  };
+  }
 
-  getPrePopulatedValues = () => {
-    const { gameID, numPlayers, playerID, playerName } = parse(location.search);
+  public getPrePopulatedValues = () => {
+    const { gameID, numPlayers, playerID, playerName }: Partial<IState> = parse(
+      location.search,
+    );
 
     // Use new values if availible otherwise use default state
     const newGameID = gameID ? gameID : this.state.gameID;
@@ -116,20 +73,18 @@ class Home extends Component {
     const newPlayerID = playerID ? playerID : this.state.playerID;
     const newPlayerName = playerName ? playerName : this.state.playerName;
 
-    this.setState(() => {
-      return {
-        gameID: newGameID,
-        numPlayers: newNumPlayers,
-        playerID: newPlayerID,
-        playerName: newPlayerName
-      };
+    this.setState({
+      gameID: newGameID,
+      numPlayers: newNumPlayers,
+      playerID: newPlayerID,
+      playerName: newPlayerName,
     });
-  };
+  }
 
-  joinGame = (gameID, playerID, playerName) => {
+  public joinGame = (gameID: string, playerID: number, playerName: string) => {
     const errorJoiningGame = () => {
       throw new Error(
-        `Error Joining Game:  gameID: ${gameID}, playerID: ${playerID}, playerName: ${playerName}`
+        `Error Joining Game:  gameID: ${gameID}, playerID: ${playerID}, playerName: ${playerName}`,
       );
     };
 
@@ -137,15 +92,15 @@ class Home extends Component {
       request
         .post(`http://localhost:5556/games/default/${gameID}/join`)
         .send({
-          playerID: playerID,
-          playerName: playerName
+          playerID,
+          playerName,
         })
-        .end((err, { body }) => {
+        .end((err, { body }: { body: Partial<IState> }) => {
           if (!err) {
             const { playerCredentials } = body;
             this.setState({ playerCredentials }, () => {
               this.props.history.push(
-                `/game/${gameID}/${playerCredentials}/${playerID}`
+                `/game/${gameID}/${playerCredentials}/${playerID}`,
               );
             });
           } else {
@@ -155,9 +110,9 @@ class Home extends Component {
     } else {
       errorJoiningGame();
     }
-  };
+  }
 
-  render() {
+  public render() {
     return (
       <div>
         <h1>Home</h1>
@@ -167,7 +122,7 @@ class Home extends Component {
           <input
             id="numPlayers"
             type="number"
-            onChange={e => {
+            onChange={(e) => {
               const numPlayers = Number(e.target.value);
               this.setState({ numPlayers });
             }}
@@ -187,7 +142,7 @@ class Home extends Component {
             id="gameId"
             data-test-id="gameId"
             type="text"
-            onChange={e => {
+            onChange={(e) => {
               this.setState({ gameID: e.target.value });
             }}
             value={this.state.gameID}
@@ -198,8 +153,8 @@ class Home extends Component {
           <input
             data-test-id="playerId"
             type="text"
-            onChange={e => {
-              const playerID = e.target.value;
+            onChange={(e) => {
+              const playerID = Number(e.target.value);
               this.setState({ playerID });
             }}
             value={this.state.playerID}
@@ -210,7 +165,7 @@ class Home extends Component {
           <input
             data-test-id="playerName"
             type="text"
-            onChange={e => {
+            onChange={(e) => {
               const playerName = e.target.value;
               this.setState({ playerName });
             }}
@@ -224,7 +179,7 @@ class Home extends Component {
             this.joinGame(
               this.state.gameID,
               this.state.playerID,
-              this.state.playerName
+              this.state.playerName,
             )
           }
         >

@@ -1,6 +1,9 @@
 {
-  "extends": ["tslint:recommended", "tslint-microsoft-contrib"],
+  "extends": ["tslint:recommended", "tslint-react"],
   "jsRules": {},
-  "rules": {},
+  "rules": {
+    "jsx-no-multiline-js": false,
+    "jsx-no-lambda": false
+  },
   "rulesDirectory": []
 }

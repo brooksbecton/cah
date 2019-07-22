@@ -16,7 +16,7 @@ class DrawCardButton extends Component {
           return (
             <button
               disabled={
-                ctx.phase !== "draw phase" ||
+                ctx.phase !== "draw" ||
                 filterPlayersCards(G.hand, playerID).length >= 10
               }
               onClick={this.props.onClick}

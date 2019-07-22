@@ -24,7 +24,7 @@ class PlayedCardsList extends Component {
                 playerID {card.playerID}
                 <button
                   disabled={
-                    ctx.phase !== "vote phase" || Number(playerID) !== Number(G.currentCzarID)
+                    ctx.phase !== "vote" || Number(playerID) !== Number(G.currentCzarID)
                   }
                   onClick={() => this.props.voteCard(card)}
                 >
