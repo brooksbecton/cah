@@ -47,20 +47,25 @@ class Table extends Component {
           }}
         >
           <h2>Table!</h2>
+          <h3 data-test-id="phase">{this.props.ctx.phase}</h3>
           {this.props.G.gameStarted === false ? (
             <>
               <button
+                data-test-id="join-game-button"
                 onClick={() => this.props.moves.joinGame(this.props.playerID)}
               >
                 Join Game
               </button>
-              <button onClick={() => this.props.moves.startGame()}>
+
+              <button
+                data-test-id="start-game-button"
+                onClick={() => this.props.moves.startGame()}
+              >
                 Start Game
               </button>
             </>
           ) : (
             <>
-              <h3>{this.props.ctx.phase}</h3>
               <DrawCardButton
                 onClick={() => this.props.moves.drawCard(this.props.playerID)}
               />

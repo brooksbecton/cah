@@ -105,7 +105,7 @@ export const cah = Game({
         allowedMoves: ["voteCard"],
         endPhaseIf: G => G.playedCards.length === 0,
         turnOrder: TurnOrder.ANY,
-        next: "vote"
+        next: "draw"
       }
     },
     setActionPlayers: true

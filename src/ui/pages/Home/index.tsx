@@ -1,13 +1,9 @@
 import { parse } from "query-string";
 import React, { Component } from "react";
-import { withRouter } from "react-router-dom";
+import { RouteComponentProps, withRouter } from "react-router-dom";
 import request from "superagent";
 import { IRooms } from "./../../../types/IRooms";
 import { RoomList } from "./RoomList";
-
-interface IProps {
-  history: string[];
-}
 
 interface IState {
   gameID: string;
@@ -15,12 +11,14 @@ interface IState {
   playerID: number;
   playerName: string;
   rooms: IRooms;
+  playerCredentials: string;
 }
 
-class Home extends Component<IProps, IState> {
+class Home extends Component<RouteComponentProps, IState> {
   public state: IState = {
     gameID: "",
     numPlayers: 2,
+    playerCredentials: "",
     playerID: 0,
     playerName: "",
     rooms: [],

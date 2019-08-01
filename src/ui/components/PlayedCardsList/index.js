@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import Meta from "./../../Context/Meta";
 class PlayedCardsList extends Component {
-
   static propTypes = {
     playedCards: PropTypes.arrayOf(
       PropTypes.shape({
@@ -17,16 +16,18 @@ class PlayedCardsList extends Component {
     return (
       <Meta.Consumer>
         {({ G, ctx, playerID }) => (
-          <ul>
+          <ul data-test-id="played-card-list">
             {this.props.playedCards.map(card => (
               <li key={card.text}>
                 {card.text}
                 playerID {card.playerID}
                 <button
                   disabled={
-                    ctx.phase !== "vote" || Number(playerID) !== Number(G.currentCzarID)
+                    ctx.phase !== "vote" ||
+                    Number(playerID) !== Number(G.currentCzarID)
                   }
                   onClick={() => this.props.voteCard(card)}
+                  data-test-id="vote-card-button"
                 >
                   Vote
                 </button>

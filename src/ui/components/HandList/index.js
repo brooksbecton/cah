@@ -12,17 +12,18 @@ class HandList extends Component {
     playCard: PropTypes.func
   };
 
-  hasPlayedCard = ({ playerID = "", playedCards = [] }) => {
-    return !playedCards
+  playedCardsCount = ({ playerID = "", playedCards = [] }) => {
+    const playersCardCount = playedCards
       .map(({ playerID }) => playerID)
-      .every(cardOwnerID => cardOwnerID !== playerID);
+      .filter(cardOwnerID => cardOwnerID !== playerID).length;
+    return playersCardCount;
   };
 
   render() {
     return (
       <Meta.Consumer>
         {({ G, ctx, playerID }) => (
-          <ol>
+          <ol data-test-id="players-hand">
             {this.props.cardList
               .filter(({ playerID: ownerID }) => ownerID === playerID)
               .map(card => {
@@ -33,11 +34,12 @@ class HandList extends Component {
                       disabled={
                         ctx.phase !== "play" ||
                         Number(playerID) === Number(G.currentCzarID) ||
-                        this.hasPlayedCard({
+                        this.playedCardsCount({
                           playerID,
                           playedCards: G.playedCards
-                        })
+                        }) === G.currentBlackCard.pick
                       }
+                      data-test-id="play-card-button"
                       onClick={() => this.props.playCard(card)}
                     >
                       Play Card
