@@ -72,7 +72,7 @@ export const cah = Game({
         next: "draw"
       },
       draw: {
-        allowedMoves: ["drawCard"],
+        allowedMoves: ["drawCard", "drawHand"],
         onPhaseBegin: G => {
           const { card, deck } = drawCard(G.blackCards);
           return { ...G, blackCards: deck, currentBlackCard: card };

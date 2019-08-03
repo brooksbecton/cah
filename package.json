@@ -46,7 +46,9 @@
     "koa-send": "^5.0.0",
     "koa-static": "^5.0.0",
     "query-string": "^6.8.1",
+    "react-beautiful-dnd": "^11.0.5",
     "react-router-dom": "^5.0.1",
+    "styled-components": "^4.3.2",
     "superagent": "^5.1.0",
     "typescript": "^3.5.3"
   }

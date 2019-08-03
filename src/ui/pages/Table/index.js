@@ -2,12 +2,15 @@ import { Client } from "boardgame.io/react";
 import { withRouter } from "react-router-dom";
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+
 import filterPlayersCards from "./../../../utils/filterPlayersCards";
 import DrawCardButton from "./../../components/DrawCardButton";
-import HandList from "./../../components/HandList";
+import { HandList } from "./HandList";
 import PlayedCardsList from "./../../components/PlayedCardsList";
 import Meta from "./../../Context/Meta";
 import game from "./../../../game";
+import { BlackCardArea } from "./BlackCardArea";
 
 class Table extends Component {
   static propTypes = {
@@ -18,22 +21,9 @@ class Table extends Component {
     gameID: PropTypes.string
   };
 
-  constructor() {
-    super();
-  }
-
   /**
    * Draws a card for a player until they reach their hand limit
    */
-  drawHand = (
-    cardsNeeded = 10 -
-      filterPlayersCards(this.props.G.hand, this.props.playerID).length
-  ) => {
-    if (cardsNeeded !== 0) {
-      this.props.moves.drawCard(this.props.playerID);
-      this.drawHand(cardsNeeded - 1);
-    }
-  };
 
   render() {
     return (
@@ -46,9 +36,7 @@ class Table extends Component {
             gameID: this.props.gameID
           }}
         >
-          <h2>Table!</h2>
-          <h3 data-test-id="phase">{this.props.ctx.phase}</h3>
-          {this.props.G.gameStarted === false ? (
+          {this.props.G.gameStarted === false || false ? (
             <>
               <button
                 data-test-id="join-game-button"
@@ -65,36 +53,44 @@ class Table extends Component {
               </button>
             </>
           ) : (
-            <>
+            <div style={{ maxWidth: 400 }}>
               <DrawCardButton
                 onClick={() => this.props.moves.drawCard(this.props.playerID)}
               />
+              <BlackCardArea text={this.props.G.currentBlackCard.text} />
+              <div
+                style={{
+                  backgroundColor: "#F4F4F4",
+                  width: "100%",
+                  height: "100%",
+                  padding: 10
+                }}
+              >
+                <h2 style={{ fontSize: 14 }}>Your Cards</h2>
+                <HandList
+                  playCard={cardText =>
+                    this.props.moves.playCard(cardText, this.props.playerID)
+                  }
+                  cardList={this.props.G.hand}
+                  playerID={this.props.playerID}
+                />
 
-              <HandList
-                playCard={cardText =>
-                  this.props.moves.playCard(cardText, this.props.playerID)
-                }
-                cardList={this.props.G.hand}
-              />
+                {/* <h3>Played Cards</h3>
+                <PlayedCardsList
+                  playedCards={this.props.G.playedCards}
+                  voteCard={card => this.props.moves.voteCard(card)}
+                />
 
-              <h3>Played Cards</h3>
-              <PlayedCardsList
-                playedCards={this.props.G.playedCards}
-                voteCard={card => this.props.moves.voteCard(card)}
-              />
-
-              <h3>Black Card</h3>
-              <p>{this.props.G.currentBlackCard.text}</p>
-
-              <h3>Winner Cards</h3>
-              <ul>
-                {this.props.G.winnerCards.map(card => (
-                  <li key={card.textr}>
-                    {card.playerID}: {card.text}
-                  </li>
-                ))}
-              </ul>
-            </>
+                <h3>Winner Cards</h3>
+                <ul>
+                  {this.props.G.winnerCards.map(card => (
+                    <li key={card.textr}>
+                      {card.playerID}: {card.text}
+                    </li>
+                  ))}
+                </ul> */}
+              </div>
+            </div>
           )}
         </Meta.Provider>
       </>
