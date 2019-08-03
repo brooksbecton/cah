@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import React, { Component } from "react";
-import { WhiteCard } from "./WhiteCard";
+import { Draggable } from "react-beautiful-dnd";
 
 interface ICard {
   playerID: string;
@@ -26,11 +26,6 @@ export class HandList extends Component<IProps> {
     },
     playedCards: [],
     playerID: "",
-  };
-
-  public static propTypes = {
-    cardList: PropTypes.arrayOf(PropTypes.string),
-    playCard: PropTypes.func,
   };
 
   public playedCardsCount = ({
@@ -68,28 +63,43 @@ export class HandList extends Component<IProps> {
       >
         {this.props.cardList
           .filter(({ playerID: ownerID }) => ownerID === playerID)
-          .map((card) => {
+          .map((card, index) => {
             return (
-              <li key={card.text}>
-                <div
-                  style={{
-                    alignItems: "flex-start",
-                    backgroundColor: "white",
-                    borderColor: "#707070",
-                    borderStyle: "solid",
-                    borderWidth: 1,
-                    color: "black",
-                    display: "flex",
-                    flexDirection: "column",
-                    fontWeight: "bold",
-                    height: 50,
-                    marginBottom: 20,
-                    padding: 10,
-                  }}
-                >
-                  <p style={{ margin: 0 }}>{card.text}</p>
-                </div>
-              </li>
+              <Draggable
+                key={`${card.text}-${index}`}
+                draggableId={`${card.text}-${index}`}
+                index={index}
+              >
+                {(provided) => (
+                  <>
+                    <li
+                      ref={provided.innerRef}
+                      key={card.text}
+                      {...provided.draggableProps}
+                      {...provided.dragHandleProps}
+                    >
+                      <div
+                        style={{
+                          alignItems: "flex-start",
+                          backgroundColor: "white",
+                          borderColor: "#707070",
+                          borderStyle: "solid",
+                          borderWidth: 1,
+                          color: "black",
+                          display: "flex",
+                          flexDirection: "column",
+                          fontWeight: "bold",
+                          height: 50,
+                          marginBottom: 20,
+                          padding: 10,
+                        }}
+                      >
+                        <p style={{ margin: 0 }}>{card.text}</p>
+                      </div>
+                    </li>
+                  </>
+                )}
+              </Draggable>
             );
           })}
       </ul>

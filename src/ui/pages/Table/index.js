@@ -1,7 +1,6 @@
 import { Client } from "boardgame.io/react";
 import { withRouter } from "react-router-dom";
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 import filterPlayersCards from "./../../../utils/filterPlayersCards";
@@ -13,13 +12,51 @@ import game from "./../../../game";
 import { BlackCardArea } from "./BlackCardArea";
 
 class Table extends Component {
-  static propTypes = {
-    moves: PropTypes.object,
-    G: PropTypes.object,
-    playerID: PropTypes.string,
-    ctx: PropTypes.object,
-    gameID: PropTypes.string
+  constructor(props) {
+    super();
+
+    this.state = {
+      whiteCards: props.G.hand
+    };
+  }
+
+  reorder = (list, startIndex, endIndex) => {
+    const result = Array.from(list);
+    const [removed] = result.splice(startIndex, 1);
+    result.splice(endIndex, 0, removed);
+
+    return result;
   };
+
+  onDragEnd = result => {
+    // dropped outside the list
+    if (!result.destination) {
+      return;
+    }
+
+    if (result.destination.droppableId === "white-card-area") {
+      const whiteCards = this.reorder(
+        this.state.whiteCards,
+        result.source.index,
+        result.destination.index
+      );
+
+      this.setState({
+        whiteCards
+      });
+    }
+
+    if (result.destination.droppableId === "black-card-area") {
+      const playedCard = this.state.whiteCards[result.source.index];
+      this.props.moves.playCard(playedCard.text, this.props.playerID);
+    }
+  };
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.G.hand.length !== this.props.G.hand.length) {
+      this.setState({ whiteCards: this.props.G.hand });
+    }
+  }
 
   /**
    * Draws a card for a player until they reach their hand limit
@@ -27,7 +64,7 @@ class Table extends Component {
 
   render() {
     return (
-      <>
+      <DragDropContext onDragEnd={this.onDragEnd}>
         <Meta.Provider
           value={{
             G: this.props.G,
@@ -57,58 +94,60 @@ class Table extends Component {
               <DrawCardButton
                 onClick={() => this.props.moves.drawCard(this.props.playerID)}
               />
+
               <BlackCardArea text={this.props.G.currentBlackCard.text} />
-              <div
-                style={{
-                  backgroundColor: "#F4F4F4",
-                  width: "100%",
-                  height: "100%",
-                  padding: 10
-                }}
-              >
-                <h2 style={{ fontSize: 14 }}>Your Cards</h2>
-                <HandList
-                  playCard={cardText =>
-                    this.props.moves.playCard(cardText, this.props.playerID)
-                  }
-                  cardList={this.props.G.hand}
-                  playerID={this.props.playerID}
-                />
 
-                {/* <h3>Played Cards</h3>
-                <PlayedCardsList
-                  playedCards={this.props.G.playedCards}
-                  voteCard={card => this.props.moves.voteCard(card)}
-                />
-
+              <Droppable droppableId="white-card-area">
+                {provided => (
+                  <div ref={provided.innerRef} {...provided.droppableProps}>
+                    <div
+                      style={{
+                        backgroundColor: "#F4F4F4",
+                        width: "100%",
+                        height: "100%",
+                        padding: 10
+                      }}
+                    >
+                      <h2 style={{ fontSize: 14 }}>Your Cards</h2>
+                      <HandList
+                        playCard={cardText =>
+                          this.props.moves.playCard(
+                            cardText,
+                            this.props.playerID
+                          )
+                        }
+                        cardList={this.state.whiteCards}
+                        playerID={this.props.playerID}
+                      />
+                      {/*
+       
                 <h3>Winner Cards</h3>
                 <ul>
                   {this.props.G.winnerCards.map(card => (
-                    <li key={card.textr}>
+                    <li key={card.text}>
                       {card.playerID}: {card.text}
                     </li>
                   ))}
                 </ul> */}
-              </div>
+                      {provided.placeholder}
+                    </div>
+                  </div>
+                )}
+              </Droppable>
+              <h3>Played Cards</h3>
+              <PlayedCardsList
+                playedCards={this.props.G.playedCards}
+                voteCard={card => this.props.moves.voteCard(card)}
+              />
             </div>
           )}
         </Meta.Provider>
-      </>
+      </DragDropContext>
     );
   }
 }
 
 class TableSeat extends Component {
-  static propTypes = {
-    match: PropTypes.shape({
-      params: PropTypes.shape({
-        gameID: PropTypes.string,
-        playerCredentials: PropTypes.string,
-        playerID: PropTypes.string
-      })
-    })
-  };
-
   render() {
     const Cah = Client({
       board: Table,
