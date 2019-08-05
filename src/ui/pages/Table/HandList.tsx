@@ -69,6 +69,7 @@ export class HandList extends Component<IProps> {
                 key={`${card.text}-${index}`}
                 draggableId={`${card.text}-${index}`}
                 index={index}
+                // isDragDisabled={isDisabled}
               >
                 {(provided) => (
                   <>

@@ -10,7 +10,6 @@ export const cah = Game({
     currentCzarID: 0,
     name: "cah",
     playerID: null,
-    playersID: [],
     winnerCards: [],
     playedCards: [],
     gameStarted: false,
@@ -20,13 +19,6 @@ export const cah = Game({
   }),
 
   moves: {
-    joinGame: (G, ctx, playerID) => {
-      return {
-        ...G,
-        playerCount: G.playerCount + 1,
-        playersID: [...G.playersID, playerID]
-      };
-    },
     startGame: G => {
       return { ...G, gameStarted: true };
     },
@@ -39,19 +31,22 @@ export const cah = Game({
       };
     },
     playCard: (G, ctx, card) => {
-      const cardIndex = G.hand.map(({ text }) => text).indexOf(card.text);
+      // Don't allow czar to play card on their turn
+      if (Number(card.playerID) !== Number(G.currentCzarID)) {
+        const cardIndex = G.hand.map(({ text }) => text).indexOf(card.text);
 
-      // Removing played card from hand
-      const newHand = [
-        ...G.hand.slice(0, cardIndex),
-        ...G.hand.slice(cardIndex + 1)
-      ];
+        // Removing played card from hand
+        const newHand = [
+          ...G.hand.slice(0, cardIndex),
+          ...G.hand.slice(cardIndex + 1)
+        ];
 
-      return {
-        ...G,
-        hand: newHand,
-        playedCards: [...G.playedCards, card]
-      };
+        return {
+          ...G,
+          hand: newHand,
+          playedCards: [...G.playedCards, card]
+        };
+      }
     },
     voteCard: (G, ctx, card) => {
       return {
@@ -66,7 +61,7 @@ export const cah = Game({
     startingPhase: "setup",
     phases: {
       setup: {
-        allowedMoves: ["joinGame", "startGame"],
+        allowedMoves: ["startGame"],
         turnOrder: TurnOrder.ANY,
         endPhaseIf: G => G.gameStarted === true,
         next: "draw"

@@ -1,7 +1,7 @@
 import { Client } from "boardgame.io/react";
 import { withRouter } from "react-router-dom";
 import React, { Component } from "react";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { DragDropContext, Droppable } from "react-beautiful-dnd";
 
 import filterPlayersCards from "./../../../utils/filterPlayersCards";
 import DrawCardButton from "./../../components/DrawCardButton";
@@ -48,13 +48,19 @@ class Table extends Component {
 
     if (result.destination.droppableId === "black-card-area") {
       const playedCard = this.state.whiteCards[result.source.index];
-      this.props.moves.playCard(playedCard.text, this.props.playerID);
+
+      if(playedCard.playerID !== )
+      this.props.moves.playCard(playedCard, this.props.playerID);
     }
   };
 
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.G.hand.length !== this.props.G.hand.length) {
-      this.setState({ whiteCards: this.props.G.hand });
+      this.setState({
+        whiteCards: this.props.G.hand.filter(
+          ({ playerID }) => playerID === this.props.playerID
+        )
+      });
     }
   }
 
@@ -76,13 +82,6 @@ class Table extends Component {
           {this.props.G.gameStarted === false || false ? (
             <>
               <button
-                data-test-id="join-game-button"
-                onClick={() => this.props.moves.joinGame(this.props.playerID)}
-              >
-                Join Game
-              </button>
-
-              <button
                 data-test-id="start-game-button"
                 onClick={() => this.props.moves.startGame()}
               >
@@ -94,6 +93,7 @@ class Table extends Component {
               <DrawCardButton
                 onClick={() => this.props.moves.drawCard(this.props.playerID)}
               />
+              {this.props.ctx.phase}
 
               <BlackCardArea text={this.props.G.currentBlackCard.text} />
 
