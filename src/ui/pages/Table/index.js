@@ -49,7 +49,6 @@ class Table extends Component {
     if (result.destination.droppableId === "black-card-area") {
       const playedCard = this.state.whiteCards[result.source.index];
 
-      if(playedCard.playerID !== )
       this.props.moves.playCard(playedCard, this.props.playerID);
     }
   };
