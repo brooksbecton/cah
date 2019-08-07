@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { Draggable } from "react-beautiful-dnd";
+import { WhiteCard } from "./WhiteCard";
 
 interface ICard {
   playerID: string;
@@ -72,33 +73,14 @@ export class HandList extends Component<IProps> {
                 // isDragDisabled={isDisabled}
               >
                 {(provided) => (
-                  <>
                     <li
                       ref={provided.innerRef}
                       key={card.text}
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
                     >
-                      <div
-                        style={{
-                          alignItems: "flex-start",
-                          backgroundColor: "white",
-                          borderColor: "#707070",
-                          borderStyle: "solid",
-                          borderWidth: 1,
-                          color: "black",
-                          display: "flex",
-                          flexDirection: "column",
-                          fontWeight: "bold",
-                          height: 50,
-                          marginBottom: 20,
-                          padding: 10,
-                        }}
-                      >
-                        <p style={{ margin: 0 }}>{card.text}</p>
-                      </div>
+                      <WhiteCard text={card.text} />
                     </li>
-                  </>
                 )}
               </Draggable>
             );

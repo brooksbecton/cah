@@ -1,8 +1,8 @@
-import React from 'react';
+import React from "react";
 
 const defaultMetaValues = {
-    playerID: "",
-    gameID: ""
+  gameID: "",
+  playerID: "",
 };
 
 /**

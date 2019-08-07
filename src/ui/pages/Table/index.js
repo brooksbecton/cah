@@ -88,13 +88,18 @@ class Table extends Component {
               </button>
             </>
           ) : (
-            <div style={{ maxWidth: 400 }}>
+            <div style={{ maxWidth: 375 }}>
               <DrawCardButton
                 onClick={() => this.props.moves.drawCard(this.props.playerID)}
               />
               {this.props.ctx.phase}
 
-              <BlackCardArea text={this.props.G.currentBlackCard.text} />
+              <BlackCardArea
+                blackCardText={this.props.G.currentBlackCard.text}
+                currentCzarId={this.props.G.currentCzarID}
+                playedCards={this.props.G.playedCards}
+                currentPlayerId={Number(this.props.playerID)}
+              />
 
               <Droppable droppableId="white-card-area">
                 {provided => (
