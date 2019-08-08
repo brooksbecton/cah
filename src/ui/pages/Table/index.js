@@ -88,17 +88,23 @@ class Table extends Component {
               </button>
             </>
           ) : (
-            <div style={{ maxWidth: 375 }}>
+            <div
+              style={{
+                maxWidth: 375,
+                display: "flex",
+                flexDirection: "column"
+              }}
+            >
               <DrawCardButton
                 onClick={() => this.props.moves.drawCard(this.props.playerID)}
               />
-              {this.props.ctx.phase}
 
               <BlackCardArea
                 blackCardText={this.props.G.currentBlackCard.text}
                 currentCzarId={this.props.G.currentCzarID}
                 playedCards={this.props.G.playedCards}
                 currentPlayerId={Number(this.props.playerID)}
+                onPress={this.props.moves.voteCard}
               />
 
               <Droppable droppableId="white-card-area">
@@ -107,8 +113,6 @@ class Table extends Component {
                     <div
                       style={{
                         backgroundColor: "#F4F4F4",
-                        width: "100%",
-                        height: "100%",
                         padding: 10
                       }}
                     >
@@ -138,11 +142,6 @@ class Table extends Component {
                   </div>
                 )}
               </Droppable>
-              <h3>Played Cards</h3>
-              <PlayedCardsList
-                playedCards={this.props.G.playedCards}
-                voteCard={card => this.props.moves.voteCard(card)}
-              />
             </div>
           )}
         </Meta.Provider>

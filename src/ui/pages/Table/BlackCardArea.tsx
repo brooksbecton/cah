@@ -8,12 +8,14 @@ interface IProps {
   currentCzarId: number;
   currentPlayerId: number;
   playedCards: Array<{ playerID: string; text: string }>;
+  onPress: (card: { playerID: string; text: string }) => void;
 }
 
 export const BlackCardArea = ({
   blackCardText,
   currentCzarId,
   currentPlayerId,
+  onPress,
   playedCards,
 }: IProps) => {
   const filteredPlayedCards =
@@ -31,8 +33,7 @@ export const BlackCardArea = ({
               backgroundColor: "black",
               color: "white",
               minHeight: 95,
-              padding: 30,
-              width: "100%",
+              padding: 11,
             }}
           >
             <p style={{ margin: 0, marginBottom: 10, fontWeight: "bold" }}>
@@ -46,7 +47,12 @@ export const BlackCardArea = ({
               }}
             >
               {filteredPlayedCards.map((card) => (
-                <li ref={provided.innerRef} key={card.text}>
+                <li
+                  ref={provided.innerRef}
+                  key={card.text}
+                  onClick={(e) => currentPlayerId === currentCzarId ? onPress(card) : null}
+
+                >
                   <WhiteCard text={card.text} />
                 </li>
               ))}
