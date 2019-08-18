@@ -1,13 +1,4 @@
-interface ICards {
-  blackCards: Array<{ text: string; pick: number }>;
-  whiteCards: string[];
-  Base: {
-    name: string;
-    black: number[];
-    white: number[];
-  };
-  order: string[];
-}
+import { ICards } from "./../game/types";
 
 export const cards: ICards = {
   Base: {

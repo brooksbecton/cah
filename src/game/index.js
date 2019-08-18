@@ -3,21 +3,11 @@ import { Game, TurnOrder } from "boardgame.io/core";
 import { cards } from "./../constants/cards";
 import { drawCard } from "./../utils/drawCard";
 import filterPlayerCards from "./../utils/filterPlayersCards";
-import { onVoteEnd } from "./onVoteEnd";
+import { replenishPlayersCards } from "./replenishPlayersCards";
+import { defaultState } from "./defaultState";
+
 export const cah = Game({
-  setup: () => ({
-    cardLimit: 10,
-    currentBlackCard: "",
-    currentCzarID: 0,
-    name: "cah",
-    playerID: null,
-    winnerCards: [],
-    playedCards: [],
-    gameStarted: false,
-    hand: [],
-    blackCards: cards.blackCards,
-    whiteCards: cards.whiteCards
-  }),
+  setup: () => defaultState,
 
   moves: {
     startGame: G => {
@@ -102,7 +92,7 @@ export const cah = Game({
       vote: {
         allowedMoves: ["voteCard"],
         endPhaseIf: G => G.playedCards.length === 0,
-        onPhaseEnd: onVoteEnd,
+        onPhaseEnd: replenishPlayersCards,
         turnOrder: TurnOrder.ANY,
         next: "draw"
       }
