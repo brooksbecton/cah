@@ -2,6 +2,8 @@ import { parse } from "query-string";
 import React, { Component } from "react";
 import { RouteComponentProps, withRouter } from "react-router-dom";
 import request from "superagent";
+
+import { url } from "./../../../config/url";
 import { IRooms } from "./../../../types/IRooms";
 import { RoomList } from "./RoomList";
 
@@ -21,7 +23,7 @@ class Home extends Component<RouteComponentProps, IState> {
     playerCredentials: "",
     playerID: 0,
     playerName: "",
-    rooms: [],
+    rooms: []
   };
 
   public componentDidMount() {
@@ -31,9 +33,9 @@ class Home extends Component<RouteComponentProps, IState> {
 
   public createGame = async (numPlayers = this.state.numPlayers) => {
     await request
-      .post("http://localhost:5556/games/default/create")
+      .post(`${url}/games/default/create`)
       .send({
-        numPlayers,
+        numPlayers
       })
       .end((err, { body }) => {
         if (!err) {
@@ -43,29 +45,29 @@ class Home extends Component<RouteComponentProps, IState> {
         }
       });
     this.getGames();
-  }
+  };
 
   public getGames = () => {
     request
-      .get("http://localhost:5556/games/default")
+      .get(`${url}/games/default`)
       .send()
       .end((err, { body: { rooms } }) => {
         if (!err) {
           this.setState({ rooms });
         } else {
           throw new Error(
-            `Error Creating Game: numPlayers ${this.state.numPlayers} `,
+            `Error Creating Game: numPlayers ${this.state.numPlayers} `
           );
         }
       });
-  }
+  };
 
   public getPrePopulatedValues = () => {
     const { gameID, numPlayers, playerID, playerName }: Partial<IState> = parse(
-      location.search,
+      location.search
     );
 
-    // Use new values if availible otherwise use default state
+    // Use new values if available otherwise use default state
     const newGameID = gameID ? gameID : this.state.gameID;
     const newNumPlayers = numPlayers ? numPlayers : this.state.numPlayers;
     const newPlayerID = playerID ? playerID : this.state.playerID;
@@ -75,30 +77,30 @@ class Home extends Component<RouteComponentProps, IState> {
       gameID: newGameID,
       numPlayers: newNumPlayers,
       playerID: newPlayerID,
-      playerName: newPlayerName,
+      playerName: newPlayerName
     });
-  }
+  };
 
   public joinGame = (gameID: string, playerID: number, playerName: string) => {
     const errorJoiningGame = () => {
       throw new Error(
-        `Error Joining Game:  gameID: ${gameID}, playerID: ${playerID}, playerName: ${playerName}`,
+        `Error Joining Game:  gameID: ${gameID}, playerID: ${playerID}, playerName: ${playerName}`
       );
     };
 
     if (gameID && playerName) {
       request
-        .post(`http://localhost:5556/games/default/${gameID}/join`)
+        .post(`${url}/games/default/${gameID}/join`)
         .send({
           playerID,
-          playerName,
+          playerName
         })
         .end((err, { body }: { body: Partial<IState> }) => {
           if (!err) {
             const { playerCredentials } = body;
             this.setState({ playerCredentials }, () => {
               this.props.history.push(
-                `/game/${gameID}/${playerCredentials}/${playerID}`,
+                `/game/${gameID}/${playerCredentials}/${playerID}`
               );
             });
           } else {
@@ -108,7 +110,7 @@ class Home extends Component<RouteComponentProps, IState> {
     } else {
       errorJoiningGame();
     }
-  }
+  };
 
   public render() {
     return (
@@ -120,7 +122,7 @@ class Home extends Component<RouteComponentProps, IState> {
           <input
             id="numPlayers"
             type="number"
-            onChange={(e) => {
+            onChange={e => {
               const numPlayers = Number(e.target.value);
               this.setState({ numPlayers });
             }}
@@ -140,7 +142,7 @@ class Home extends Component<RouteComponentProps, IState> {
             id="gameId"
             data-test-id="gameId"
             type="text"
-            onChange={(e) => {
+            onChange={e => {
               this.setState({ gameID: e.target.value });
             }}
             value={this.state.gameID}
@@ -151,7 +153,7 @@ class Home extends Component<RouteComponentProps, IState> {
           <input
             data-test-id="playerId"
             type="text"
-            onChange={(e) => {
+            onChange={e => {
               const playerID = Number(e.target.value);
               this.setState({ playerID });
             }}
@@ -163,7 +165,7 @@ class Home extends Component<RouteComponentProps, IState> {
           <input
             data-test-id="playerName"
             type="text"
-            onChange={(e) => {
+            onChange={e => {
               const playerName = e.target.value;
               this.setState({ playerName });
             }}
@@ -177,7 +179,7 @@ class Home extends Component<RouteComponentProps, IState> {
             this.joinGame(
               this.state.gameID,
               this.state.playerID,
-              this.state.playerName,
+              this.state.playerName
             )
           }
         >

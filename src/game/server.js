@@ -4,7 +4,7 @@ import { Server } from "boardgame.io/server";
 import { cah } from "./index";
 import Router from "koa-router";
 import send from "koa-send";
-import dotenv from 'dotenv';
+import dotenv from "dotenv";
 
 const server = Server({ games: [cah] });
 const router = new Router();
@@ -17,7 +17,7 @@ router.get("/(.*)", async ctx => {
 });
 server.app.use(router.routes());
 
-const port = Number(process.env.PORT)
-server.run({port, lobbyConfig: {apiPort: port + 1}});
+const port = Number(process.env.PORT);
+server.run({ port });
 
 console.log("Server Started on " + process.env.PORT);

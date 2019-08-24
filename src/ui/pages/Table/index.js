@@ -154,7 +154,6 @@ class TableSeat extends Component {
   render() {
     const Cah = Client({
       board: Table,
-      // enhancer: applyMiddleware(logger),
       game: game,
       multiplayer: { server: "http://localhost:5555" }
     });
