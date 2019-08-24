@@ -3,11 +3,11 @@ import { groupBy } from "lodash";
 import { drawCards } from "../utils/drawCard";
 import { IGame } from "./types";
 
-export function replenishPlayersCards(G: Partial<IGame>, ctx: any): Partial<IGame> {
+export function replenishPlayersCards(G: Partial<IGame>): Partial<IGame> {
   const playersCards = groupBy(G.hand, "playerID");
-  let newDeck;
-  let newHand;
-  
+  let newDeck = G.whiteCards;
+  let newHand = G.hand;
+
   Object.keys(playersCards).forEach((playerID) => {
     const playersHand = playersCards[playerID];
     const cardsNeeded = G.cardLimit - playersHand.length;
