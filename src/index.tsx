@@ -5,5 +5,6 @@ import ReactDOM from "react-dom";
 import BaseRouter from "./ui/pages";
 
 /* eslint immutable/no-mutation: 0 */
-document.onload = () =>
+document.addEventListener("DOMContentLoaded", () => {
   ReactDOM.render(<BaseRouter />, document.getElementById("root"));
+});
