@@ -6,7 +6,7 @@
   "scripts": {
     "start": "webpack --watch",
     "build": "parcel build --no-minify --target=node --log-level 3 src/game/server.js",
-    "server": "node dist/server.js",
+    "serve": "node dist/server.js",
     "e2e": "cypress open",
     "test": "jest --watch"
   },
@@ -41,17 +41,19 @@
     "tslint-microsoft-contrib": "^6.2.0",
     "tslint-react": "^4.0.0",
     "typescript": "^3.5.3",
-    "webpack": "^4.41.6"
+    "webpack": "^4.41.6",
+    "webpack-bundle-analyzer": "^3.6.0"
   },
   "dependencies": {
     "@babel/polyfill": "^7.4.4",
+    "@types/lodash.groupby": "^4.6.6",
     "@types/react-dom": "^16.9.0",
     "boardgame.io": "^0.32.1",
     "dotenv": "^8.0.0",
     "koa-router": "^7.4.0",
     "koa-send": "^5.0.0",
     "koa-static": "^5.0.0",
-    "lodash": "^4.17.15",
+    "lodash.groupby": "^4.6.0",
     "parcel-bundler": "^1.12.3",
     "query-string": "^6.8.1",
     "react-beautiful-dnd": "^11.0.5",

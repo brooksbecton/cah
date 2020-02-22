@@ -1,10 +1,13 @@
+const BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
+  .BundleAnalyzerPlugin;
+
 module.exports = {
   mode: "development",
 
   // Enable sourcemaps for debugging webpack's output.
   devtool: "source-map",
   entry: {
-    client: './src/index.tsx',
+    client: "./src/index.tsx"
     // server: './src/game/server.js'
   },
   resolve: {
@@ -33,12 +36,19 @@ module.exports = {
           }
         ]
       },
-      // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
       {
         enforce: "pre",
         test: /\.js$/,
         loader: "source-map-loader"
       }
     ]
-  }
+  },
+  externals: {
+    react: "React",
+    "react-dom": "ReactDOM"
+  },
+  plugins: [
+    // Un comment for bundle analysis
+    // new BundleAnalyzerPlugin()
+  ]
 };
