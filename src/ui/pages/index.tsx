@@ -1,16 +1,17 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Link, Route } from "react-router-dom";
 
 import Home from "./Home";
+// @ts-ignore
 import Table from "./Table";
 
 const BaseRouter = () => {
   return (
     <Router>
       <div>
-        <Route exact path="/" component={Home} />
+        <Route exact={true} path="/" component={Home} />
         <Route
-          exact
+          exact={true}
           path="/game/:gameID/:playerCredentials/:playerID"
           component={Table}
         />

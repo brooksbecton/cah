@@ -6,7 +6,6 @@
       "lib": ["es6"],
       "module": "es6",
       "moduleResolution": "node",
-      "noEmit": true,
       "noImplicitAny": true,
       "target": "es6",
       "baseUrl": "./",
