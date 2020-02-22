@@ -4,13 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "yarn server",
-    "dev": "parcel src/index.html --open",
-    "build": "parcel build --target=node --log-level 3 --no-minify src/game/server.js",
-    "e2e": "cypress open",
+    "start": "webpack --watch",
+    "build": "parcel build --no-minify --target=node --log-level 3 src/game/server.js",
     "server": "node dist/server.js",
-    "test": "jest --watch",
-    "heroku-postbuild": "yarn build"
+    "e2e": "cypress open",
+    "test": "jest --watch"
   },
   "author": "",
   "license": "ISC",
