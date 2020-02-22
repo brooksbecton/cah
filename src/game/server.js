@@ -12,7 +12,7 @@ const buildPath = path.join(__dirname, "../dist");
 dotenv.config();
 // Forwarding all requests to base index for client routing
 server.app.use(KoaStatic(buildPath));
-router.get("/(.*)", async ctx => {
+router.get("/", async ctx => {
   await send(ctx, "src/index.html");
 });
 server.app.use(router.routes());
