@@ -1,4 +1,3 @@
-import { parse } from "query-string";
 import React, { Component } from "react";
 import { RouteComponentProps, withRouter } from "react-router-dom";
 import request from "superagent";
@@ -27,7 +26,6 @@ class Home extends Component<RouteComponentProps, IState> {
   };
 
   public componentDidMount() {
-    this.getPrePopulatedValues();
     this.getGames();
   }
 
@@ -62,54 +60,25 @@ class Home extends Component<RouteComponentProps, IState> {
       });
   }
 
-  public getPrePopulatedValues = () => {
-    const { gameID, numPlayers, playerID, playerName }: Partial<IState> = parse(
-      location.search,
-    );
-
-    // Use new values if available otherwise use default state
-    const newGameID = gameID ? gameID : this.state.gameID;
-    const newNumPlayers = numPlayers ? numPlayers : this.state.numPlayers;
-    const newPlayerID = playerID ? playerID : this.state.playerID;
-    const newPlayerName = playerName ? playerName : this.state.playerName;
-
-    this.setState({
-      gameID: newGameID,
-      numPlayers: newNumPlayers,
-      playerID: newPlayerID,
-      playerName: newPlayerName,
-    });
-  }
-
   public joinGame = (gameID: string, playerID: number, playerName: string) => {
-    const errorJoiningGame = () => {
-      throw new Error(
-        `Error Joining Game:  gameID: ${gameID}, playerID: ${playerID}, playerName: ${playerName}`,
-      );
-    };
-
-    if (gameID && playerName) {
-      request
-        .post(`${url}/games/default/${gameID}/join`)
-        .send({
-          playerID,
-          playerName,
-        })
-        .end((err, { body }: { body: Partial<IState> }) => {
-          if (!err) {
-            const { playerCredentials } = body;
-            this.setState({ playerCredentials }, () => {
-              this.props.history.push(
-                `/game/${gameID}/${playerCredentials}/${playerID}`,
-              );
-            });
-          } else {
-            errorJoiningGame();
-          }
-        });
-    } else {
-      errorJoiningGame();
-    }
+    request
+      .post(`${url}/games/default/${gameID}/join`)
+      .send({
+        playerID,
+        playerName,
+      })
+      .end((err, { body }: { body: Partial<IState> }) => {
+        if (!err) {
+          const { playerCredentials } = body;
+          this.setState({ playerCredentials }, () => {
+            this.props.history.push(
+              `/game/${gameID}/${playerCredentials}/${playerID}`,
+            );
+          });
+        } else {
+          console.error(err);
+        }
+      });
   }
 
   public render() {

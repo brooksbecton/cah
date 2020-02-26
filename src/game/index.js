@@ -7,7 +7,9 @@ import { replenishPlayersCards } from "./replenishPlayersCards";
 import { defaultState } from "./defaultState";
 
 export const cah = Game({
-  setup: () => defaultState,
+  setup: (ctx, setupData = {}) => {
+    return { ...defaultState, ...setupData };
+  },
 
   moves: {
     startGame: G => {

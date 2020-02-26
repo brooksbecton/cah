@@ -10,7 +10,7 @@ describe("onVoteEnd", () => {
 
     const G: Partial<IGame> = replenishPlayersCards({
       ...defaultState,
-      hand: fakeHand
+      hand: fakeHand,
     });
 
     // Check players hand size
@@ -18,7 +18,7 @@ describe("onVoteEnd", () => {
 
     // Make sure cards are removed from the white cards deck
     expect(G.whiteCards.length).toEqual(
-      defaultState.whiteCards.length - cardsNeeded
+      defaultState.whiteCards.length - cardsNeeded,
     );
   });
 });
