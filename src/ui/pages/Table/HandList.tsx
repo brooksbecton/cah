@@ -1,12 +1,9 @@
-import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { Draggable } from "react-beautiful-dnd";
-import { WhiteCard } from "./WhiteCard";
 
-interface ICard {
-  playerID: string;
-  text: string;
-}
+import { WhiteCard } from "./WhiteCard";
+import { getPlayedCards } from "./../../../game/getPlayedCards";
+import { ICard } from "./../../../game/types/index";
 
 interface IProps {
   ctx: any;
@@ -26,21 +23,8 @@ export class HandList extends Component<IProps> {
       throw new Error("playCard() not provided to <HandList/>");
     },
     playedCards: [],
-    playerID: "",
+    playerID: ""
   };
-
-  public playedCardsCount = ({
-    playerID = "",
-    playedCards = [],
-  }: {
-    playerID: string;
-    playedCards: ICard[];
-  }) => {
-    const playersCardCount = playedCards
-      .map(({ playerID: pId }: ICard) => pId)
-      .filter((cardOwnerID) => cardOwnerID !== playerID).length;
-    return playersCardCount;
-  }
 
   public render() {
     const { G, ctx, playerID } = this.props;
@@ -48,9 +32,9 @@ export class HandList extends Component<IProps> {
     const isDisabled =
       ctx.phase !== "play" ||
       Number(playerID) === Number(G.currentCzarID) ||
-      this.playedCardsCount({
+      getPlayedCards({
         playedCards: G.playedCards,
-        playerID,
+        playerID
       }) === G.currentBlackCard.pick;
 
     return (
@@ -59,7 +43,7 @@ export class HandList extends Component<IProps> {
         style={{
           listStyle: "none",
           margin: 0,
-          padding: 0,
+          padding: 0
         }}
       >
         {this.props.cardList
@@ -72,15 +56,15 @@ export class HandList extends Component<IProps> {
                 index={index}
                 // isDragDisabled={isDisabled}
               >
-                {(provided) => (
-                    <li
-                      ref={provided.innerRef}
-                      key={card.text}
-                      {...provided.draggableProps}
-                      {...provided.dragHandleProps}
-                    >
-                      <WhiteCard text={card.text} />
-                    </li>
+                {provided => (
+                  <li
+                    ref={provided.innerRef}
+                    key={card.text}
+                    {...provided.draggableProps}
+                    {...provided.dragHandleProps}
+                  >
+                    <WhiteCard text={card.text} />
+                  </li>
                 )}
               </Draggable>
             );

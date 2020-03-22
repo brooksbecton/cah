@@ -1,3 +1,8 @@
+export interface ICard {
+  playerID: string;
+  text: string;
+}
+
 export interface IGame {
   cardLimit: number;
   currentBlackCard: string;
@@ -7,7 +12,7 @@ export interface IGame {
   winnerCards: any[];
   playedCards: any[];
   gameStarted: boolean;
-  hand: Array<{ text: string; playerID: string }>;
+  hand: ICard[];
   blackCards: Array<{ text: string; pick: number }>;
   whiteCards: string[];
 }
