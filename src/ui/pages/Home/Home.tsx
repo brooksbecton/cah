@@ -3,7 +3,7 @@ import { RouteComponentProps, withRouter, useHistory } from "react-router-dom";
 import request from "superagent";
 
 import { url } from "../../../config/url";
-import { IRooms } from "../../../types/IRooms";
+import { IRoom } from "../../../types/IRoom";
 import { RoomList } from "./RoomList";
 
 /**
@@ -26,7 +26,7 @@ function createGame(numPlayers: number): Promise<string> {
   });
 }
 
-function getGames(): Promise<IRooms> {
+function getGames(): Promise<IRoom[]> {
   return new Promise(async (resolve, reject) => {
     request
       .get(`${url}/games/default`)
@@ -73,7 +73,7 @@ function joinGame({
 
 export const Home: React.FC = () => {
   const [numPlayers, setNumPlayers] = useState(2);
-  const [rooms, setRooms] = useState<IRooms>([]);
+  const [rooms, setRooms] = useState<IRoom[]>([]);
   const [gameId, setGameId] = useState("");
   const [playerId, setPlayerId] = useState("");
   const [playerName, setPlayerName] = useState("");
@@ -81,7 +81,7 @@ export const Home: React.FC = () => {
   const history = useHistory();
 
   useEffect(() => {
-    getGames().then((rooms: IRooms = []) => {
+    getGames().then((rooms: IRoom[] = []) => {
       setRooms(rooms);
     });
   }, []);
