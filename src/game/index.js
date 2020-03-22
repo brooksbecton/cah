@@ -87,7 +87,8 @@ export const cah = Game({
           );
         },
         endPhaseIf: (G, ctx) =>
-          G.playedCards.length === ctx.numPlayers * G.currentBlackCard.pick - 1,
+          G.playedCards.length ===
+          (ctx.numPlayers - 1) * G.currentBlackCard.pick,
         turnOrder: TurnOrder.ANY,
         next: "vote"
       },
