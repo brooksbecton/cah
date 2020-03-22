@@ -29,13 +29,18 @@ export class HandList extends Component<IProps> {
   public render() {
     const { G, ctx, playerID } = this.props;
 
-    const isDisabled =
-      ctx.phase !== "play" ||
-      Number(playerID) === Number(G.currentCzarID) ||
-      getPlayedCards({
-        playedCards: G.playedCards,
-        playerID
-      }) === G.currentBlackCard.pick;
+    const isDisabled = () => {
+      const isPlayerCzar = Number(playerID) === Number(G.currentCzarID);
+
+      const currentBlackCard = G.currentBlackCard || {};
+      const playerHasPlayedAllCards =
+        getPlayedCards({
+          playedCards: G.playedCards,
+          playerID
+        }).length === currentBlackCard.pick;
+
+      return isPlayerCzar;
+    };
 
     return (
       <ul
@@ -54,7 +59,7 @@ export class HandList extends Component<IProps> {
                 key={`${card.text}-${index}`}
                 draggableId={`${card.text}-${index}`}
                 index={index}
-                // isDragDisabled={isDisabled}
+                isDragDisabled={isDisabled()}
               >
                 {provided => (
                   <li

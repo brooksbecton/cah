@@ -2,6 +2,7 @@ import { Client } from "boardgame.io/react";
 import { withRouter } from "react-router-dom";
 import React, { Component } from "react";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
+import "react-toastify/dist/ReactToastify.css";
 
 import filterPlayersCards from "./../../../utils/filterPlayersCards";
 import DrawCardButton from "./../../components/DrawCardButton";
@@ -10,6 +11,7 @@ import PlayedCardsList from "./../../components/PlayedCardsList";
 import Meta from "./../../Context/Meta";
 import game from "./../../../game";
 import { WhiteCard } from "./WhiteCard";
+import { PhaseToast } from "./PhaseToast";
 
 class Table extends Component {
   constructor(props) {
@@ -74,105 +76,111 @@ class Table extends Component {
           );
 
     return (
-      <DragDropContext onDragEnd={this.onDragEnd}>
-        <Meta.Provider
-          value={{
-            G: this.props.G,
-            ctx: this.props.ctx,
-            playerID: this.props.playerID,
-            gameID: this.props.gameID
-          }}
-        >
-          {this.props.G.gameStarted === false || false ? (
-            <>
-              <button
-                data-test-id="start-game-button"
-                onClick={() => this.props.moves.startGame()}
+      <>
+        <PhaseToast phase={this.props.ctx.phase} />
+        <DragDropContext onDragEnd={this.onDragEnd}>
+          <Meta.Provider
+            value={{
+              G: this.props.G,
+              ctx: this.props.ctx,
+              playerID: this.props.playerID,
+              gameID: this.props.gameID
+            }}
+          >
+            {this.props.G.gameStarted === false || false ? (
+              <>
+                <button
+                  data-test-id="start-game-button"
+                  onClick={() => this.props.moves.startGame()}
+                >
+                  Start Game
+                </button>
+              </>
+            ) : (
+              <div
+                style={{
+                  maxWidth: 375,
+                  display: "flex",
+                  flexDirection: "column"
+                }}
               >
-                Start Game
-              </button>
-            </>
-          ) : (
-            <div
-              style={{
-                maxWidth: 375,
-                display: "flex",
-                flexDirection: "column"
-              }}
-            >
-              <DrawCardButton
-                onClick={() => this.props.moves.drawCard(this.props.playerID)}
-              />
+                <DrawCardButton
+                  onClick={() => this.props.moves.drawCard(this.props.playerID)}
+                />
 
-              <Droppable droppableId="black-card-area">
-                {provided => (
-                  <div ref={provided.innerRef} {...provided.droppableProps}>
-                    <div
-                      style={{
-                        backgroundColor: "black",
-                        color: "white",
-                        minHeight: 95,
-                        padding: 11
-                      }}
-                    >
-                      <p
+                <Droppable droppableId="black-card-area">
+                  {provided => (
+                    <div {...provided.droppableProps}>
+                      <div
+                        ref={provided.innerRef}
                         style={{
-                          margin: 0,
-                          marginBottom: 10,
-                          fontWeight: "bold"
+                          backgroundColor: "black",
+                          color: "white",
+                          minHeight: 95,
+                          padding: 11
                         }}
                       >
-                        {this.props.G.currentBlackCard.text}
-                      </p>
-                      <ul
-                        style={{
-                          listStyle: "none",
-                          margin: 0,
-                          padding: 0
-                        }}
-                      >
-                        {filteredPlayedCards.map(card => (
-                          <li
-                            ref={provided.innerRef}
-                            key={card.text}
-                            onClick={e =>
-                              Number(this.props.playerID) ===
-                              this.props.G.currentCzarID
-                                ? this.props.moves.voteCard(card)
-                                : null
-                            }
-                          >
-                            <WhiteCard text={card.text} />
-                          </li>
-                        ))}
-                      </ul>
+                        <p
+                          style={{
+                            margin: 0,
+                            marginBottom: 10,
+                            fontWeight: "bold"
+                          }}
+                        >
+                          {this.props.G.currentBlackCard.text}
+                        </p>
+
+                        <ul
+                          style={{
+                            listStyle: "none",
+                            margin: 0,
+                            padding: 0
+                          }}
+                        >
+                          {filteredPlayedCards.map(card => (
+                            <li
+                              ref={provided.innerRef}
+                              key={card.text}
+                              onClick={e =>
+                                Number(this.props.playerID) ===
+                                this.props.G.currentCzarID
+                                  ? this.props.moves.voteCard(card)
+                                  : null
+                              }
+                            >
+                              <WhiteCard text={card.text} />
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                      {provided.placeholder}
                     </div>
-                    {provided.placeholder}
-                  </div>
-                )}
-              </Droppable>
+                  )}
+                </Droppable>
 
-              <Droppable droppableId="white-card-area">
-                {provided => (
-                  <div ref={provided.innerRef} {...provided.droppableProps}>
-                    <div
-                      style={{
-                        backgroundColor: "#F4F4F4",
-                        padding: 10
-                      }}
-                    >
-                      <h2 style={{ fontSize: 14 }}>Your Cards</h2>
-                      <HandList
-                        playCard={cardText =>
-                          this.props.moves.playCard(
-                            cardText,
-                            this.props.playerID
-                          )
-                        }
-                        cardList={this.state.whiteCards}
-                        playerID={this.props.playerID}
-                      />
-                      {/*
+                <Droppable droppableId="white-card-area">
+                  {provided => (
+                    <div {...provided.droppableProps}>
+                      <div
+                        ref={provided.innerRef}
+                        style={{
+                          backgroundColor: "#F4F4F4",
+                          padding: 10
+                        }}
+                      >
+                        <h2 style={{ fontSize: 14 }}>Your Cards</h2>
+                        <HandList
+                          G={this.props.G}
+                          playCard={cardText =>
+                            this.props.moves.playCard(
+                              cardText,
+                              this.props.playerID
+                            )
+                          }
+                          cardList={this.state.whiteCards}
+                          playerID={this.props.playerID}
+                        />
+                        {/*
        
                 <h3>Winner Cards</h3>
                 <ul>
@@ -182,15 +190,16 @@ class Table extends Component {
                     </li>
                   ))}
                 </ul> */}
-                      {provided.placeholder}
+                        {provided.placeholder}
+                      </div>
                     </div>
-                  </div>
-                )}
-              </Droppable>
-            </div>
-          )}
-        </Meta.Provider>
-      </DragDropContext>
+                  )}
+                </Droppable>
+              </div>
+            )}
+          </Meta.Provider>
+        </DragDropContext>
+      </>
     );
   }
 }
