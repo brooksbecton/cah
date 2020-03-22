@@ -9,7 +9,7 @@ import { HandList } from "./HandList";
 import PlayedCardsList from "./../../components/PlayedCardsList";
 import Meta from "./../../Context/Meta";
 import game from "./../../../game";
-import { BlackCardArea } from "./BlackCardArea";
+import { WhiteCard } from "./WhiteCard";
 
 class Table extends Component {
   constructor(props) {
@@ -63,11 +63,16 @@ class Table extends Component {
     }
   }
 
-  /**
-   * Draws a card for a player until they reach their hand limit
-   */
-
   render() {
+    const filteredPlayedCards =
+      // If the current player is the Czar then just hand back all the hards for voting
+      Number(this.props.playerID) === this.props.G.currentCzarID
+        ? this.props.G.playedCards
+        : // Non-Czar players only get their cards
+          this.props.G.playedCards.filter(
+            card => Number(card.playerID) === Number(this.props.playerID)
+          );
+
     return (
       <DragDropContext onDragEnd={this.onDragEnd}>
         <Meta.Provider
@@ -99,13 +104,53 @@ class Table extends Component {
                 onClick={() => this.props.moves.drawCard(this.props.playerID)}
               />
 
-              <BlackCardArea
-                blackCardText={this.props.G.currentBlackCard.text}
-                currentCzarId={this.props.G.currentCzarID}
-                playedCards={this.props.G.playedCards}
-                currentPlayerId={Number(this.props.playerID)}
-                onPress={this.props.moves.voteCard}
-              />
+              <Droppable droppableId="black-card-area">
+                {provided => (
+                  <div ref={provided.innerRef} {...provided.droppableProps}>
+                    <div
+                      style={{
+                        backgroundColor: "black",
+                        color: "white",
+                        minHeight: 95,
+                        padding: 11
+                      }}
+                    >
+                      <p
+                        style={{
+                          margin: 0,
+                          marginBottom: 10,
+                          fontWeight: "bold"
+                        }}
+                      >
+                        {this.props.G.currentBlackCard.text}
+                      </p>
+                      <ul
+                        style={{
+                          listStyle: "none",
+                          margin: 0,
+                          padding: 0
+                        }}
+                      >
+                        {filteredPlayedCards.map(card => (
+                          <li
+                            ref={provided.innerRef}
+                            key={card.text}
+                            onClick={e =>
+                              Number(this.props.playerID) ===
+                              this.props.G.currentCzarID
+                                ? this.props.moves.voteCard(card)
+                                : null
+                            }
+                          >
+                            <WhiteCard text={card.text} />
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    {provided.placeholder}
+                  </div>
+                )}
+              </Droppable>
 
               <Droppable droppableId="white-card-area">
                 {provided => (
