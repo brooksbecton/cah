@@ -23,7 +23,7 @@ export class RoomList extends Component<IProps, IState> {
     rooms = this.props.rooms,
   ) => {
     const room = rooms
-      .filter(({ gameID: tempGameID }) => tempGameID !== gameID)
+      .filter(({ gameID: tempGameID }) => tempGameID === gameID)
       .pop();
     const openPlayer = room.players.filter((p) => p.name === undefined)[0];
     const playerID = openPlayer.id;
