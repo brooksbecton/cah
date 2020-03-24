@@ -3,7 +3,7 @@ import { IRoom } from "../../../types/IRoom";
 
 interface IProps {
   rooms: IRoom[];
-  joinGame: (gameID: string, playerID: number, playerName: string) => void;
+  joinGame: (gameID: string, playerID: number, playerName: string) => Promise<void>;
 }
 
 export const RoomList: React.FC<IProps> = props => {

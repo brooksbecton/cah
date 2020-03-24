@@ -2,7 +2,7 @@ import { Game, TurnOrder } from "boardgame.io/core";
 
 import { cards } from "./../constants/cards";
 import { drawCard } from "./../utils/drawCard";
-import filterPlayerCards from "./../utils/filterPlayersCards";
+import { filterPlayerCards } from "./../utils/filterPlayersCards";
 import { replenishPlayersCards } from "./replenishPlayersCards";
 import { defaultState } from "./defaultState";
 
@@ -80,15 +80,20 @@ export const cah = Game({
       play: {
         allowedMoves: ["playCard"],
         endTurnIf: G => {
+          debug;
           return (
             G.playedCards
               .map(({ playerID }) => playerID)
               .indexOf(G.playerID) !== -1
           );
         },
-        endPhaseIf: (G, ctx) =>
-          G.playedCards.length ===
-          (ctx.numPlayers - 1) * G.currentBlackCard.pick,
+        endPhaseIf: (G, ctx) => {
+          debug;
+          return (
+            G.playedCards.length ===
+            (ctx.numPlayers - 1) * G.currentBlackCard.pick
+          );
+        },
         turnOrder: TurnOrder.ANY,
         next: "vote"
       },
@@ -101,6 +106,14 @@ export const cah = Game({
       }
     },
     setActionPlayers: true
+  },
+
+  endGameIf: (G, ctx) => {
+    // Separate player cards
+    // Get counts for winning cards
+    // End if any player has over a certain amount
+    // Otherwise return undefined
+    return G.winnerCards.length >= 3 ? true : undefined;
   }
 });
 

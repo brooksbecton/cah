@@ -3,9 +3,14 @@ export interface ICard {
   text: string;
 }
 
+export interface BlackCard {
+  text: string;
+  pick: number;
+}
+
 export interface IGame {
   cardLimit: number;
-  currentBlackCard: string;
+  currentBlackCard: BlackCard;
   currentCzarID: number;
   name: string;
   playerID: number;
@@ -13,8 +18,12 @@ export interface IGame {
   playedCards: any[];
   gameStarted: boolean;
   hand: ICard[];
-  blackCards: Array<{ text: string; pick: number }>;
+  blackCards: BlackCard[];
   whiteCards: string[];
+}
+
+export interface ICtx {
+  phase: "setup" | "draw" | "play" | "vote";
 }
 
 export interface ICards {

@@ -93,8 +93,12 @@ export const Home: React.FC = () => {
     getGames();
   };
 
-  const handleJoinGame = async () => {
-    const playerCredentials = await joinGame({ gameId, playerId, playerName });
+  const handleJoinGame = async (gId: string, pId: number, pName: string) => {
+    const playerCredentials = await joinGame({
+      gameId: gId,
+      playerId: String(pId),
+      playerName: pName
+    });
 
     history.push(`/game/${gameId}/${playerCredentials}/${playerId}`);
   };
@@ -155,7 +159,7 @@ export const Home: React.FC = () => {
       <button
         data-test-id="joinGame"
         disabled={!(gameId && playerName)}
-        onClick={handleJoinGame}
+        onClick={() => handleJoinGame(gameId, Number(playerId), playerName)}
       >
         Join Game
       </button>

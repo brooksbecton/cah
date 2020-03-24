@@ -4,7 +4,7 @@ import { IGame } from "./types";
 export const defaultState: IGame = {
   blackCards: cards.blackCards,
   cardLimit: 10,
-  currentBlackCard: "",
+  currentBlackCard: { pick: 0, text: "" },
   currentCzarID: 0,
   gameStarted: false,
   hand: [],
@@ -12,5 +12,5 @@ export const defaultState: IGame = {
   playedCards: [],
   playerID: null,
   whiteCards: cards.whiteCards,
-  winnerCards: [],
+  winnerCards: []
 };
