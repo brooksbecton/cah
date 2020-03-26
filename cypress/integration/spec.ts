@@ -1,11 +1,12 @@
 import { url } from "../../src/config/url";
 import { getGames } from "../../src/utils/getGames";
+import { IGame } from "./../../src/game/types";
 
 function getByTestId(id: string) {
   return `[data-test-id="${id}"]`;
 }
 
-function createGame(numPlayers: number = 2, setupData: any = {}) {
+function createGame(numPlayers: number = 2, setupData: Partial<IGame> = {}) {
   return cy.request("POST", `${url}/games/default/create`, {
     numPlayers,
     setupData
