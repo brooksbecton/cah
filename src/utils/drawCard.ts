@@ -1,4 +1,3 @@
-import { IBlackCard, IWhiteCard } from "./../game/types";
 import getRandomInt from "./getRandomInt";
 
 /**

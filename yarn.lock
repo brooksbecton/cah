@@ -2619,10 +2619,10 @@ bn.js@^4.0.0, bn.js@^4.1.0, bn.js@^4.1.1, bn.js@^4.4.0:
   resolved "https://registry.yarnpkg.com/bn.js/-/bn.js-4.11.8.tgz#2cde09eb5ee341f484746bb0309b3253b1b1442f"
   integrity sha512-ItfYfPLkWHUjckQCk8xC+LwxgK8NYcXywGigJgSwOP8Y2iyWT4f2vsZnoOXTTbo+o5yXmIUJ4gn5538SO5S3gA==
 
-boardgame.io@^0.32.1:
-  version "0.32.1"
-  resolved "https://registry.yarnpkg.com/boardgame.io/-/boardgame.io-0.32.1.tgz#cadccbe75b447fb0b49a355186e82091380c9c07"
-  integrity sha512-RgUqIbXsPdkgWDr5A6RxoUpKsV/pz87senMoGDXUCPuMz8JHS0ThOowrc0/X33gXm3uhsgCbQLdOUMBavgzoLA==
+boardgame.io@^0.39.3:
+  version "0.39.3"
+  resolved "https://registry.yarnpkg.com/boardgame.io/-/boardgame.io-0.39.3.tgz#af688f5a3e6f24363551b6044b48feaf4a6c47cd"
+  integrity sha512-VDrj95U2B1Uo47JrmlTSIuD12ntknL79RW/d84m8jbZBqeF54uIArxsYWuP7E3waYRSutJzqkP+GJicMj7hw5A==
   dependencies:
     "@koa/cors" "^2.2.1"
     flatted "^0.2.3"
@@ -2632,13 +2632,12 @@ boardgame.io@^0.32.1:
     koa-router "^7.2.1"
     koa-socket-2 "^1.0.17"
     lru-cache "^4.1.1"
-    mousetrap "^1.6.1"
     prop-types "^15.5.10"
     react-cookies "^0.1.0"
-    react-dragtastic "^2.4.3"
     redux "^4.0.0"
     shortid "^2.2.14"
     socket.io "^2.1.1"
+    ts-toolbelt "^6.3.6"
     uuid "3.2.1"
 
 body-parser@1.19.0:
@@ -7297,11 +7296,6 @@ moment@2.24.0:
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.24.0.tgz#0d055d53f5052aa653c9f6eb68bb5d12bf5c2b5b"
   integrity sha512-bV7f+6l2QigeBBZSM/6yTNq4P2fNpSWj/0e7jQcy87A8e7o2nAfP/34/2ky5Vw4B9S446EtIhodAzkFCcR4dQg==
 
-mousetrap@^1.6.1:
-  version "1.6.3"
-  resolved "https://registry.yarnpkg.com/mousetrap/-/mousetrap-1.6.3.tgz#80fee49665fd478bccf072c9d46bdf1bfed3558a"
-  integrity sha512-bd+nzwhhs9ifsUrC2tWaSgm24/oo2c83zaRyZQF06hYA6sANfsXHtnZ19AbbbDXCDzeH5nZBSQ4NvCjgD62tJA==
-
 move-concurrently@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/move-concurrently/-/move-concurrently-1.0.1.tgz#be2c005fda32e0b29af1f05d7c4b33214c701f92"
@@ -8639,7 +8633,7 @@ prompts@^2.0.1:
     kleur "^3.0.3"
     sisteransi "^1.0.3"
 
-prop-types@^15.5.10, prop-types@^15.6.0, prop-types@^15.6.2, prop-types@^15.7.2:
+prop-types@^15.5.10, prop-types@^15.6.2, prop-types@^15.7.2:
   version "15.7.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
   integrity sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==
@@ -8861,13 +8855,6 @@ react-dom@^16.13.1:
     object-assign "^4.1.1"
     prop-types "^15.6.2"
     scheduler "^0.19.1"
-
-react-dragtastic@^2.4.3:
-  version "2.4.3"
-  resolved "https://registry.yarnpkg.com/react-dragtastic/-/react-dragtastic-2.4.3.tgz#9cf5531c45cc52020b30f454f9b219852307f6ef"
-  integrity sha512-AQwmi3Ri9/Fpf8FKabxnsxSh6gRYZHIQqRBubu3NSBvWQ7bOOpqGxlTtxZVkj3QiSg3h2S3xYZoxB27A6dV0xg==
-  dependencies:
-    prop-types "^15.6.0"
 
 react-is@^16.12.0, react-is@^16.9.0:
   version "16.13.1"
@@ -10507,6 +10494,11 @@ ts-loader@^6.2.2:
     loader-utils "^1.0.2"
     micromatch "^4.0.0"
     semver "^6.0.0"
+
+ts-toolbelt@^6.3.6:
+  version "6.3.6"
+  resolved "https://registry.yarnpkg.com/ts-toolbelt/-/ts-toolbelt-6.3.6.tgz#2bde29106c013ed520c32f30e1248daf8fd4f5f9"
+  integrity sha512-eVzym+LyQodOCfyVyQDQ6FGYbO2Xf9Nc4dGLRKlKSUpAs+8qQWHG+grDiA3ciEuNPNZ0qJnNIYkdqBW1rCWuUA==
 
 tslib@^1.10.0:
   version "1.11.1"

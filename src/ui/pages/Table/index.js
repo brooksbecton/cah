@@ -3,6 +3,7 @@ import { withRouter } from "react-router-dom";
 import React, { Component } from "react";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import "react-toastify/dist/ReactToastify.css";
+import { SocketIO } from "boardgame.io/multiplayer";
 
 import DrawCardButton from "./../../components/DrawCardButton";
 import { HandList } from "./HandList";
@@ -14,13 +15,12 @@ import { PhaseToast } from "./PhaseToast";
 import { filterPlayersCards } from "../../../utils/filterPlayersCards";
 import { Table } from "./Table";
 
-
 class TableSeat extends Component {
   render() {
     const Cah = Client({
       board: Table,
       game: game,
-      multiplayer: { server: "http://localhost:5555" }
+      multiplayer: SocketIO({ server: "localhost:5555" })
     });
 
     return (

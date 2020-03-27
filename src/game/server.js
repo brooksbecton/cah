@@ -20,4 +20,3 @@ server.app.use(router.routes());
 const port = Number(process.env.PORT);
 server.run({ port });
 
-console.log("Server Started on " + process.env.PORT);

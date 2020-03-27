@@ -7,19 +7,21 @@ export interface BlackCard {
   text: string;
   pick: number;
 }
-
+export interface ICtx {
+  numPlayers: number;
+}
 export interface IGame {
+  blackCards: BlackCard[];
   cardLimit: number;
   currentBlackCard: BlackCard;
   currentCzarID: number;
-  name: string;
-  playerID: number;
-  winnerCards: any[];
-  playedCards: any[];
   gameStarted: boolean;
   hand: ICard[];
-  blackCards: BlackCard[];
+  name: string;
+  playedCards: ICard[];
+  playerID: number;
   whiteCards: string[];
+  winnerCards: ICard[];
 }
 
 export interface ICtx {

@@ -12,19 +12,15 @@ import { Meta } from "./../../Context/Meta";
 
 interface IProps {
   G: IGame;
-  playerID: string;
   ctx: ICtx;
+  playerID: string;
   moves: any;
   gameID: string;
 }
 
-export const Table: React.FC<IProps> = ({
-  G,
-  ctx,
-  playerID,
-  moves,
-  gameID
-}) => {
+export const Table: React.FC<IProps> = props => {
+  const { G, ctx, playerID, moves, gameID } = props;
+
   const [whiteCards, setWhiteCards] = useState<ICard[]>([]);
 
   const reorder = (list: ICard[], startIndex: number, endIndex: number) => {
@@ -34,7 +30,6 @@ export const Table: React.FC<IProps> = ({
 
     return result;
   };
-
   const onDragEnd = (result: any) => {
     // dropped outside the list
     if (!result.destination) {
@@ -71,9 +66,8 @@ export const Table: React.FC<IProps> = ({
       ? G.playedCards
       : // Non-Czar players only get their cards
         G.playedCards.filter(
-          card => Number(card.playerID) === Number(playerID)
+          (card: ICard) => Number(card.playerID) === Number(playerID)
         );
-
   return (
     <>
       <PhaseToast phase={ctx.phase} />
@@ -86,11 +80,13 @@ export const Table: React.FC<IProps> = ({
             gameId: gameID
           }}
         >
+          <p>{ctx.phase}</p>
           {G.gameStarted === false || false ? (
             <>
               <button
                 data-test-id="start-game-button"
                 onClick={() => moves.startGame()}
+                disabled={ctx.phase !== "setup"}
               >
                 Start Game
               </button>
@@ -108,7 +104,7 @@ export const Table: React.FC<IProps> = ({
                           backgroundColor: "black",
                           color: "white",
                           minHeight: 95,
-                          padding: 11,
+                          padding: 11
                         }}
                       >
                         <p

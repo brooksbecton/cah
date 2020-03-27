@@ -9,7 +9,6 @@ interface IProps {
 
 const DrawCardButton: React.FC<IProps> = ({ onClick }) => {
   const { G, ctx, playerId } = useContext(Meta);
-
   return (
     <button
       disabled={

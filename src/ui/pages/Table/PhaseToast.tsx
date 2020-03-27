@@ -5,11 +5,15 @@ export interface IProps {
   phase: string;
 }
 
-export const PhaseToast: React.FC<IProps> = ({ phase }) => {
+export const PhaseToast: React.FC<IProps> = ({
+  phase = "Unknown"
+}: {
+  phase: string;
+}) => {
   const containerId = "phase";
 
   React.useEffect(() => {
-    toast(`New Phase!  ${phase.toUpperCase()}`, { containerId });
+    toast(`New Phase!  ${phase?.toUpperCase()}`, { containerId });
   }, [phase]);
 
   return <ToastContainer enableMultiContainer containerId={containerId} />;
