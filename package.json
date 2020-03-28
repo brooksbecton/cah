@@ -9,7 +9,7 @@
     "serve": "node dist/server.js",
     "e2e": "cypress open",
     "test": "jest --watch",
-    "deploy": "webpack && npm run build && npm run serve"
+    "postinstall": "webpack && npm run build"
   },
   "author": "",
   "license": "ISC",
