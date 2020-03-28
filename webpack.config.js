@@ -1,6 +1,3 @@
-const BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
-  .BundleAnalyzerPlugin;
-
 module.exports = {
   mode: "development",
 
@@ -19,7 +16,7 @@ module.exports = {
     rules: [
       {
         test: /\.css$/i,
-        use: ['style-loader', 'css-loader'],
+        use: ["style-loader", "css-loader"]
       },
       {
         test: /\.m?js$/,
@@ -51,8 +48,5 @@ module.exports = {
     react: "React",
     "react-dom": "ReactDOM"
   },
-  plugins: [
-    // Un comment for bundle analysis
-    // new BundleAnalyzerPlugin()
-  ]
+  plugins: []
 };
