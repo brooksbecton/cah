@@ -19,7 +19,7 @@ export const WhiteCard: React.FC<IProps> = ({ text }) => {
         fontWeight: "bold",
         height: 50,
         marginBottom: 20,
-        padding: 10,
+        padding: 10
       }}
     >
       <p style={{ margin: 0 }}>{text}</p>

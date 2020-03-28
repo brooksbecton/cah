@@ -9,7 +9,7 @@ import { WhiteCard } from "./WhiteCard";
 import { PhaseToast } from "./PhaseToast";
 import { ICard, IGame, ICtx } from "./../../../game/types/index";
 import { Meta } from "./../../Context/Meta";
-
+import { useTheme } from "./useTheme";
 interface IProps {
   G: IGame;
   ctx: ICtx;
@@ -20,7 +20,7 @@ interface IProps {
 
 export const Table: React.FC<IProps> = props => {
   const { G, ctx, playerID, moves, gameID } = props;
-
+  const theme = useTheme();
   const [whiteCards, setWhiteCards] = useState<ICard[]>([]);
 
   const reorder = (list: ICard[], startIndex: number, endIndex: number) => {
@@ -94,81 +94,48 @@ export const Table: React.FC<IProps> = props => {
           ) : (
             <>
               <DrawCardButton onClick={() => moves.drawCard(playerID)} />
+
               <TableContainer>
                 <Droppable droppableId="black-card-area">
                   {provided => (
-                    <div {...provided.droppableProps}>
-                      <div
+                    <BlackCardList {...provided.droppableProps}>
+                      <ListHeader>{G.currentBlackCard.text}</ListHeader>
+                      <ul
                         ref={provided.innerRef}
+                        data-test-id={"played-card-list"}
                         style={{
-                          backgroundColor: "black",
-                          color: "white",
-                          minHeight: 95,
-                          padding: 11
+                          listStyle: "none",
+                          margin: 0,
+                          padding: 0
                         }}
                       >
-                        <p
-                          style={{
-                            margin: 0,
-                            marginBottom: 10,
-                            fontWeight: "bold"
-                          }}
-                        >
-                          {G.currentBlackCard.text}
-                        </p>
-
-                        <ul
-                          data-test-id={"played-card-list"}
-                          style={{
-                            listStyle: "none",
-                            margin: 0,
-                            padding: 0
-                          }}
-                        >
-                          {filteredPlayedCards.map(card => (
-                            <li
-                              ref={provided.innerRef}
-                              key={card.text}
-                              onClick={e =>
-                                Number(playerID) === G.currentCzarID
-                                  ? moves.voteCard(card)
-                                  : null
-                              }
-                            >
-                              <WhiteCard text={card.text} />
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
+                        {filteredPlayedCards.map(card => (
+                          <li
+                            ref={provided.innerRef}
+                            key={card.text}
+                            onClick={e =>
+                              Number(playerID) === G.currentCzarID
+                                ? moves.voteCard(card)
+                                : null
+                            }
+                          >
+                            <WhiteCard text={card.text} />
+                          </li>
+                        ))}
+                      </ul>
                       {provided.placeholder}
-                    </div>
+                    </BlackCardList>
                   )}
                 </Droppable>
 
                 <Droppable droppableId="white-card-area">
                   {provided => (
                     <div {...provided.droppableProps}>
-                      <div
-                        ref={provided.innerRef}
-                        style={{
-                          backgroundColor: "#F4F4F4",
-                          padding: 10
-                        }}
-                      >
-                        <h2 style={{ fontSize: 14 }}>Your Cards</h2>
+                      <WhiteCardList ref={provided.innerRef}>
+                        <ListHeader>Your Cards</ListHeader>
                         <HandList cardList={whiteCards} />
-                        {/*
-         
-                  <h3>Winner Cards</h3>
-                  <ul>
-                    {G.winnerCards.map(card => (
-                      <li key={card.text}>
-                        {card.playerID}: {card.text}
-                      </li>
-                    ))}
-                  </ul> */}
                         {provided.placeholder}
-                      </div>
+                      </WhiteCardList>
                     </div>
                   )}
                 </Droppable>
@@ -184,11 +151,41 @@ export const Table: React.FC<IProps> = props => {
 const TableContainer = styled.div`
   @media (max-width: 768px) {
     flex-direction: column;
+    justify-content: flex-start;
+    width: 100%;
   }
-
   display: flex;
-  flex-direction: row;
+  flex-direction: row-reverse;
+  justify-content: center;
+  height: 100vh;
+`;
 
-  .black-card-area {
+const WhiteCardList = styled.div`
+  @media (max-width: 768px) {
+    width: calc(100% - 56px);
   }
+  height: 100%;
+  padding: ${({ theme }) => theme.padding};
+  background-color: ${({ theme }) => theme.whiteCard.bg};
+  color: ${({ theme }) => theme.whiteCard.fg};
+  width: 30vw;
+`;
+
+const BlackCardList = styled.div`
+  @media (max-width: 768px) {
+    width: calc(100% - 56px);
+    min-height: 10%;
+  }
+  height: 100%;
+  padding: ${({ theme }) => theme.padding};
+  background-color: ${({ theme }) => theme.blackCard.bg};
+  color: ${({ theme }) => theme.blackCard.fg};
+  width: 30vw;
+`;
+
+const ListHeader = styled.h2`
+  margin: 0;
+  margin-bottom: ${({ theme }) => theme.padding};
+  font-weight: bold;
+  font-size: 16px;
 `;

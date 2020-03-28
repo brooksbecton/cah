@@ -23,14 +23,14 @@ describe("Game", () => {
     goHome();
   });
 
-  it.skip("adds game id to #gameID input", () => {
+  it("adds game id to #gameID input", () => {
     goHome();
     cy.get(getByTestId("createGameButton")).click();
 
     cy.get(getByTestId("gameId")).contains(/^.*/);
   });
 
-  it.skip("lets players create a game", () => {
+  it("lets players create a game", () => {
     cy.get(getByTestId("createGameButton")).click();
     cy.get(getByTestId("gameId")).should($input => {
       const gameId = $input.val();
@@ -40,7 +40,7 @@ describe("Game", () => {
       });
     });
   });
-  it.skip("lets players join games", () => {
+  it("lets players join games", () => {
     createGame().then(response => {
       const gameID = response.body.gameID;
       cy.get(getByTestId("gameId")).type(String(gameID));
@@ -51,7 +51,7 @@ describe("Game", () => {
       cy.url().should("include", gameID);
     });
   });
-  it.skip("lets players draw up to 10 cards", () => {
+  it("lets players draw up to 10 cards", () => {
     createGame(2).then(({ body: { gameID } }) => {
       cy.get(getByTestId("gameId")).type(String(gameID));
       cy.get(getByTestId("playerId")).type("0");
@@ -126,7 +126,7 @@ describe("Game", () => {
       cy.get(firstCardSelector)
         .focus()
         .type(" ")
-        .type("{leftarrow}")
+        .type("{rightarrow}")
         .type(" ");
       cy.get(getByTestId("played-card-list")).find("li");
     });
