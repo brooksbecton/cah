@@ -1,5 +1,5 @@
-import React, { useState, useEffect, Component } from "react";
-import { RouteComponentProps, withRouter, useHistory } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import request from "superagent";
 
 import { url } from "../../../config/url";
@@ -106,6 +106,7 @@ export const Home: React.FC = () => {
   return (
     <div>
       <h1>Home</h1>
+
       <h2>Create Game</h2>
       <label htmlFor="numPlayers">
         Number of Players

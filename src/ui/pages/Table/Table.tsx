@@ -9,7 +9,6 @@ import { WhiteCard } from "./WhiteCard";
 import { PhaseToast } from "./PhaseToast";
 import { ICard, IGame, ICtx } from "./../../../game/types/index";
 import { Meta } from "./../../Context/Meta";
-import { useTheme } from "./useTheme";
 interface IProps {
   G: IGame;
   ctx: ICtx;
@@ -20,7 +19,6 @@ interface IProps {
 
 export const Table: React.FC<IProps> = props => {
   const { G, ctx, playerID, moves, gameID } = props;
-  const theme = useTheme();
   const [whiteCards, setWhiteCards] = useState<ICard[]>([]);
 
   const reorder = (list: ICard[], startIndex: number, endIndex: number) => {
@@ -93,8 +91,6 @@ export const Table: React.FC<IProps> = props => {
             </>
           ) : (
             <>
-              <DrawCardButton onClick={() => moves.drawCard(playerID)} />
-
               <TableContainer>
                 <Droppable droppableId="black-card-area">
                   {provided => (

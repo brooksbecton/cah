@@ -2,7 +2,10 @@ import { useContext } from "react";
 import { ThemeContext } from "styled-components";
 
 export const classic = {
-  activeColor: "#0064CD",
+  colors: {
+    blue: "#0064CD",
+    white: "#FFF"
+  },
   padding: "28px",
   whiteCard: {
     bg: "#F4F4F4",
