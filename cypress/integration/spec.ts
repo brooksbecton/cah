@@ -36,7 +36,7 @@ describe("Game", () => {
       const gameId = $input.val();
       getGames().then(({ rooms }) => {
         const gameIds = rooms.map(r => r.gameID);
-        expect(gameIds).includes(String(gameId));
+        expect(gameIds).should("include", String(gameId));
       });
     });
   });

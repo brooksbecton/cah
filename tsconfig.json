@@ -5,7 +5,7 @@
     "jsx": "react",
     "lib": ["es6"],
     "module": "es6",
-    "types": ["cypress", "jest"],
+    "types": ["jest", "cypress"],
     "moduleResolution": "node",
     "noImplicitAny": true,
     "target": "es6",
