@@ -51,34 +51,7 @@ describe("Game", () => {
       cy.url().should("include", gameID);
     });
   });
-  it("lets players draw up to 10 cards", () => {
-    createGame(2).then(({ body: { gameID } }) => {
-      cy.get(getByTestId("gameId")).type(String(gameID));
-      cy.get(getByTestId("playerId")).type("0");
-      cy.get(getByTestId("playerName")).type("Brooks");
-      cy.get(getByTestId("joinGame")).click();
 
-      cy.url().should("include", gameID);
-
-      cy.get(getByTestId("start-game-button")).click();
-      cy.get(getByTestId("draw-card-button"))
-        .click()
-        .click()
-        .click()
-        .click()
-        .click()
-        .click()
-        .click()
-        .click()
-        .click()
-        .click(); // 10
-
-      cy.get(getByTestId("draw-card-button")).should("be.disabled");
-      cy.get(getByTestId("players-hand"))
-        .children()
-        .should("have.length", 10);
-    });
-  });
   it("allows players to play cards", () => {
     // Create a gmae
     createGame(2).then(({ body: { gameID } }) => {
@@ -91,17 +64,6 @@ describe("Game", () => {
       cy.url().should("include", gameID);
 
       cy.get(getByTestId("start-game-button")).click();
-      cy.get(getByTestId("draw-card-button"))
-        .click()
-        .click()
-        .click()
-        .click()
-        .click()
-        .click()
-        .click()
-        .click()
-        .click()
-        .click(); // 10
 
       goHome();
 
@@ -109,18 +71,6 @@ describe("Game", () => {
       cy.get(getByTestId("playerId")).type("1");
       cy.get(getByTestId("playerName")).type("Hope");
       cy.get(getByTestId("joinGame")).click();
-
-      cy.get(getByTestId("draw-card-button"))
-        .click()
-        .click()
-        .click()
-        .click()
-        .click()
-        .click()
-        .click()
-        .click()
-        .click()
-        .click(); // 10
 
       const firstCardSelector = `${getByTestId(`players-hand`)} li:first-child`;
       cy.get(firstCardSelector)

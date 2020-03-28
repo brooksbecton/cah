@@ -1,6 +1,6 @@
 import { drawCard as drawCardUtil } from "./../../utils/drawCard";
+import { Ctx } from "boardgame.io";
 import { ActivePlayers } from "boardgame.io/core";
-import { filterPlayersCards } from "./../../utils/filterPlayersCards";
 import { IGame, ICtx } from "./../types";
 
 export function drawCard(G: IGame, ctx: any, playerID: string) {
@@ -20,7 +20,17 @@ export const draw = {
   moves: {
     drawCard
   },
-  onBegin: (G: IGame) => {
+  onBegin: (G: IGame, ctx: Ctx) => {
+    // Draw Player's cards
+    let tG = G;
+    Object.keys(ctx.playOrder).forEach(playerId => {
+      for (let index = 0; index < G.cardLimit; index++) {
+        tG = drawCard(tG, ctx, playerId);
+      }
+    });
+    G = tG;
+
+    // Draw black card
     const { card, deck } = drawCardUtil(G.blackCards);
     return { ...G, blackCards: deck, currentBlackCard: card };
   },
