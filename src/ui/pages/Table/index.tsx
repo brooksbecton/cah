@@ -16,7 +16,7 @@ const TableSeat = () => {
   const Cah = Client({
     board: Table,
     game: game,
-    multiplayer: SocketIO({ server: "https://cah-mobile.herokuapp.com/" }),
+    multiplayer: SocketIO({ server: window.location.origin }),
     debug: false
   });
 
