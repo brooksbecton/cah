@@ -127,10 +127,12 @@ export const Table: React.FC<IProps> = props => {
                 <Droppable droppableId="white-card-area">
                   {provided => (
                     <div {...provided.droppableProps}>
-                      <WhiteCardList ref={provided.innerRef}>
-                        <ListHeader>Your Cards</ListHeader>
-                        <HandList cardList={whiteCards} />
-                        {provided.placeholder}
+                      <WhiteCardList>
+                        <div ref={provided.innerRef}>
+                          <ListHeader>Your Cards</ListHeader>
+                          <HandList cardList={whiteCards} />
+                          {provided.placeholder}
+                        </div>
                       </WhiteCardList>
                     </div>
                   )}
