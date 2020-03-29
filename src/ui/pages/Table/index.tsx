@@ -3,6 +3,7 @@ import { useRouteMatch } from "react-router-dom";
 import React from "react";
 import "react-toastify/dist/ReactToastify.css";
 import { SocketIO } from "boardgame.io/multiplayer";
+import { Local } from 'boardgame.io/multiplayer';
 
 import game from "../../../game";
 import { Table } from "./Table";
@@ -16,7 +17,7 @@ const TableSeat = () => {
   const Cah = Client({
     board: Table,
     game: game,
-    multiplayer: SocketIO({ server: "localhost:5555" }),
+    multiplayer: Local(),
     debug: false
   });
 
