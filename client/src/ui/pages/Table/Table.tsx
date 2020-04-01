@@ -93,11 +93,12 @@ export const Table: React.FC<IProps> = props => {
               <TableContainer>
                 <Droppable droppableId="black-card-area">
                   {provided => (
-                    <BlackCardList>
+                    <BlackCardList
+                      ref={provided.innerRef}
+                      {...provided.droppableProps}
+                    >
                       <ListHeader>{G?.currentBlackCard.text}</ListHeader>
                       <ul
-                        ref={provided.innerRef}
-                        {...provided.droppableProps}
                         data-test-id={"played-card-list"}
                         style={{
                           listStyle: "none",
@@ -107,7 +108,6 @@ export const Table: React.FC<IProps> = props => {
                       >
                         {filteredPlayedCards.map(card => (
                           <li
-                            ref={provided.innerRef}
                             key={card.text}
                             onClick={e =>
                               Number(playerID) === G?.currentCzarID
