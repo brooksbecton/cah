@@ -17,25 +17,8 @@ export const playCard = (G: IGame, ctx: ICtx, card: ICard) => {
   }
 };
 
-const endIf = (G: IGame, ctx: ICtx) => {
-  console.log("----");
-  console.log("----");
-  console.log(`G.playedCards`);
-  console.log(G.playedCards);
-  console.log(`ctx.numPlayers  ${ctx.numPlayers}`);
-  console.log(`G.currentBlackCard`);
-  console.log(G.currentBlackCard);
-  console.log("----");
-  console.log("----");
-
-  console.log(
-    G?.playedCards.length === (ctx.numPlayers - 1) * G?.currentBlackCard.pick
-  );
-
-  return (
-    G?.playedCards.length === (ctx.numPlayers - 1) * G?.currentBlackCard.pick
-  );
-};
+const endIf = (G: IGame, ctx: ICtx) =>
+  G?.playedCards.length === (ctx.numPlayers - 1) * G?.currentBlackCard.pick;
 
 export const play = {
   turn: {

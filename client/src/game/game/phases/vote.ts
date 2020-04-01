@@ -15,10 +15,7 @@ export const vote = {
     activePlayers: ActivePlayers.ALL
   },
   moves: { voteCard },
-  endIf: (G: IGame) => {
-    console.log(G?.playedCards);
-    return G?.playedCards.length === 0;
-  },
+  endIf: (G: IGame) => G?.playedCards.length === 0,
   onEnd: (G: IGame) => {
     const { card, deck } = drawCardUtil(G?.blackCards);
     return {

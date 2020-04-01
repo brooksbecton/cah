@@ -1,4 +1,4 @@
-import { ICtx, IGame } from "./types";
+import { IGame } from "./types";
 import { defaultState } from "./defaultState";
 import { setup, startGame } from "./phases/setup";
 import { draw, drawCard } from "./phases/draw";

@@ -53,9 +53,9 @@ export const Table: React.FC<IProps> = props => {
   };
 
   useEffect(() => {
-    const x = G?.hand.filter(({ playerID }) => playerID === playerID);
+    const x = G?.hand.filter(({ playerID: pId }) => pId === playerID);
     setWhiteCards(x);
-  }, [G?.hand.length]);
+  }, [G.hand, setWhiteCards, playerID]);
 
   const filteredPlayedCards =
     // If the current player is the Czar then just hand back all the hards for voting
@@ -177,6 +177,9 @@ const BlackCardList = styled.div`
   background-color: ${({ theme }) => theme.blackCard.bg};
   color: ${({ theme }) => theme.blackCard.fg};
   width: 30vw;
+  :disabled {
+    background-color: ${({ theme }) => `${theme.blackCard.bg}22`};
+  }
 `;
 
 const ListHeader = styled.h2`

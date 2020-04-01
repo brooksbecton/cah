@@ -2,7 +2,6 @@ import React, { useContext } from "react";
 import { Draggable } from "react-beautiful-dnd";
 
 import { WhiteCard } from "./WhiteCard";
-import { getPlayedCards } from "./../../../game/game/getPlayedCards";
 import { ICard } from "./../../../game/game/types/index";
 
 import { Meta } from "./../../../ui/Context/Meta";
@@ -15,7 +14,6 @@ export const HandList: React.FC<IProps> = ({ cardList }) => {
   const { G, playerId = "" } = useContext(Meta);
   const isDisabled = () => {
     const isPlayerCzar = Number(playerId) === Number(G?.currentCzarID);
-
 
     return isPlayerCzar;
   };
