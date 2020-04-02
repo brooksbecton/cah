@@ -31,22 +31,14 @@ export const BaseRouter = () => {
   return (
     <ThemeProvider theme={classic}>
       <Router>
-        <div>
-          {/* <Route path="/" exact={true} component={TableTest} /> */}
-          <Route exact={true} path="/" component={Home} />
-          <Route
-            exact={true}
-            path="/game/:gameID/:playerCredentials/:playerID"
-            component={Table}
-          />
-          <ul>
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-          </ul>
-        </div>
+        {/* <Route path="/" exact={true} component={TableTest} /> */}
+        <Route exact={true} path="/" component={Home} />
+        <Route
+          exact={true}
+          path="/game/:gameID/:playerCredentials/:playerID"
+          component={Table}
+        />
       </Router>
     </ThemeProvider>
   );
 };
-
