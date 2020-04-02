@@ -4,6 +4,8 @@ import { setup, startGame } from "./phases/setup";
 import { draw, drawCard } from "./phases/draw";
 import { vote, voteCard } from "./phases/vote";
 import { play, playCard } from "./phases/play";
+import groupBy from "lodash/groupBy";
+import sortBy from "lodash/sortBy";
 
 export const cah = {
   setup: (x: any, setupData = {}) => {
@@ -23,11 +25,17 @@ export const cah = {
   },
 
   endIf: (G: IGame) => {
-    // Separate player cards
-    // Get counts for winning cards
-    // End if any player has over a certain amount
-    // Otherwise return undefined
-    return G?.winnerCards.length >= 10 ? true : undefined;
+    const groupedWinnerCards = groupBy(G?.winnerCards, "playerID");
+    const winningCards = Object.keys(groupedWinnerCards).map(playerId => {
+      return {
+        playerId,
+        winningCardCount: groupedWinnerCards[playerId].length
+      };
+    });
+    const sortedWinningCards = sortBy(winningCards, "winningCardCount");
+    const leaderWinningCard = sortedWinningCards[0];
+
+    return leaderWinningCard.winningCardCount >= 3 ? true : undefined;
   }
 };
 
