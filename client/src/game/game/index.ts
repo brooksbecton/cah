@@ -22,12 +22,12 @@ export const cah = {
     vote
   },
 
-  endGameIf: (G: IGame) => {
+  endIf: (G: IGame) => {
     // Separate player cards
     // Get counts for winning cards
     // End if any player has over a certain amount
     // Otherwise return undefined
-    return G?.winnerCards.length >= 3 ? true : undefined;
+    return G?.winnerCards.length >= 10 ? true : undefined;
   }
 };
 
