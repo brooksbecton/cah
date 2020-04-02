@@ -77,7 +77,6 @@ export const Table: React.FC<IProps> = props => {
             gameId: gameID
           }}
         >
-          <p>{ctx.phase}</p>
           {G?.gameStarted === false || false ? (
             <>
               <button
@@ -103,7 +102,8 @@ export const Table: React.FC<IProps> = props => {
                         style={{
                           listStyle: "none",
                           margin: 0,
-                          padding: 0
+                          padding: 0,
+                          height: "80%"
                         }}
                       >
                         {filteredPlayedCards.map(card => (
@@ -150,10 +150,11 @@ const TableContainer = styled.div`
     justify-content: flex-start;
     width: 100%;
   }
+  background-color: ${({ theme }) => theme.whiteCard.bg};
   display: flex;
   flex-direction: row-reverse;
   justify-content: center;
-  height: 100vh;
+  height: 100%;
 `;
 
 const WhiteCardList = styled.div`
@@ -172,7 +173,6 @@ const BlackCardList = styled.div`
     width: calc(100% - 56px);
     min-height: 10%;
   }
-  height: 100%;
   padding: ${({ theme }) => theme.padding};
   background-color: ${({ theme }) => theme.blackCard.bg};
   color: ${({ theme }) => theme.blackCard.fg};
