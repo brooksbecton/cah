@@ -1,32 +1,18 @@
-import React, { useState, useEffect } from "react";
-import request from "superagent";
+import React, { useState } from "react";
 
 import { Button } from "./../../components/components";
-import { IRoom } from "./../../../game/game/types";
-import { url } from "./../../../config/url";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
-import { createGame, getGames } from "./utils";
+import { createGame } from "./utils";
 
 export const Home: React.FC = () => {
   const [numPlayers, setNumPlayers] = useState(2);
-  const [rooms, setRooms] = useState<IRoom[]>([]);
-  const [gameId, setGameId] = useState("");
-
   const history = useHistory();
-
-  useEffect(() => {
-    getGames().then((rooms: IRoom[] = []) => {
-      setRooms(rooms);
-    });
-  }, []);
 
   const handleCreateGame = async () => {
     const newGameId = await createGame(numPlayers);
-    setGameId(newGameId);
 
     history.push(`/join/${newGameId && `${newGameId}/`}`);
-    // getGames();
   };
 
   return (

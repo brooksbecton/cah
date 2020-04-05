@@ -4,32 +4,42 @@ import { useRouteMatch } from "react-router-dom";
 
 import { Input, Button } from "./../../components/components";
 import { getGames, joinGame } from "./utils";
-import { IRoom } from "../../../game/game/types";
 
 export const Join: React.FC = () => {
   const history = useHistory();
   const match = useRouteMatch<{ gameId: string }>();
 
   const [gameId, setGameId] = useState(match.params.gameId);
-  const [playerId, setPlayerId] = useState("");
   const [playerName, setPlayerName] = useState("");
-  const [game, setGame] = useState<IRoom>();
+  const [isJoining, setIsJoining] = useState(false);
 
   useEffect(() => {
-    getGames().then(newGames => {
-      const [usersGame] = newGames.filter(g => g.gameID === gameId);
-      setGame(usersGame);
-    });
-  }, []);
+    if (isJoining === true) {
+      getGames().then((newGames) => {
+        const usersGame = newGames.find((g) => g.gameID === gameId);
+        const openSeat = usersGame?.players.find(
+          (seat) => seat.name === undefined
+        );
 
-  const handleJoinGame = async (gId: string, pId: number, pName: string) => {
-    const playerCredentials = await joinGame({
-      gameId: gId,
-      playerId: String(pId),
-      playerName: pName
-    });
+        if (openSeat) {
+          joinGame({
+            gameId,
+            playerId: String(openSeat.id),
+            playerName,
+          }).then((playerCredentials) => {
+            history.push(`/game/${gameId}/${playerCredentials}/${openSeat.id}`);
+            setIsJoining(false);
+          });
+        } else {
+          // No Open Seats
+          setIsJoining(false);
+        }
+      });
+    }
+  }, [isJoining, gameId, history, playerName]);
 
-    history.push(`/game/${gameId}/${playerCredentials}/${playerId}`);
+  const handleJoinGame = () => {
+    setIsJoining(true);
   };
 
   return (
@@ -42,23 +52,10 @@ export const Join: React.FC = () => {
           id="gameId"
           data-test-id="gameId"
           type="text"
-          onChange={e => {
+          onChange={(e) => {
             setGameId(e.target.value);
           }}
           value={gameId}
-        />
-      </label>
-      <br />
-      <label>
-        Player ID
-        <Input
-          placeholder="Player ID"
-          data-test-id="playerId"
-          type="text"
-          onChange={e => {
-            setPlayerId(e.target.value);
-          }}
-          value={playerId}
         />
       </label>
       <br />
@@ -68,7 +65,7 @@ export const Join: React.FC = () => {
           placeholder="Player Name"
           data-test-id="playerName"
           type="text"
-          onChange={e => {
+          onChange={(e) => {
             setPlayerName(e.target.value);
           }}
           value={playerName}
@@ -78,7 +75,7 @@ export const Join: React.FC = () => {
       <Button
         data-test-id="joinGame"
         disabled={!(gameId && playerName)}
-        onClick={() => handleJoinGame(gameId, Number(playerId), playerName)}
+        onClick={handleJoinGame}
       >
         Join Game
       </Button>
