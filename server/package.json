@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "postinstall": "npm run build",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "parcel build --no-minify --target=node --log-level 3 server.js",
     "start": "node dist/server.js"

@@ -1,5 +1,6 @@
 {
   "name": "cah-client",
+  "homepage": "https://brooksbecton.github.io/cah",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -13,6 +14,7 @@
     "@types/react-toastify": "^4.1.0",
     "boardgame.io": "^0.39.4",
     "cypress": "^4.3.0",
+    "gh-pages": "^2.2.0",
     "lodash": "^4.17.15",
     "react": "^16.13.1",
     "react-beautiful-dnd": "^13.0.0",
@@ -29,7 +31,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "e2e": "cypress open",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": "react-app"

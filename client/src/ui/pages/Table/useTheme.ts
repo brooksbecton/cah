@@ -2,6 +2,9 @@ import { useContext } from "react";
 import { ThemeContext } from "styled-components";
 
 export const classic = {
+  font: {
+    
+  },
   colors: {
     blue: "#0064CD",
     white: "#FFF"
