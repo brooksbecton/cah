@@ -56,7 +56,8 @@ describe("Game", () => {
     // Create a gmae
     createGame(2).then(({ body: { gameID } }) => {
       // P1 Join Game
-      cy.get(getByTestId("gameId")).type(String(gameID));
+      cy.get(getByTestId("NavigateToJoin")).click();
+      cy.get(getByTestId("gameId")).type(gameID);
       cy.get(getByTestId("playerId")).type("0");
       cy.get(getByTestId("playerName")).type("Brooks");
       cy.get(getByTestId("joinGame")).click();
@@ -67,7 +68,8 @@ describe("Game", () => {
 
       goHome();
 
-      cy.get(getByTestId("gameId")).type(String(gameID));
+      cy.get(getByTestId("NavigateToJoin")).click();
+      cy.get(getByTestId("gameId")).type(gameID);
       cy.get(getByTestId("playerId")).type("1");
       cy.get(getByTestId("playerName")).type("Hope");
       cy.get(getByTestId("joinGame")).click();

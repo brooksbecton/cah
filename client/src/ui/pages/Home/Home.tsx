@@ -8,7 +8,6 @@ import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 import { createGame, getGames } from "./utils";
 
-
 export const Home: React.FC = () => {
   const [numPlayers, setNumPlayers] = useState(2);
   const [rooms, setRooms] = useState<IRoom[]>([]);
@@ -26,7 +25,7 @@ export const Home: React.FC = () => {
     const newGameId = await createGame(numPlayers);
     setGameId(newGameId);
 
-    history.push(`/join/${newGameId}/`);
+    history.push(`/join/${newGameId && `${newGameId}/`}`);
     // getGames();
   };
 
@@ -39,7 +38,7 @@ export const Home: React.FC = () => {
         <input
           id="numPlayers"
           type="number"
-          onChange={e => {
+          onChange={(e) => {
             setNumPlayers(Number(e.target.value));
           }}
           value={numPlayers}
@@ -48,6 +47,12 @@ export const Home: React.FC = () => {
       <br />
       <Button data-test-id="createGameButton" onClick={handleCreateGame}>
         Create Game
+      </Button>
+      <Button
+        data-test-id="NavigateToJoin"
+        onClick={() => history.push("/join")}
+      >
+        Join Game
       </Button>
     </Container>
   );

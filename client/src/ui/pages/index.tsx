@@ -15,7 +15,7 @@ export const BaseRouter = () => {
         <Router>
           {/* <Route path="/" exact={true} component={TableTest} /> */}
           <Route exact={true} path="/" component={Home} />
-          <Route exact={true} path="/join/:gameId" component={Join} />
+          <Route exact={true} path="/join/:gameId?" component={Join} />
           <Route
             exact={true}
             path="/game/:gameID/:playerCredentials/:playerID"

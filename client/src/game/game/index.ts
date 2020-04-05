@@ -15,28 +15,32 @@ export const cah = {
     startGame,
     drawCard,
     voteCard,
-    playCard
+    playCard,
   },
   phases: {
     setup,
     draw,
     play,
-    vote
+    vote,
   },
 
   endIf: (G: IGame) => {
     const groupedWinnerCards = groupBy(G?.winnerCards, "playerID");
-    const winningCards = Object.keys(groupedWinnerCards).map(playerId => {
+    const winningCards = Object.keys(groupedWinnerCards).map((playerId) => {
       return {
         playerId,
-        winningCardCount: groupedWinnerCards[playerId].length
+        winningCardCount: groupedWinnerCards[playerId].length,
       };
     });
     const sortedWinningCards = sortBy(winningCards, "winningCardCount");
     const leaderWinningCard = sortedWinningCards[0];
 
-    return leaderWinningCard.winningCardCount >= 3 ? true : undefined;
-  }
+    return leaderWinningCard
+      ? leaderWinningCard.winningCardCount >= 3
+        ? true
+        : undefined
+      : undefined;
+  },
 };
 
 export default cah;
