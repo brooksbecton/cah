@@ -12,7 +12,7 @@ export const BaseRouter = () => {
   return (
     <AppContainer>
       <ThemeProvider theme={classic}>
-        <Router>
+        <Router basename={process.env.PUBLIC_URL}>
           {/* <Route path="/" exact={true} component={TableTest} /> */}
           <Route exact={true} path="/" component={Home} />
           <Route exact={true} path="/join/:gameId?" component={Join} />

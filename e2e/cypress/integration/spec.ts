@@ -14,7 +14,7 @@ function createGame(numPlayers: number = 2, setupData: Partial<IGame> = {}) {
 }
 
 function goHome() {
-  cy.visit(`localhost:3000`);
+  cy.visit(`localhost:3000/cah`);
 }
 
 describe("Game", () => {
