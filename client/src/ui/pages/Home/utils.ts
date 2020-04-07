@@ -1,7 +1,7 @@
 import request from "superagent";
 
 import { IRoom } from "./../../../game/game/types";
-import { url } from "./../../../config/url";
+import { serverUrl } from "./../../../config/serverUrl";
 
 /**
  * Adds a player to a game and returns a string
@@ -10,7 +10,7 @@ import { url } from "./../../../config/url";
 export function joinGame({
   gameId,
   playerId,
-  playerName
+  playerName,
 }: {
   gameId: string;
   playerId: string;
@@ -18,10 +18,10 @@ export function joinGame({
 }): Promise<string> {
   return new Promise(async (resolve, reject) => {
     request
-      .post(`${url}/games/default/${gameId}/join`)
+      .post(`${serverUrl}/games/default/${gameId}/join`)
       .send({
         playerID: playerId,
-        playerName
+        playerName,
       })
       .end((error, { body }) => {
         if (error) {
@@ -36,7 +36,7 @@ export function joinGame({
 export function getGames(): Promise<IRoom[]> {
   return new Promise(async (resolve, reject) => {
     request
-      .get(`${url}/games/default`)
+      .get(`${serverUrl}/games/default`)
       .send()
       .end((error, { body }) => {
         if (error) {
@@ -54,9 +54,9 @@ export function getGames(): Promise<IRoom[]> {
 export function createGame(numPlayers: number): Promise<string> {
   return new Promise(async (resolve, reject) => {
     request
-      .post(`${url}/games/default/create`)
+      .post(`${serverUrl}/games/default/create`)
       .send({
-        numPlayers
+        numPlayers,
       })
       .end((err, { body }) => {
         if (err) {

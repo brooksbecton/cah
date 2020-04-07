@@ -1,5 +1,5 @@
 import * as request from "superagent";
-import { url } from "./../../config/url";
+import { serverUrl } from "./../../config/serverUrl";
 
 export function getGames(): Promise<{
   rooms: Array<{
@@ -8,7 +8,7 @@ export function getGames(): Promise<{
   }>;
 }> {
   return new Promise((resolve, reject) => {
-    request.get(`${url}/games/default`).end((err, { body }) => {
+    request.get(`${serverUrl}/games/default`).end((err, { body }) => {
       return !err ? resolve(body) : reject(err);
     });
   });

@@ -6,7 +6,7 @@ import { SocketIO } from "boardgame.io/multiplayer";
 
 import game from "./../../../game/game";
 import { Table } from "./Table";
-import { url } from "./../../../config/url";
+import { serverUrl } from "./../../../config/serverUrl";
 
 const TableSeat = () => {
   const match = useRouteMatch<{
@@ -17,8 +17,8 @@ const TableSeat = () => {
   const Cah = Client({
     board: Table,
     game: game,
-    multiplayer: SocketIO({ server: url }),
-    debug: false
+    multiplayer: SocketIO({ server: serverUrl }),
+    debug: false,
   });
 
   return (

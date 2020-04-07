@@ -1,10 +1,10 @@
 import * as request from "superagent";
-import { url } from "./../../config/url";
+import { serverUrl } from "./../../config/serverUrl";
 
 export function createGame(numPlayers: number): Promise<string> {
   return new Promise((resolve, reject) => {
     return request
-      .post(`${url}/games/default/create`)
+      .post(`${serverUrl}/games/default/create`)
       .send({
         numPlayers
       })

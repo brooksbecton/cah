@@ -13,7 +13,6 @@ export const BaseRouter = () => {
     <AppContainer>
       <ThemeProvider theme={classic}>
         <Router basename={process.env.PUBLIC_URL}>
-          {/* <Route path="/" exact={true} component={TableTest} /> */}
           <Route exact={true} path="/" component={Home} />
           <Route exact={true} path="/join/:gameId?" component={Join} />
           <Route
