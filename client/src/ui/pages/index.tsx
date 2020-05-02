@@ -10,8 +10,8 @@ import { classic } from "./Table/useTheme";
 
 export const BaseRouter = () => {
   return (
-    <AppContainer>
-      <ThemeProvider theme={classic}>
+    <ThemeProvider theme={classic}>
+      <AppContainer>
         <Router basename={process.env.PUBLIC_URL}>
           <Route exact={true} path="/" component={Home} />
           <Route exact={true} path="/join/:gameId?" component={Join} />
@@ -21,8 +21,8 @@ export const BaseRouter = () => {
             component={Table}
           />
         </Router>
-      </ThemeProvider>
-    </AppContainer>
+      </AppContainer>
+    </ThemeProvider>
   );
 };
 

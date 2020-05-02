@@ -7,7 +7,8 @@ export const classic = {
   },
   colors: {
     blue: "#0064CD",
-    white: "#FFF"
+    white: "#FFF",
+    black: "#2F2E2E"
   },
   padding: "28px",
   whiteCard: {

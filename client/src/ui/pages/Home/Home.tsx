@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { Button } from "./../../components/components";
+import { Button, Input } from "./../../components/components";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 import { createGame } from "./utils";
@@ -19,27 +19,27 @@ export const Home: React.FC = () => {
     <Container>
       <h1>Cards Against Humanity</h1>
 
-      <label htmlFor="numPlayers">
-        Number of Players
-        <input
+      <InputContainer>
+        <Input
           id="numPlayers"
           type="number"
+          placeholder="Number of Players"
           onChange={(e) => {
             setNumPlayers(Number(e.target.value));
           }}
           value={numPlayers}
         />
-      </label>
-      <br />
-      <Button data-test-id="createGameButton" onClick={handleCreateGame}>
-        Create Game
-      </Button>
-      <Button
-        data-test-id="NavigateToJoin"
-        onClick={() => history.push("/join")}
-      >
-        Join Game
-      </Button>
+        <br />
+        <Button data-test-id="createGameButton" onClick={handleCreateGame}>
+          Create Game
+        </Button>
+        <Button
+          data-test-id="NavigateToJoin"
+          onClick={() => history.push("/join")}
+        >
+          Join Game
+        </Button>
+      </InputContainer>
     </Container>
   );
 };
@@ -50,4 +50,11 @@ const Container = styled.div`
   justify-content: center;
   height: 100%;
   text-align: center;
+`;
+
+const InputContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
 `;
