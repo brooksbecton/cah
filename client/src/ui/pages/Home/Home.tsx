@@ -17,7 +17,7 @@ export const Home: React.FC = () => {
 
   return (
     <Container>
-      <h1>Cards Against Humanity</h1>
+      <h1 style={{ flex: 2}}>Cards Against Humanity</h1>
 
       <InputContainer>
         <Input
@@ -29,7 +29,6 @@ export const Home: React.FC = () => {
           }}
           value={numPlayers}
         />
-        <br />
         <Button data-test-id="createGameButton" onClick={handleCreateGame}>
           Create Game
         </Button>
@@ -47,14 +46,15 @@ const Container = styled.div`
   background-color: ${({ theme }) => theme.whiteCard.bg};
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  height: 100%;
+  height: calc(100% - 40px);
   text-align: center;
+  padding: 20px;
 `;
 
 const InputContainer = styled.div`
   display: flex;
-  flex-direction: column;
+  flex: 1;
   align-items: center;
-  justify-content: space-between;
+  flex-direction: column;
+  justify-content: space-around;
 `;
