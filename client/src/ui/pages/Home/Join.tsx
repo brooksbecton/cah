@@ -4,6 +4,7 @@ import { useRouteMatch } from "react-router-dom";
 
 import { Input, Button } from "./../../components/components";
 import { getGames, joinGame } from "./utils";
+import styled from "styled-components";
 
 export const Join: React.FC = () => {
   const history = useHistory();
@@ -43,10 +44,9 @@ export const Join: React.FC = () => {
   };
 
   return (
-    <>
-      <h2>Join Game</h2>
-      <label>
-        Game ID
+    <Container>
+      <Title>Join Game</Title>
+      <InputContainer>
         <Input
           placeholder="Game ID"
           id="gameId"
@@ -57,10 +57,6 @@ export const Join: React.FC = () => {
           }}
           value={gameId}
         />
-      </label>
-      <br />
-      <label>
-        Player Name
         <Input
           placeholder="Player Name"
           data-test-id="playerName"
@@ -70,19 +66,39 @@ export const Join: React.FC = () => {
           }}
           value={playerName}
         />
-      </label>
-      <br />
-      <Button
-        data-test-id="joinGame"
-        disabled={!(gameId && playerName)}
-        onClick={handleJoinGame}
-      >
-        Join Game
-      </Button>
+        <Button
+          data-test-id="joinGame"
+          disabled={!(gameId && playerName)}
+          onClick={handleJoinGame}
+        >
+          Join Game
+        </Button>
+      </InputContainer>
       {/* <div>
         <h3>Rooms</h3>
         <RoomList rooms={rooms} joinGame={handleJoinGame} />
       </div> */}
-    </>
+    </Container>
   );
 };
+
+const Title = styled.h1`
+  flex: 3;
+`;
+
+const Container = styled.div`
+  background-color: ${({ theme }) => theme.whiteCard.bg};
+  display: flex;
+  flex-direction: column;
+  height: calc(100% - 40px);
+  text-align: center;
+  padding: 20px;
+`;
+
+const InputContainer = styled.div`
+  display: flex;
+  flex: 1;
+  align-items: center;
+  flex-direction: column;
+  justify-content: space-around;
+`;

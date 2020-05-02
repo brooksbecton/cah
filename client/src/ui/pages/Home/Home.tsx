@@ -17,7 +17,7 @@ export const Home: React.FC = () => {
 
   return (
     <Container>
-      <h1 style={{ flex: 2}}>Cards Against Humanity</h1>
+      <Title>Cards Against Humanity</Title>
 
       <InputContainer>
         <Input
@@ -42,6 +42,11 @@ export const Home: React.FC = () => {
     </Container>
   );
 };
+
+const Title = styled.h1`
+  flex: 3;
+`;
+
 const Container = styled.div`
   background-color: ${({ theme }) => theme.whiteCard.bg};
   display: flex;
