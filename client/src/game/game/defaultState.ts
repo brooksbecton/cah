@@ -12,5 +12,7 @@ export const defaultState: IGame = {
   playedCards: [],
   playerID: null,
   whiteCards: cards.whiteCards,
-  winnerCards: []
+  winnerCards: [],
+  gameOver: false,
+  winningCardAmount: 10,
 };

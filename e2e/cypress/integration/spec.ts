@@ -1,6 +1,7 @@
 import { serverUrl } from "./../../../client/src/config/serverUrl";
 import { getGames } from "./../../../client/src/game/utils/getGames";
-import { IGame } from "./../../../client/src/game/game/types";
+import { IGame, ICard } from "./../../../client/src/game/game/types";
+import { defaultState } from "./../../../client/src/game/game/defaultState";
 
 function getByTestId(id: string) {
   return `[data-test-id="${id}"]`;
@@ -13,10 +14,10 @@ function createGame(numPlayers: number = 2, setupData: Partial<IGame> = {}) {
   });
 }
 
-function joinGame(gameId: string, playerName: string) {
+function joinGame(gameId: string, playerName: string, playerID = 0) {
   return cy.request("POST", `${serverUrl}/games/default/${gameId}/join`, {
     playerName,
-    playerID: 0,
+    playerID,
   });
 }
 
@@ -98,4 +99,24 @@ describe("Game", () => {
       });
     });
   });
+  it("shows win state if a player has won", () => {
+    const playedCards: ICard[] = [{ text: "asdfzkxjcygv", playerID: "0" }];
+    const winningState: Partial<IGame> = {
+      gameStarted: true,
+      currentCzarID: 1,
+      winningCardAmount: 1,
+      playedCards,
+    };
+    createGame(2, winningState).then(({ body: { gameID } }) => {
+      joinGame(gameID, "Brooks").then(() => {
+        joinGame(gameID, "Hope", 1).then(({ body: { playerCredentials } }) => {
+          cy.visit(`${clientUrl}/cah/game/${gameID}/${playerCredentials}/1`);
+          cy.get(getByTestId("played-card-list")).find("li").click();
+
+          cy.get(getByTestId("win-dialog"));
+        });
+      });
+    });
+  });
 });
+``;

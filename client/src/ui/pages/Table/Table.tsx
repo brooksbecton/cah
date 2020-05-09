@@ -3,6 +3,9 @@ import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import "react-toastify/dist/ReactToastify.css";
 import styled from "styled-components";
 
+import { Dialog, DialogOverlay, DialogContent } from "@reach/dialog";
+import "@reach/dialog/styles.css";
+
 import { HandList } from "./HandList";
 import { WhiteCard } from "./WhiteCard";
 import { PhaseToast } from "./PhaseToast";
@@ -16,7 +19,7 @@ interface IProps {
   gameID: string;
 }
 
-export const Table: React.FC<IProps> = props => {
+export const Table: React.FC<IProps> = (props) => {
   const { G, ctx, playerID, moves, gameID } = props;
   const [whiteCards, setWhiteCards] = useState<ICard[]>([]);
 
@@ -65,19 +68,21 @@ export const Table: React.FC<IProps> = props => {
         G?.playedCards.filter(
           (card: ICard) => Number(card.playerID) === Number(playerID)
         );
+
   return (
     <>
       <PhaseToast phase={ctx.phase} />
+
       <DragDropContext onDragEnd={onDragEnd}>
         <Meta.Provider
           value={{
             G,
             ctx: ctx,
             playerId: playerID,
-            gameId: gameID
+            gameId: gameID,
           }}
         >
-          {G?.gameStarted === false || false ? (
+          {G?.gameStarted === false ? (
             <>
               <button
                 data-test-id="start-game-button"
@@ -90,8 +95,14 @@ export const Table: React.FC<IProps> = props => {
           ) : (
             <>
               <TableContainer>
+                {G.gameOver === true && (
+                  <Dialog data-test-id="win-dialog">
+                    <p>Winner Winner Chicken Dinner</p>
+                  </Dialog>
+                )}
+
                 <Droppable droppableId="black-card-area">
-                  {provided => (
+                  {(provided) => (
                     <BlackCardList
                       ref={provided.innerRef}
                       {...provided.droppableProps}
@@ -103,13 +114,13 @@ export const Table: React.FC<IProps> = props => {
                           listStyle: "none",
                           margin: 0,
                           padding: 0,
-                          height: "80%"
+                          height: "80%",
                         }}
                       >
-                        {filteredPlayedCards.map(card => (
+                        {filteredPlayedCards.map((card) => (
                           <li
                             key={card.text}
-                            onClick={e =>
+                            onClick={(e) =>
                               Number(playerID) === G?.currentCzarID
                                 ? moves.voteCard(card)
                                 : null
@@ -125,7 +136,7 @@ export const Table: React.FC<IProps> = props => {
                 </Droppable>
 
                 <Droppable droppableId="white-card-area">
-                  {provided => (
+                  {(provided) => (
                     <WhiteCardList>
                       <div ref={provided.innerRef} {...provided.droppableProps}>
                         <ListHeader>Your Cards</ListHeader>

@@ -27,6 +27,8 @@ export interface IGame {
   playerID: number | null;
   whiteCards: string[];
   winnerCards: ICard[];
+  winningCardAmount: number; 
+  gameOver: boolean; 
 }
 
 export interface ICtx {

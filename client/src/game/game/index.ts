@@ -32,14 +32,20 @@ export const cah = {
         winningCardCount: groupedWinnerCards[playerId].length,
       };
     });
-    const sortedWinningCards = sortBy(winningCards, "winningCardCount");
+    const sortedWinningCards = sortBy(
+      winningCards,
+      "winningCardCount"
+    ).reverse();
     const leaderWinningCard = sortedWinningCards[0];
-
     return leaderWinningCard
-      ? leaderWinningCard.winningCardCount >= 3
+      ? leaderWinningCard.winningCardCount >= G.winningCardAmount
         ? true
         : undefined
       : undefined;
+  },
+
+  onEnd: (G: IGame) => {
+    G.gameOver = true;
   },
 };
 
