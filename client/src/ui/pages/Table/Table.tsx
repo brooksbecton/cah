@@ -6,6 +6,7 @@ import styled from "styled-components";
 import { Dialog, DialogOverlay, DialogContent } from "@reach/dialog";
 import "@reach/dialog/styles.css";
 
+import { InfoBar } from "./InfoBar";
 import { HandList } from "./HandList";
 import { WhiteCard } from "./WhiteCard";
 import { PhaseToast } from "./PhaseToast";
@@ -93,7 +94,7 @@ export const Table: React.FC<IProps> = (props) => {
               </button>
             </>
           ) : (
-            <>
+            <Container>
               <TableContainer>
                 {G.gameOver === true && (
                   <Dialog data-test-id="win-dialog">
@@ -147,14 +148,22 @@ export const Table: React.FC<IProps> = (props) => {
                   )}
                 </Droppable>
               </TableContainer>
-            </>
+              <InfoBarContainer>
+                <InfoBar />
+              </InfoBarContainer>
+            </Container>
           )}
         </Meta.Provider>
       </DragDropContext>
     </>
   );
 };
-
+const Container = styled.div`
+    display: flex;
+    flex-direction: column;
+    margin-right: 30px;
+    height: 100%;
+`;
 const TableContainer = styled.div`
   @media (max-width: 768px) {
     flex-direction: column;
@@ -165,7 +174,6 @@ const TableContainer = styled.div`
   display: flex;
   flex-direction: row-reverse;
   justify-content: center;
-  height: 100%;
 `;
 
 const WhiteCardList = styled.div`
@@ -198,4 +206,11 @@ const ListHeader = styled.h2`
   margin-bottom: ${({ theme }) => theme.padding};
   font-weight: bold;
   font-size: 16px;
+`;
+
+const InfoBarContainer = styled.div`
+  background-color: red;
+  position: fixed;
+  right: 0;
+  height: 100vh;
 `;

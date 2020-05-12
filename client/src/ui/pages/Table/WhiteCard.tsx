@@ -14,7 +14,7 @@ export const WhiteCard: React.FC<IProps> = ({ text }) => {
       <div
         style={{
           display: "flex",
-          alignSelf: "center"
+          alignSelf: "center",
         }}
       >
         <svg
@@ -35,6 +35,7 @@ export const WhiteCard: React.FC<IProps> = ({ text }) => {
 };
 const Text = styled.p`
   color: ${({ theme }) => theme.whiteCard.fg};
+  font-weight: bold;
 `;
 
 const Card = styled.div`
@@ -45,7 +46,6 @@ const Card = styled.div`
   border-width: 1px;
   display: flex;
   flex-direction: row;
-  font-weight: bold;
   height: 50px;
   justify-content: space-between;
   margin-bottom: 20px;
