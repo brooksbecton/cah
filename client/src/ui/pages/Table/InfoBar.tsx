@@ -25,7 +25,6 @@ export const InfoBar: React.FC<IProps> = ({
               (card) => card.playerID === playerId
             ).length;
 
-            console.log(winningCardCount)
             return { ...gameMetadata[playerId], score: winningCardCount };
           })
           .map((player) => {

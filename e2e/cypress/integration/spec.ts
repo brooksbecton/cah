@@ -119,7 +119,7 @@ describe("Game", () => {
     });
   });
   describe("Info Bar", () => {
-    it.only("Shows players scores", () => {
+    it("Shows players scores", () => {
       const wonCardsState: Partial<IGame> = {
         gameStarted: true,
         winnerCards: [
