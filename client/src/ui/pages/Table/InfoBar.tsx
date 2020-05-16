@@ -1,14 +1,40 @@
 import * as React from "react";
 import styled from "styled-components";
+import { IGame } from "./../../../game/game/types";
 
-export const InfoBar: React.FC = () => {
+interface IProps {
+  winnerCards: IGame["winnerCards"];
+  gameMetadata: {
+    [playerID: string]: {
+      id: number;
+      name: string;
+    };
+  };
+}
+
+export const InfoBar: React.FC<IProps> = ({
+  winnerCards,
+  gameMetadata = {},
+}) => {
   return (
     <Container>
-      <PlayersList>
-        <li>Brooks: 5</li>
-        <li>Hope: 4</li>
-        <li>Peyton: 3</li>
-        <li>Harvey: 0</li>
+      <PlayersList data-test-id="player-score">
+        {Object.keys(gameMetadata)
+          .map((playerId) => {
+            const winningCardCount = winnerCards.filter(
+              (card) => card.playerID === playerId
+            ).length;
+
+            console.log(winningCardCount)
+            return { ...gameMetadata[playerId], score: winningCardCount };
+          })
+          .map((player) => {
+            return (
+              <li key={player.id}>
+                {player.name} : {player.score}
+              </li>
+            );
+          })}
       </PlayersList>
       <p>Vote</p>
     </Container>

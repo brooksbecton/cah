@@ -118,5 +118,41 @@ describe("Game", () => {
       });
     });
   });
+  describe("Info Bar", () => {
+    it.only("Shows players scores", () => {
+      const wonCardsState: Partial<IGame> = {
+        gameStarted: true,
+        winnerCards: [
+          { playerID: "1", text: "A" },
+          { playerID: "1", text: "B" },
+          { playerID: "1", text: "C" },
+          { playerID: "0", text: "AB" },
+        ],
+      };
+
+      createGame(3, wonCardsState).then(({ body: { gameID } }) => {
+        joinGame(gameID, "Brooks", 0).then(() => {
+          joinGame(gameID, "Hope", 1).then(() => {
+            joinGame(gameID, "Peyton", 2).then(
+              ({ body: { playerCredentials } }) => {
+                cy.visit(
+                  `${clientUrl}/cah/game/${gameID}/${playerCredentials}/1`
+                );
+
+                cy.get(getByTestId("player-score"))
+                  .contains("Brooks")
+                  .contains("1");
+                cy.get(getByTestId("player-score"))
+                  .contains("Hope")
+                  .contains("3");
+                cy.get(getByTestId("player-score"))
+                  .contains("Peyton")
+                  .contains("0");
+              }
+            );
+          });
+        });
+      });
+    });
+  });
 });
-``;

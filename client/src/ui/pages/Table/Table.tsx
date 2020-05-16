@@ -18,6 +18,12 @@ interface IProps {
   playerID: string;
   moves: any;
   gameID: string;
+  gameMetadata: {
+    [key: string]: {
+      id: number;
+      name: string;
+    };
+  };
 }
 
 export const Table: React.FC<IProps> = (props) => {
@@ -149,7 +155,10 @@ export const Table: React.FC<IProps> = (props) => {
                 </Droppable>
               </TableContainer>
               <InfoBarContainer>
-                <InfoBar />
+                <InfoBar
+                  winnerCards={G.winnerCards}
+                  gameMetadata={props.gameMetadata}
+                />
               </InfoBarContainer>
             </Container>
           )}
@@ -159,10 +168,10 @@ export const Table: React.FC<IProps> = (props) => {
   );
 };
 const Container = styled.div`
-    display: flex;
-    flex-direction: column;
-    margin-right: 30px;
-    height: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-right: 30px;
+  height: 100%;
 `;
 const TableContainer = styled.div`
   @media (max-width: 768px) {
