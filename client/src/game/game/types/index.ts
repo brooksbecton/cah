@@ -22,6 +22,7 @@ export interface IGame {
   currentCzarID: number;
   gameStarted: boolean;
   hand: ICard[];
+  isShowcasing: boolean; 
   name: string;
   playedCards: ICard[];
   playerID: number | null;

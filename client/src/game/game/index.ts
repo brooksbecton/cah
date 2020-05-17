@@ -4,6 +4,7 @@ import { setup, startGame } from "./phases/setup";
 import { draw, drawCard } from "./phases/draw";
 import { vote, voteCard } from "./phases/vote";
 import { play, playCard } from "./phases/play";
+import { showcase, endShowCase } from "./phases/showcase";
 import groupBy from "lodash/groupBy";
 import sortBy from "lodash/sortBy";
 
@@ -14,14 +15,16 @@ export const cah = {
   moves: {
     startGame,
     drawCard,
-    voteCard,
     playCard,
+    voteCard,
+    endShowCase,
   },
   phases: {
     setup,
     draw,
     play,
     vote,
+    showcase,
   },
 
   endIf: (G: IGame) => {

@@ -18,7 +18,7 @@ const TableSeat = () => {
     board: Table,
     game: game,
     multiplayer: SocketIO({ server: serverUrl }),
-    debug: false,
+    debug: true,
   });
 
   return (

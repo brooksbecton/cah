@@ -133,7 +133,13 @@ export const Table: React.FC<IProps> = (props) => {
                                 : null
                             }
                           >
-                            <WhiteCard text={card.text} />
+                            <WhiteCard
+                              draggable={false}
+                              winner={G.winnerCards
+                                .map((c) => c.text)
+                                .includes(card.text)}
+                              text={card.text}
+                            />
                           </li>
                         ))}
                       </ul>

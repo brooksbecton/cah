@@ -99,6 +99,35 @@ describe("Game", () => {
       });
     });
   });
+  it("marks winner cards", () => {
+    const voteState: Partial<IGame> = {
+      gameStarted: true,
+      currentCzarID: 0,
+      playedCards: [
+        { text: "Winner Winner Chicken Dinner", playerID: "1" },
+        { text: "Loser Loser double woozer?", playerID: "2" },
+      ],
+    };
+
+    createGame(3, voteState).then(({ body: { gameID } }) => {
+      joinGame(gameID, "Brooks").then(({ body: { playerCredentials } }) => {
+        cy.visit(`${clientUrl}/cah/game/${gameID}/${playerCredentials}/0`);
+
+        cy.get(getByTestId("played-card-list"))
+          .find("li")
+          .contains("Winner")
+          .click()
+          .parent()
+          .get(getByTestId("winner-card"));
+
+        cy.get(getByTestId("played-card-list"))
+          .find("li")
+          .contains("Loser")
+          .parent()
+          .not(getByTestId("winner-card"));
+      });
+    });
+  });
   it("shows win state if a player has won", () => {
     const playedCards: ICard[] = [{ text: "asdfzkxjcygv", playerID: "0" }];
     const winningState: Partial<IGame> = {
@@ -118,6 +147,7 @@ describe("Game", () => {
       });
     });
   });
+
   describe("Info Bar", () => {
     it("Shows players scores", () => {
       const wonCardsState: Partial<IGame> = {
