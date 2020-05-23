@@ -1,8 +1,9 @@
 import * as React from "react";
 import styled from "styled-components";
-import { IGame } from "./../../../game/game/types";
+import { IGame, ICtx } from "./../../../game/game/types";
 
 interface IProps {
+  ctx: ICtx;
   winnerCards: IGame["winnerCards"];
   gameMetadata: {
     [playerID: string]: {
@@ -13,6 +14,7 @@ interface IProps {
 }
 
 export const InfoBar: React.FC<IProps> = ({
+  ctx,
   winnerCards,
   gameMetadata = {},
 }) => {
@@ -35,7 +37,7 @@ export const InfoBar: React.FC<IProps> = ({
             );
           })}
       </PlayersList>
-      <p>Vote</p>
+      <p data-test-id="phase">{ctx.phase}</p>
     </Container>
   );
 };

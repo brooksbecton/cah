@@ -33,7 +33,7 @@ export interface IGame {
 }
 
 export interface ICtx {
-  phase: "setup" | "draw" | "play" | "vote";
+  phase: "setup" | "draw" | "play" | "vote" | "showcase";
 }
 
 export interface ICards {

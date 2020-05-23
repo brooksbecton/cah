@@ -162,10 +162,23 @@ export const Table: React.FC<IProps> = (props) => {
               </TableContainer>
               <InfoBarContainer>
                 <InfoBar
+                  ctx={ctx}
                   winnerCards={G.winnerCards}
                   gameMetadata={props.gameMetadata}
                 />
               </InfoBarContainer>
+              {ctx.phase === "showcase" && (
+                <BottomToast data-test-id="showcase-continue-bar">
+                  <p>Next Round</p>
+                  <button
+                    onClick={() => {
+                      props.moves.endShowCase();
+                    }}
+                  >
+                    Continue
+                  </button>
+                </BottomToast>
+              )}
             </Container>
           )}
         </Meta.Provider>
@@ -173,6 +186,27 @@ export const Table: React.FC<IProps> = (props) => {
     </>
   );
 };
+
+const BottomToast = styled.div`
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  background-color: ${({ theme }) => theme.whiteCard.bg};
+  justify-content: center;
+
+  p {
+    margin-right: 15px;
+  }
+
+  button {
+    background-color: transparent;
+    color: ${({ theme }) => theme.colors.blue};
+    border: 0;
+    font-size: 18px;
+  }
+`;
 const Container = styled.div`
   display: flex;
   flex-direction: column;

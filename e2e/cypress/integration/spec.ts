@@ -99,6 +99,29 @@ describe("Game", () => {
       });
     });
   });
+
+  it("continues game if showcase is continued", () => {
+    const showcaseState: Partial<IGame> = {
+      gameStarted: true,
+      isShowcasing: true,
+      playedCards: [
+        { text: "Winner Winner Chicken Dinner", playerID: "1" },
+        { text: "Loser Loser double woozer?", playerID: "2" },
+      ],
+    };
+
+    createGame(3, showcaseState).then(({ body: { gameID } }) => {
+      joinGame(gameID, "Brooks").then(({ body: { playerCredentials } }) => {
+        cy.visit(`${clientUrl}/cah/game/${gameID}/${playerCredentials}/0`);
+
+        cy.get(getByTestId("showcase-continue-bar"))
+          .contains("Continue")
+          .click();
+
+        cy.get(getByTestId("phase")).contains("play");
+      });
+    });
+  });
   it("marks winner cards", () => {
     const voteState: Partial<IGame> = {
       gameStarted: true,
@@ -149,6 +172,21 @@ describe("Game", () => {
   });
 
   describe("Info Bar", () => {
+    it("shows the current phase", () => {
+      const showcasingState: Partial<IGame> = {
+        gameStarted: true,
+      };
+
+      createGame(2, showcasingState).then(({ body: { gameID } }) => {
+        joinGame(gameID, "Brooks", 0).then(
+          ({ body: { playerCredentials } }) => {
+            cy.visit(`${clientUrl}/cah/game/${gameID}/${playerCredentials}/0`);
+            cy.get(getByTestId("phase")).contains("play");
+          }
+        );
+      });
+    });
+
     it("Shows players scores", () => {
       const wonCardsState: Partial<IGame> = {
         gameStarted: true,

@@ -13,9 +13,6 @@ export const showcase = {
     activePlayers: ActivePlayers.ALL,
   },
   moves: { endShowCase },
-  onBegin: (G: IGame) => {
-    G.isShowcasing = true;
-  },
   endIf: (G: IGame) => G?.isShowcasing === false,
   onEnd: (G: IGame, ctx: ICtx) => {
     const { card, deck } = drawCardUtil(G?.blackCards);
