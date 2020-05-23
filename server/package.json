@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@sentry/node": "5.15.5",
     "boardgame.io": "^0.39.4",
     "dotenv": "^8.2.0",
     "parcel": "^1.12.4"
