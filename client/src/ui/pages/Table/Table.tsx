@@ -9,7 +9,6 @@ import "@reach/dialog/styles.css";
 import { InfoBar } from "./InfoBar";
 import { HandList } from "./HandList";
 import { WhiteCard } from "./WhiteCard";
-import { PhaseToast } from "./PhaseToast";
 import { ICard, IGame, ICtx } from "./../../../game/game/types";
 import { Meta } from "./../../Context/Meta";
 interface IProps {
@@ -78,8 +77,6 @@ export const Table: React.FC<IProps> = (props) => {
 
   return (
     <>
-      <PhaseToast phase={ctx.phase} />
-
       <DragDropContext onDragEnd={onDragEnd}>
         <Meta.Provider
           value={{
