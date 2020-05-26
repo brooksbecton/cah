@@ -37,7 +37,7 @@ export const InfoBar: React.FC<IProps> = ({
             );
           })}
       </PlayersList>
-      <p data-test-id="phase">{ctx.phase.toUpperCase()}</p>
+      <p data-test-id="phase">{ctx.phase?.toUpperCase()}</p>
     </Container>
   );
 };

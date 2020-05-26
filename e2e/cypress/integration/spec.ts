@@ -21,14 +21,17 @@ function joinGame(gameId: string, playerName: string, playerID = 0) {
   });
 }
 
-const clientUrl = `localhost:3000`;
+const clientUrl =
+  process.env.NODE_ENV === "production" 
+    ? `https://brooksbecton.github.io/cah/#`
+    : `localhost:3000/#`;
 
 function goHome() {
-  cy.visit(clientUrl);
+  cy.visit(clientUrl + "/cah");
 }
 
 function goToJoin(gameId: string = "") {
-  cy.visit(`${clientUrl}/join${gameId && `/${gameId}`}`);
+  cy.visit(`${clientUrl}/cah/join${gameId && `/${gameId}`}`);
 }
 
 describe("Game", () => {
@@ -118,7 +121,7 @@ describe("Game", () => {
           .contains("Continue")
           .click();
 
-        cy.get(getByTestId("phase")).contains("play");
+        cy.get(getByTestId("phase")).contains("PLAY");
       });
     });
   });
@@ -181,7 +184,7 @@ describe("Game", () => {
         joinGame(gameID, "Brooks", 0).then(
           ({ body: { playerCredentials } }) => {
             cy.visit(`${clientUrl}/cah/game/${gameID}/${playerCredentials}/0`);
-            cy.get(getByTestId("phase")).contains("play");
+            cy.get(getByTestId("phase")).contains("PLAY");
           }
         );
       });
