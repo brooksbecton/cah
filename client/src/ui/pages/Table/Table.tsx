@@ -185,7 +185,7 @@ export const Table: React.FC<IProps> = (props) => {
 };
 
 const BottomToast = styled.div`
-  position: absolute;
+  position: fixed;
   bottom: 0;
   width: 100%;
   display: flex;
