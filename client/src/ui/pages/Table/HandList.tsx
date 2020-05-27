@@ -24,7 +24,7 @@ export const HandList: React.FC<IProps> = ({ cardList }) => {
       style={{
         listStyle: "none",
         margin: 0,
-        padding: 0
+        padding: 0,
       }}
     >
       {cardList
@@ -37,14 +37,17 @@ export const HandList: React.FC<IProps> = ({ cardList }) => {
               index={index}
               isDragDisabled={isDisabled()}
             >
-              {provided => (
+              {(provided) => (
                 <li
                   ref={provided.innerRef}
                   key={card.text}
                   {...provided.draggableProps}
                   {...provided.dragHandleProps}
                 >
-                  <WhiteCard text={card.text} />
+                  <WhiteCard
+                    draggable={isDisabled() === false}
+                    text={card.text}
+                  />
                 </li>
               )}
             </Draggable>
