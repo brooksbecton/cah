@@ -159,6 +159,7 @@ export const Table: React.FC<IProps> = (props) => {
               </TableContainer>
               <InfoBarContainer>
                 <InfoBar
+                  G={G}
                   ctx={ctx}
                   winnerCards={G.winnerCards}
                   gameMetadata={props.gameMetadata}

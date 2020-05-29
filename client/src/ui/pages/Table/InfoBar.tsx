@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { IGame, ICtx } from "./../../../game/game/types";
 
 interface IProps {
+  G: IGame;
   ctx: ICtx;
   winnerCards: IGame["winnerCards"];
   gameMetadata: {
@@ -14,6 +15,7 @@ interface IProps {
 }
 
 export const InfoBar: React.FC<IProps> = ({
+  G,
   ctx,
   winnerCards,
   gameMetadata = {},
@@ -32,7 +34,8 @@ export const InfoBar: React.FC<IProps> = ({
           .map((player) => {
             return (
               <li key={player.id}>
-                {player.name} : {player.score}
+                {player.id === G.currentCzarID && "👑"} {player.name} :
+                {player.score}
               </li>
             );
           })}
