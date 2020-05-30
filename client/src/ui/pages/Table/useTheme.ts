@@ -8,7 +8,7 @@ export const classic = {
     white: "#FFF",
     black: "#2F2E2E",
     grey: "#5B5757",
-    lightGrey: "#DBDBDB"
+    lightGrey: "#DBDBDB",
   },
   padding: "28px",
   whiteCard: {

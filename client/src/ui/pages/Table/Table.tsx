@@ -131,6 +131,11 @@ export const Table: React.FC<IProps> = (props) => {
                             }
                           >
                             <WhiteCard
+                              author={
+                                ctx.phase === "showcase"
+                                  ? props.gameMetadata[card.playerID].name
+                                  : ""
+                              }
                               draggable={false}
                               winner={G.winnerCards
                                 .map((c) => c.text)

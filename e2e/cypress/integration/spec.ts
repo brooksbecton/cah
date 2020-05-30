@@ -22,7 +22,7 @@ function joinGame(gameId: string, playerName: string, playerID = 0) {
 }
 
 const clientUrl =
-  process.env.NODE_ENV === "production" 
+  process.env.NODE_ENV === "production"
     ? `https://brooksbecton.github.io/cah/#`
     : `localhost:3000/#`;
 
@@ -151,6 +151,41 @@ describe("Game", () => {
           .contains("Loser")
           .parent()
           .not(getByTestId("winner-card"));
+      });
+    });
+  });
+  it("shows card authors after cards have been voted on", () => {
+    const voteState: Partial<IGame> = {
+      gameStarted: true,
+      currentCzarID: 0,
+      playedCards: [
+        { text: "Winner Winner Chicken Dinner", playerID: "1" },
+        { text: "Loser Loser double woozer?", playerID: "2" },
+      ],
+    };
+
+    createGame(3, voteState).then(({ body: { gameID } }) => {
+      joinGame(gameID, "Brooks").then(({ body: { playerCredentials } }) => {
+        joinGame(gameID, "Hope", 1).then(() => {
+          joinGame(gameID, "Peyton", 2).then(() => {
+            cy.visit(`${clientUrl}/cah/game/${gameID}/${playerCredentials}/0`);
+
+            cy.get(getByTestId("played-card-list"))
+              .find("li")
+              .contains("Winner")
+              .click()
+              .parent()
+              .contains("Hope")
+              .get(getByTestId("winner-card"));
+
+            cy.get(getByTestId("played-card-list"))
+              .find("li")
+              .contains("Loser")
+              .parent()
+              .contains("Peyton")
+              .not(getByTestId("winner-card"));
+          });
+        });
       });
     });
   });

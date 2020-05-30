@@ -2,12 +2,14 @@ import * as React from "react";
 import styled from "styled-components";
 import { useTheme } from "./useTheme";
 export interface IProps {
+  author?: string;
   text: string;
   draggable?: boolean;
   winner?: boolean;
 }
 
 export const WhiteCard: React.FC<IProps> = ({
+  author = "",
   text,
   draggable = true,
   winner = false,
@@ -16,7 +18,14 @@ export const WhiteCard: React.FC<IProps> = ({
 
   return (
     <Card draggable={draggable}>
-      <Text style={{ margin: 0, padding: 10 }}>{text}</Text>
+      <div>
+        <Text>
+          {text} <br />
+          <Author>
+            {author}
+          </Author>
+        </Text>
+      </div>
       <div
         style={{
           display: "flex",
@@ -47,10 +56,18 @@ export const WhiteCard: React.FC<IProps> = ({
     </Card>
   );
 };
+
+const Author = styled.p`
+  color: ${({ theme }) => theme.colors.grey};
+  margin: 0; 
+  padding: 0;
+`; 
+
 const Text = styled.p`
   color: ${({ theme }) => theme.whiteCard.fg};
   font-weight: bold;
   padding: 10px;
+  margin: 0px;
 `;
 
 const WinnerMarker = styled.div`
