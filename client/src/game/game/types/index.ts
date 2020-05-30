@@ -22,14 +22,14 @@ export interface IGame {
   currentCzarID: number;
   gameStarted: boolean;
   hand: ICard[];
-  isShowcasing: boolean; 
+  isShowcasing: boolean;
   name: string;
   playedCards: ICard[];
   playerID: number | null;
   whiteCards: string[];
   winnerCards: ICard[];
-  winningCardAmount: number; 
-  gameOver: boolean; 
+  winningCardAmount: number;
+  gameOver: boolean;
 }
 
 export interface ICtx {
@@ -39,12 +39,6 @@ export interface ICtx {
 export interface ICards {
   blackCards: IGame["blackCards"];
   whiteCards: IGame["whiteCards"];
-  Base: {
-    name: string;
-    black: number[];
-    white: number[];
-  };
-  order: string[];
 }
 
 export interface IBlackCard {
