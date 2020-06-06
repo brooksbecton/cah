@@ -21,9 +21,7 @@ export const WhiteCard: React.FC<IProps> = ({
       <div>
         <Text>
           {text} <br />
-          <Author>
-            {author}
-          </Author>
+          <Author>{author}</Author>
         </Text>
       </div>
       <div
@@ -59,9 +57,9 @@ export const WhiteCard: React.FC<IProps> = ({
 
 const Author = styled.p`
   color: ${({ theme }) => theme.colors.grey};
-  margin: 0; 
+  margin: 0;
   padding: 0;
-`; 
+`;
 
 const Text = styled.p`
   color: ${({ theme }) => theme.whiteCard.fg};
@@ -78,17 +76,6 @@ const WinnerMarker = styled.div`
 `;
 
 const Card = styled.div`
-  background-color: ${({ theme, draggable }) => {
-    if (draggable) {
-      return theme.colors.white;
-    } else {
-      return theme.colors.lightGrey;
-    }
-  }};
-
-  border-color: ${({ draggable }) => {
-    return draggable ? "#707070" : "#5B5757";
-  }};
   border-style: solid;
   border-width: 1px;
 
@@ -97,6 +84,7 @@ const Card = styled.div`
   align-items: flex-start;
   justify-content: space-between;
 
+  width: 30vw;
   height: 70px;
   margin-bottom: 20px;
 `;
