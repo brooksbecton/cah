@@ -20,6 +20,23 @@ export const InfoBar: React.FC<IProps> = ({
   winnerCards,
   gameMetadata = {},
 }) => {
+  const getPhase = ({
+    phase,
+    isCzar,
+  }: {
+    phase: ICtx['phase'];
+    isCzar: boolean;
+  }) => {
+    switch (phase) {
+      case "play":
+        return isCzar ? "Waiting for players" : phase;
+      case "vote":
+        return isCzar ? phase : "Waiting for Czar";
+      default:
+        return phase;
+    }
+  };
+
   return (
     <Container>
       <PlayersList data-test-id="player-score">
@@ -40,7 +57,9 @@ export const InfoBar: React.FC<IProps> = ({
             );
           })}
       </PlayersList>
-      <p data-test-id="phase">{ctx.phase?.toUpperCase()}</p>
+      <p data-test-id="phase">
+        {getPhase({ phase: ctx.phase, isCzar: G.playerID === G.currentCzarID })}
+      </p>
     </Container>
   );
 };
