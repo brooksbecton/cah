@@ -18,11 +18,9 @@ export const WhiteCard: React.FC<IProps> = ({
 
   return (
     <Card draggable={draggable}>
-      <div>
-        <Text>
-          {text} <br />
-          <Author>{author}</Author>
-        </Text>
+      <div style={{ padding: 10 }}>
+        <Text dangerouslySetInnerHTML={{ __html: text }}></Text>
+        <Author>{author}</Author>
       </div>
       <div
         style={{
@@ -55,17 +53,16 @@ export const WhiteCard: React.FC<IProps> = ({
   );
 };
 
-const Author = styled.p`
-  color: ${({ theme }) => theme.colors.grey};
-  margin: 0;
-  padding: 0;
-`;
-
 const Text = styled.p`
   color: ${({ theme }) => theme.whiteCard.fg};
   font-weight: bold;
-  padding: 10px;
   margin: 0px;
+`;
+
+const Author = styled(Text)`
+  color: ${({ theme }) => theme.colors.grey};
+  margin: 0;
+  padding: 0;
 `;
 
 const WinnerMarker = styled.div`
