@@ -7,7 +7,7 @@ import { WhiteCard } from "./WhiteCard";
 addDecorator(ThemeDecorator);
 
 export default {
-  title: "Button",
+  title: "White Card",
   component: WhiteCard,
 };
 
@@ -24,8 +24,17 @@ export const Winner = () => {
 
 export const InHand = () => {
   return (
+    <WhiteCard text={"Eating all of the cookies before the AIDS bake-sale."} />
+  );
+};
+
+export const WinnerAuthor = () => {
+  return (
     <WhiteCard
-      text={"Eating all of the cookies before the AIDS bake-sale."}
+      draggable={false}
+      author={"Brooks"}
+      winner
+      text={"And what did <i>you</i> bring for show and tell?"}
     />
   );
 };

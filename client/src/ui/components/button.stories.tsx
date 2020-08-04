@@ -1,6 +1,6 @@
 import React from "react";
 import { addDecorator } from "@storybook/react";
-
+import styled from "styled-components";
 import { ThemeDecorator } from "../../../.storybook/themeWrapper";
 import { Button } from "./components";
 
