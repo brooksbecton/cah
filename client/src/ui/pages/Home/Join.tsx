@@ -101,4 +101,8 @@ const InputContainer = styled.div`
   align-items: center;
   flex-direction: column;
   justify-content: space-around;
+
+  * {
+    margin-bottom: ${({ theme }) => theme.space.vertical};
+  }
 `;

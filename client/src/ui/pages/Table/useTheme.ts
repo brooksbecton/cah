@@ -3,6 +3,9 @@ import { ThemeContext } from "styled-components";
 
 export const classic = {
   font: {},
+  space: {
+    vertical: "20px" 
+  },
   colors: {
     blue: "#0064CD",
     white: "#FFF",
