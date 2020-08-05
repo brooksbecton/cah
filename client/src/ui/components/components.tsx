@@ -19,15 +19,21 @@ export const Input = styled.input`
   }
 `;
 
-interface ButtonProps extends React.HTMLProps<HTMLButtonElement>{
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   isLoading?: boolean;
 }
 
-export const Button: React.FC<ButtonProps> = ({ children, isLoading }) => {
+export const Button: React.FC<ButtonProps> = ({
+  children,
+  isLoading = false,
+  ...props
+}) => {
   return isLoading ? (
-    <StyledButton disabled>{"Loading"}</StyledButton>
+    <StyledButton {...props} disabled>
+      {"Loading"}
+    </StyledButton>
   ) : (
-    <StyledButton>{children}</StyledButton>
+    <StyledButton {...props}>{children}</StyledButton>
   );
 };
 
