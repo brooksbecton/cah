@@ -1,3 +1,4 @@
+import React from "react";
 import styled from "styled-components";
 
 export const Input = styled.input`
@@ -14,11 +15,23 @@ export const Input = styled.input`
   padding-top: 9px;
 
   -webkit-inner-spin-button {
-    border: none; 
+    border: none;
   }
 `;
 
-export const Button = styled.button`
+interface ButtonProps extends React.HTMLProps<HTMLButtonElement>{
+  isLoading?: boolean;
+}
+
+export const Button: React.FC<ButtonProps> = ({ children, isLoading }) => {
+  return isLoading ? (
+    <StyledButton disabled>{"Loading"}</StyledButton>
+  ) : (
+    <StyledButton>{children}</StyledButton>
+  );
+};
+
+const StyledButton = styled.button`
   width: 100%;
   max-width: 232px;
   border-color: transparent;

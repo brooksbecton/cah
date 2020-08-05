@@ -7,9 +7,11 @@ import { createGame } from "./utils";
 
 export const Home: React.FC = () => {
   const [numPlayers, setNumPlayers] = useState(2);
+  const [isCreating, setIsCreating] = useState(false);
   const history = useHistory();
 
   const handleCreateGame = async () => {
+    setIsCreating(true);
     const newGameId = await createGame(numPlayers);
 
     history.push(`/join/${newGameId && `${newGameId}/`}`);
@@ -29,7 +31,11 @@ export const Home: React.FC = () => {
           }}
           value={numPlayers}
         />
-        <Button data-test-id="createGameButton" onClick={handleCreateGame}>
+        <Button
+          isLoading={isCreating}
+          data-test-id="createGameButton"
+          onClick={handleCreateGame}
+        >
           Create Game
         </Button>
         <Button

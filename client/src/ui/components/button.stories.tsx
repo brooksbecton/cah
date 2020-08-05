@@ -14,3 +14,7 @@ export default {
 export const Normal = () => {
   return <Button>Create Game</Button>;
 };
+
+export const Loading = () => {
+  return <Button isLoading>Create Game</Button>;
+};

@@ -67,6 +67,7 @@ export const Join: React.FC = () => {
           value={playerName}
         />
         <Button
+          isLoading={isJoining}
           data-test-id="joinGame"
           disabled={!(gameId && playerName)}
           onClick={handleJoinGame}
