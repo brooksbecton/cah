@@ -4,7 +4,7 @@ import { IGame, ICtx } from "./../../../game/game/types";
 
 interface IProps {
   G: IGame;
-  ctx: ICtx;
+  phase: ICtx["phase"];
   winnerCards: IGame["winnerCards"];
   gameMetadata: {
     [playerID: string]: {
@@ -16,7 +16,7 @@ interface IProps {
 
 export const InfoBar: React.FC<IProps> = ({
   G,
-  ctx,
+  phase,
   winnerCards,
   gameMetadata = {},
 }) => {
@@ -24,7 +24,7 @@ export const InfoBar: React.FC<IProps> = ({
     phase,
     isCzar,
   }: {
-    phase: ICtx['phase'];
+    phase: ICtx["phase"];
     isCzar: boolean;
   }) => {
     switch (phase) {
@@ -51,14 +51,17 @@ export const InfoBar: React.FC<IProps> = ({
           .map((player) => {
             return (
               <li key={player.id}>
-                {player.id === G.currentCzarID && "👑"} {player.name} :
+                {player.id === G.currentCzarID && "(Czar)"} {player.name} :
                 {player.score}
               </li>
             );
           })}
       </PlayersList>
       <p data-test-id="phase">
-        {getPhase({ phase: ctx.phase, isCzar: G.playerID === G.currentCzarID })}
+        {getPhase({
+          phase,
+          isCzar: G.playerID === G.currentCzarID,
+        })?.toUpperCase()}
       </p>
     </Container>
   );
@@ -70,7 +73,7 @@ const Container = styled.aside`
 
   justify-content: space-between;
 
-  width: 25px;
+  width: 30px;
   height: calc(100% - 60px);
   align-items: center;
 

@@ -27,14 +27,3 @@ export const InHand = () => {
     <WhiteCard text={"Eating all of the cookies before the AIDS bake-sale."} />
   );
 };
-
-export const WinnerAuthor = () => {
-  return (
-    <WhiteCard
-      draggable={false}
-      author={"Brooks"}
-      winner
-      text={"And what did <i>you</i> bring for show and tell?"}
-    />
-  );
-};
