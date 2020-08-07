@@ -73,6 +73,8 @@ const WinnerMarker = styled.div`
 `;
 
 const Card = styled.div`
+  background-color: ${({ theme }) => theme.whiteCard.bg};
+
   border-style: solid;
   border-width: 1px;
 
