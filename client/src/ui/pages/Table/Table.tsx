@@ -11,7 +11,7 @@ import { HandList } from "./HandList";
 import { WhiteCard } from "./WhiteCard";
 import { ICard, IGame, ICtx } from "./../../../game/game/types";
 import { Meta } from "./../../Context/Meta";
-interface IProps {
+export interface IProps {
   G: IGame;
   ctx: ICtx;
   playerID: string;
