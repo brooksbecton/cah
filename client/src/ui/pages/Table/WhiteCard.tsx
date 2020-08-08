@@ -83,7 +83,6 @@ const Card = styled.div`
   align-items: flex-start;
   justify-content: space-between;
 
-  width: 30vw;
   height: 70px;
   margin-bottom: 20px;
 `;

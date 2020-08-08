@@ -11,19 +11,32 @@ export default {
   component: WhiteCard,
 };
 
+const Container: React.FC = ({ children }) => {
+  return <div style={{ width: "30vw" , backgroundColor: 'skyblue'}}>
+    <h1>Container</h1>
+    {children}
+    </div>;
+};
+
 export const Winner = () => {
   return (
-    <WhiteCard
-      draggable={false}
-      author={"Brooks"}
-      winner
-      text={"Eating all of the cookies before the AIDS bake-sale."}
-    />
+    <Container>
+      <WhiteCard
+        draggable={false}
+        author={"Brooks"}
+        winner
+        text={"Eating all of the cookies before the AIDS bake-sale."}
+      />
+    </Container>
   );
 };
 
 export const InHand = () => {
   return (
-    <WhiteCard text={"Eating all of the cookies before the AIDS bake-sale."} />
+    <Container>
+      <WhiteCard
+        text={"Eating all of the cookies before the AIDS bake-sale."}
+      />
+    </Container>
   );
 };
