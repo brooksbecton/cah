@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { DragDropContext, Droppable } from "react-beautiful-dnd";
+import {
+  DragDropContext,
+  Droppable,
+  OnDragStartResponder,
+  OnDragEndResponder,
+} from "react-beautiful-dnd";
 import "react-toastify/dist/ReactToastify.css";
 import styled from "styled-components";
 
@@ -28,6 +33,7 @@ export interface IProps {
 export const Table: React.FC<IProps> = (props) => {
   const { G, ctx, playerID, moves, gameID } = props;
   const [whiteCards, setWhiteCards] = useState<ICard[]>([]);
+  const [isMovingWhiteCard, setIsMovingWhiteCard] = useState(false);
 
   const reorder = (list: ICard[], startIndex: number, endIndex: number) => {
     const result = Array.from(list);
@@ -36,7 +42,13 @@ export const Table: React.FC<IProps> = (props) => {
 
     return result;
   };
-  const onDragEnd = (result: any) => {
+
+  const onDragStart: OnDragStartResponder = (start, y) => {
+    setIsMovingWhiteCard(true);
+  };
+  const onDragEnd: OnDragEndResponder = (result) => {
+    setIsMovingWhiteCard(false);
+
     // dropped outside the list
     if (!result.destination) {
       return;
@@ -77,7 +89,7 @@ export const Table: React.FC<IProps> = (props) => {
 
   return (
     <>
-      <DragDropContext onDragEnd={onDragEnd}>
+      <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
         <Meta.Provider
           value={{
             G,
@@ -104,15 +116,13 @@ export const Table: React.FC<IProps> = (props) => {
                     <p>Winner Winner Chicken Dinner</p>
                   </Dialog>
                 )}
-
-                <Droppable droppableId="black-card-area">
-                  {(provided) => (
-                    <BlackCardList
-                      ref={provided.innerRef}
-                      {...provided.droppableProps}
-                    >
-                      <ListHeader>{G?.currentBlackCard.text}</ListHeader>
+                <BlackCardList>
+                  <ListHeader>{G?.currentBlackCard.text}</ListHeader>
+                  <Droppable droppableId="black-card-area">
+                    {(provided) => (
                       <ul
+                        ref={provided.innerRef}
+                        {...provided.droppableProps}
                         data-test-id={"played-card-list"}
                         style={{
                           listStyle: "none",
@@ -144,11 +154,11 @@ export const Table: React.FC<IProps> = (props) => {
                             />
                           </li>
                         ))}
+                        {isMovingWhiteCard && <li style={{ height: 70 }} />}
                       </ul>
-                      {provided.placeholder}
-                    </BlackCardList>
-                  )}
-                </Droppable>
+                    )}
+                  </Droppable>
+                </BlackCardList>
 
                 <Droppable droppableId="white-card-area">
                   {(provided) => (
