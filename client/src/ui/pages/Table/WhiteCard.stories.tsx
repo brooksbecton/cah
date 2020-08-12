@@ -12,10 +12,17 @@ export default {
 };
 
 const Container: React.FC = ({ children }) => {
-  return <div style={{ width: "30vw" , backgroundColor: 'skyblue'}}>
-    <h1>Container</h1>
-    {children}
-    </div>;
+  return (
+    <div
+      style={{
+        width: "600px",
+        backgroundColor: "skyblue",
+      }}
+    >
+      <h1>Container</h1>
+      {children}
+    </div>
+  );
 };
 
 export const Winner = () => {
